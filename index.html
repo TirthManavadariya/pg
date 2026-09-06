@@ -1,170 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PG Finder – Ahmedabad & Anand</title>
-  <meta name="description" content="Find the best Paying Guest (PG) accommodations near your college in Ahmedabad and Anand with AI-powered rank scoring." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomee | India's Largest Managed Co-living & PG Discovery Platform</title>
+  <meta name="description" content="Find verified, fully-furnished PG & co-living spaces with zero brokerage, high-speed Wi-Fi, daily housekeeping, and home-cooked meals across Bangalore, Pune, Delhi, Mumbai, Hyderabad, and more.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<!-- ── Animated Background ── -->
-<div class="bg-orbs">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-</div>
-
-<!-- ── Navbar ── -->
-<nav class="navbar">
-  <div class="nav-brand">
-    <span class="nav-icon">🏠</span>
-    <span class="nav-title">PG<span class="accent">Finder</span></span>
+  <!-- Top Announcement Bar -->
+  <div class="top-banner">
+    <div class="container top-banner-content">
+      <span>⚡ <strong>Special Offer:</strong> Zero Brokerage + Flat ₹1,000 Off on 1st Month Rent with Code <strong>ROOMEE1000</strong></span>
+      <span class="banner-right">📞 24/7 Helpline: <strong>+91 8884 518 010</strong></span>
+    </div>
   </div>
-  <div class="nav-badge">AI Powered</div>
-</nav>
 
-<!-- ── Hero ── -->
-<section class="hero">
-  <div class="hero-content">
-    <div class="hero-tag">✨ Smart PG Recommendation</div>
-    <h1 class="hero-title">Find Your <span class="gradient-text">Perfect PG</span><br />Near Your College</h1>
-    <p class="hero-subtitle">AI-powered scoring ranks the best paying guest accommodations in Ahmedabad &amp; Anand based on affordability, amenities &amp; proximity.</p>
-  </div>
-</section>
+  <!-- Header / Navbar -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <div class="nav-left">
+        <a href="/" class="brand-logo">
+          <span class="logo-mark">R</span>
+          <span class="logo-text">room<span class="logo-highlight">ee</span></span>
+        </a>
+        <div class="city-selector-dropdown">
+          <button class="city-select-btn" id="currentCityBtn">
+            <span class="city-icon" id="currentCityIcon">📍</span>
+            <span class="city-name" id="currentCityName">Bangalore</span>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="city-dropdown-menu" id="cityDropdownMenu">
+            <div class="city-dropdown-header">Select Your City</div>
+            <div class="city-grid" id="cityDropdownGrid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- ── Search Form Card ── -->
-<section class="search-section">
-  <div class="glass-card form-card">
-    <h2 class="form-title">🔍 Search PGs</h2>
-    <p class="form-subtitle">Tell us your preferences and we'll rank the best options for you.</p>
+      <div class="nav-search-bar">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="globalSearchInput" placeholder="Search by locality, tech park, university, or PG name..." autocomplete="off">
+        <button id="globalSearchClear" class="clear-search-btn" style="display:none;">&times;</button>
+      </div>
 
-    <form id="pgForm" onsubmit="searchPGs(event)">
+      <div class="nav-right">
+        <a href="#exploreSection" class="nav-link">Explore Stays</a>
+        <a href="#whyRoomee" class="nav-link">Why Roomee</a>
+        <button class="btn btn-outline" id="requestCallbackBtn">Request Callback</button>
+        <button class="btn btn-primary" id="scheduleTopVisitBtn">Schedule Visit</button>
+      </div>
+    </div>
+  </header>
 
-      <div class="form-grid">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span> 30,000+ Verified Beds Available
+      </div>
+      <h1 class="hero-title">
+        India’s Most Loved <span class="highlight-text">Co-Living & PG</span> Network
+      </h1>
+      <p class="hero-subtitle">
+        Fully managed, zero brokerage, vibrant rooms with home-cooked meals, high-speed Wi-Fi, and 24/7 security.
+      </p>
 
-        <!-- Gender -->
-        <div class="field-group">
-          <label class="field-label" for="gender">Gender</label>
-          <div class="select-wrapper">
-            <select id="gender" name="gender" required>
-              <option value="" disabled selected>Select gender…</option>
-              <option value="Boys">👦 Boys</option>
-              <option value="Girls">👧 Girls</option>
-              <option value="Unisex">🧑 Unisex (Any)</option>
+      <!-- City Quick Select Pills -->
+      <div class="city-quick-pills" id="heroCityPills">
+        <!-- Populated by JS -->
+      </div>
+
+      <!-- Hero Search & Filter Capsule -->
+      <div class="hero-search-capsule">
+        <div class="capsule-item">
+          <label>City</label>
+          <select id="heroSelectCity" class="capsule-select">
+            <option value="Bangalore">Bangalore</option>
+            <option value="Pune">Pune</option>
+            <option value="Ahmedabad">Ahmedabad</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Gurgaon">Gurgaon</option>
+            <option value="Noida">Noida</option>
+            <option value="Jaipur">Jaipur</option>
+          </select>
+        </div>
+        <div class="capsule-divider"></div>
+        <div class="capsule-item">
+          <label>Locality</label>
+          <select id="heroSelectLocality" class="capsule-select">
+            <option value="all">All Localities</option>
+          </select>
+        </div>
+        <div class="capsule-divider"></div>
+        <div class="capsule-item">
+          <label>Occupancy / Gender</label>
+          <select id="heroSelectGender" class="capsule-select">
+            <option value="all">Any Gender</option>
+            <option value="unisex">Unisex Co-living</option>
+            <option value="men">Boys / Men</option>
+            <option value="women">Girls / Women</option>
+          </select>
+        </div>
+        <div class="capsule-divider"></div>
+        <div class="capsule-item">
+          <label>Sharing Type</label>
+          <select id="heroSelectSharing" class="capsule-select">
+            <option value="all">All Sharing</option>
+            <option value="single">Private Room</option>
+            <option value="double">Double Sharing</option>
+            <option value="triple">Triple Sharing</option>
+            <option value="dorm">Dorm / Quad</option>
+          </select>
+        </div>
+        <button class="btn btn-hero-search" id="heroSearchBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span>Find My Stay</span>
+        </button>
+      </div>
+
+      <!-- Trust Badges Strip -->
+      <div class="trust-strip">
+        <div class="trust-item">
+          <div class="trust-icon">🛡️</div>
+          <div>
+            <strong>100% Zero Brokerage</strong>
+            <span>Direct booking, no middlemen</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🧹</div>
+          <div>
+            <strong>Daily Housekeeping</strong>
+            <span>Clean rooms & fresh linen</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🍳</div>
+          <div>
+            <strong>Home-Style Food</strong>
+            <span>Nutritious breakfast & dinner</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">⚡</div>
+          <div>
+            <strong>High-Speed Wi-Fi</strong>
+            <span>Seamless WFH & streaming</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Explore & Filter Section -->
+  <main class="main-content" id="exploreSection">
+    <div class="container">
+
+      <!-- Sticky Filter Bar -->
+      <div class="filter-wrapper">
+        <div class="filter-header-bar">
+          
+          <!-- Gender segmented control -->
+          <div class="gender-segmented-control" id="genderFilterGroup">
+            <button class="seg-btn active" data-gender="all">All</button>
+            <button class="seg-btn" data-gender="unisex">Unisex</button>
+            <button class="seg-btn" data-gender="men">👨 Men / Boys</button>
+            <button class="seg-btn" data-gender="women">👩 Women / Girls</button>
+          </div>
+
+          <!-- Sharing Type Pills -->
+          <div class="sharing-chips" id="sharingFilterGroup">
+            <button class="chip active" data-sharing="all">All Rooms</button>
+            <button class="chip" data-sharing="single">Single Room</button>
+            <button class="chip" data-sharing="double">Double Sharing</button>
+            <button class="chip" data-sharing="triple">Triple Sharing</button>
+            <button class="chip" data-sharing="dorm">Dorm / Quad</button>
+          </div>
+
+          <!-- Sort dropdown -->
+          <div class="sort-wrapper">
+            <label for="sortBySelect">Sort by:</label>
+            <select id="sortBySelect" class="sort-select">
+              <option value="popular">Popular & Recommended</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="rating_desc">Highest Rated (4.5+)</option>
             </select>
-            <span class="select-arrow">▾</span>
           </div>
         </div>
 
-        <!-- College -->
-        <div class="field-group">
-          <label class="field-label" for="college">College</label>
-          <div class="select-wrapper">
-            <select id="college" name="college" required>
-              <option value="" disabled selected>Select your college…</option>
-              <!-- populated via JS -->
-            </select>
-            <span class="select-arrow">▾</span>
+        <!-- Secondary Filter Bar (Amenities & Budget) -->
+        <div class="secondary-filter-bar">
+          <!-- Amenities Chips -->
+          <div class="amenities-chips">
+            <label class="amenity-checkbox">
+              <input type="checkbox" id="filterAc">
+              <span class="custom-chip">❄️ AC</span>
+            </label>
+            <label class="amenity-checkbox">
+              <input type="checkbox" id="filterWifi">
+              <span class="custom-chip">📶 High-Speed WiFi</span>
+            </label>
+            <label class="amenity-checkbox">
+              <input type="checkbox" id="filterFood">
+              <span class="custom-chip">🍲 Food Included</span>
+            </label>
           </div>
+
+          <!-- Budget Range Slider -->
+          <div class="budget-slider-wrapper">
+            <div class="budget-label-row">
+              <span>Max Rent: <strong id="budgetVal">₹30,000</strong>/mo</span>
+            </div>
+            <input type="range" id="budgetRange" min="4000" max="30000" step="500" value="30000" class="styled-slider">
+          </div>
+
+          <!-- Reset Filter Button -->
+          <button id="resetFiltersBtn" class="btn-reset-filters" title="Reset all filters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Reset Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Results Stats & Active Chips Header -->
+      <div class="results-meta-bar">
+        <div class="results-count-text">
+          Showing <span id="resultsCount">0</span> PG Stays in <span id="resultsCityName">Bangalore</span>
+        </div>
+        <div class="view-toggle">
+          <span class="active-badge" id="resultsBadgeText">⚡ Instant Book Available</span>
+        </div>
+      </div>
+
+      <!-- PG Grid List -->
+      <div class="pg-grid" id="pgGridContainer">
+        <!-- Dynamic Cards Injected by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-icon">🔍</div>
+        <h3>No matching PGs found</h3>
+        <p>Try loosening your budget, removing amenities filters, or picking another locality.</p>
+        <button class="btn btn-primary" id="emptyResetBtn">Reset All Filters</button>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-wrapper" id="paginationWrapper">
+        <button class="page-nav-btn" id="prevPageBtn" disabled>&larr; Previous</button>
+        <div class="page-numbers" id="pageNumbersContainer">
+          <!-- Page pills -->
+        </div>
+        <button class="page-nav-btn" id="nextPageBtn">Next &rarr;</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Why Choose Roomee Section -->
+  <section class="why-zolo-section" id="whyRoomee">
+    <div class="container">
+      <div class="section-heading-center">
+        <h2>Why 1,00,000+ Young Professionals Choose Roomee</h2>
+        <p>Say goodbye to annoying landlords, hidden brokerage fees, and rigid lock-ins.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#eef2ff; color:#6366f1;">
+            🔒
+          </div>
+          <h3>1-Month Deposit</h3>
+          <p>Unlike traditional rentals demanding 6-10 months deposit, we only require 1 month refundable deposit.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#ecfdf5; color:#10b981;">
+            🍱
+          </div>
+          <h3>Homely Daily Meals</h3>
+          <p>Hygienic, chef-prepared hot breakfast and dinner with rich regional cuisines rotated every week.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#fffbeb; color:#f59e0b;">
+            🎮
+          </div>
+          <h3>Vibrant Community</h3>
+          <p>Common lounges with PlayStation, pool table, OTT movie nights, weekend tournaments, and networking.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#fdf2f8; color:#ec4899;">
+            📱
+          </div>
+          <h3>Smart App Management</h3>
+          <p>Raise maintenance tickets, pay rent, invite guests, and manage meal preferences with one tap.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Property Details & Schedule Visit Modal -->
+  <div class="modal-overlay" id="propertyModal" style="display: none;">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      
+      <div class="modal-body">
+        <!-- Left: Details & Gallery -->
+        <div class="modal-details-col">
+          
+          <!-- Modal Gallery Preview -->
+          <div class="modal-gallery">
+            <div class="modal-main-img-wrap">
+              <img id="modalMainImg" src="" alt="Property View">
+              <div class="modal-img-badge" id="modalImgBadge">Verified Roomee Stay</div>
+            </div>
+            <div class="modal-thumb-strip" id="modalThumbStrip">
+              <!-- Thumbs injected by JS -->
+            </div>
+          </div>
+
+          <!-- Title & Badges -->
+          <div class="modal-header-info">
+            <div class="modal-title-row">
+              <h2 id="modalPgName">Roomee Stay Name</h2>
+              <div class="rating-badge" id="modalRating">★ 4.8 (120 reviews)</div>
+            </div>
+            <p class="modal-locality" id="modalLocality">📍 Koramangala, Bangalore</p>
+            <div class="modal-badge-row" id="modalBadges"></div>
+          </div>
+
+          <!-- Pricing Table -->
+          <div class="modal-section">
+            <h4 class="section-title">Sharing Options & Monthly Rent</h4>
+            <div class="sharing-grid" id="modalSharingGrid">
+              <!-- Sharing cards -->
+            </div>
+          </div>
+
+          <!-- Amenities Grid -->
+          <div class="modal-section">
+            <h4 class="section-title">Included Amenities & Services</h4>
+            <div class="amenities-grid" id="modalAmenitiesGrid">
+              <!-- Amenity items -->
+            </div>
+          </div>
+
+          <!-- Weekly Food Menu -->
+          <div class="modal-section">
+            <h4 class="section-title">Weekly Food Menu</h4>
+            <div class="menu-day-tabs" id="menuDayTabs">
+              <!-- Day buttons -->
+            </div>
+            <div class="menu-content-box" id="menuContentBox">
+              <!-- Injected meal info -->
+            </div>
+          </div>
+
+          <!-- House Rules & Policies -->
+          <div class="modal-section">
+            <h4 class="section-title">Stay Policies & House Rules</h4>
+            <div class="rules-list" id="modalRulesList">
+              <!-- Rules -->
+            </div>
+          </div>
+
         </div>
 
-        <!-- Max Rent -->
-        <div class="field-group full-width">
-          <label class="field-label" for="rent">
-            Maximum Rent
-            <span class="rent-value" id="rentDisplay">₹8,000 / month</span>
-          </label>
-          <div class="range-wrapper">
-            <span class="range-label">₹3,000</span>
-            <input
-              type="range"
-              id="rent"
-              name="rent"
-              min="3000"
-              max="15000"
-              step="500"
-              value="8000"
-              oninput="updateRentDisplay(this.value)"
-            />
-            <span class="range-label">₹15,000</span>
-          </div>
-          <div class="rent-ticks">
-            <span>Budget</span>
-            <span>Mid-range</span>
-            <span>Premium</span>
+        <!-- Right: Instant Schedule Visit Sticky Card -->
+        <div class="modal-booking-col">
+          <div class="booking-card">
+            <div class="booking-card-header">
+              <h3>Schedule a Free Visit</h3>
+              <p>Experience the space in-person with our Property Manager.</p>
+            </div>
+
+            <form id="visitBookingForm" class="visit-form">
+              <input type="hidden" id="formPgId" value="">
+              
+              <div class="form-group">
+                <label>Your Full Name *</label>
+                <input type="text" id="visitorName" placeholder="e.g. Rahul Sharma" required>
+              </div>
+
+              <div class="form-group">
+                <label>Mobile Number *</label>
+                <input type="tel" id="visitorPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+              </div>
+
+              <div class="form-group">
+                <label>Preferred Visit Date *</label>
+                <input type="date" id="visitorDate" required>
+              </div>
+
+              <div class="form-group">
+                <label>Time Slot *</label>
+                <select id="visitorSlot" class="form-select">
+                  <option value="Morning (10:00 AM - 01:00 PM)">Morning (10:00 AM - 01:00 PM)</option>
+                  <option value="Afternoon (01:00 PM - 05:00 PM)">Afternoon (01:00 PM - 05:00 PM)</option>
+                  <option value="Evening (05:00 PM - 08:30 PM)">Evening (05:00 PM - 08:30 PM)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-visit-submit" id="submitVisitBtn">
+                Confirm Free Visit Now
+              </button>
+
+              <div class="booking-guarantee">
+                🔒 Zero obligation • Instant SMS & WhatsApp confirmation
+              </div>
+            </form>
+
+            <!-- Booking Success Notification -->
+            <div class="booking-success-box" id="bookingSuccessBox" style="display:none;">
+              <div class="success-icon">🎉</div>
+              <h4>Visit Scheduled!</h4>
+              <p id="bookingSuccessMsg">Your visit is confirmed.</p>
+              <div class="ref-badge" id="bookingRefBadge">Ref: ROOMEE-VISIT-123456</div>
+              <button class="btn btn-outline btn-block" id="bookAnotherBtn" style="margin-top:12px;">Schedule Another</button>
+            </div>
+
           </div>
         </div>
 
       </div>
-
-      <button type="submit" class="btn-search" id="searchBtn">
-        <span class="btn-inner">
-          <span class="btn-icon">🚀</span>
-          <span class="btn-text">Find Best PGs</span>
-        </span>
-        <div class="btn-glow"></div>
-      </button>
-    </form>
-  </div>
-</section>
-
-<!-- ── Results ── -->
-<section class="results-section" id="resultsSection" style="display:none">
-
-  <!-- Stats Bar -->
-  <div class="stats-bar glass-card" id="statsBar">
-    <div class="stat-item">
-      <span class="stat-number" id="statTotal">0</span>
-      <span class="stat-label">PGs Found</span>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-number" id="statCity">–</span>
-      <span class="stat-label">City</span>
-    </div>
-    <div class="stat-divider"></div>
-    <div class="stat-item">
-      <span class="stat-number" id="statTopScore">–</span>
-      <span class="stat-label">Top Score</span>
     </div>
   </div>
 
-  <!-- Results Header -->
-  <div class="results-header">
-    <h2 class="results-title" id="resultsTitle">Top Recommended PGs</h2>
-    <p class="results-sub" id="results-sub-college">Ranked by our AI score combining rent, distance &amp; amenities</p>
-  </div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-col">
+        <a href="/" class="brand-logo footer-logo">
+          <span class="logo-mark">R</span>
+          <span class="logo-text">room<span class="logo-highlight">ee</span></span>
+        </a>
+        <p class="footer-desc">
+          Roomee is India’s largest co-living brand providing hassle-free, fully managed stays tailored for students and working professionals.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Top Cities</h4>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Bangalore')">PG in Bangalore</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Pune')">PG in Pune</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Ahmedabad')">PG in Ahmedabad</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Delhi')">PG in Delhi NCR</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Hyderabad')">PG in Hyderabad</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Living Types</h4>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="setGenderFilter('unisex')">Unisex Co-Living</a></li>
+          <li><a href="javascript:void(0)" onclick="setGenderFilter('women')">Girls PG & Hostels</a></li>
+          <li><a href="javascript:void(0)" onclick="setGenderFilter('men')">Boys PG & Hostels</a></li>
+          <li><a href="javascript:void(0)" onclick="setSharingFilter('single')">Private Studio Stays</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support & Help</h4>
+        <ul>
+          <li><a href="#">House Rules</a></li>
+          <li><a href="#">Deposit & Refund Policy</a></li>
+          <li><a href="#">Safety & Security</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container bottom-row">
+        <p>© 2026 Roomee Co-living Solutions. All rights reserved.</p>
+        <div class="footer-socials">
+          <span>Made with ❤️ for comfortable co-living</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  <!-- Cards Grid -->
-  <div class="pg-grid" id="pgGrid"></div>
-
-</section>
-
-<!-- ── No Results ── -->
-<div class="no-results glass-card" id="noResults" style="display:none">
-  <div class="no-results-icon">🔍</div>
-  <h3>No PGs Found</h3>
-  <p id="noResultsMsg">Try increasing your budget or selecting a different gender filter.</p>
-</div>
-
-<!-- ── Footer ── -->
-<footer class="footer">
-  <p>PGFinder © 2025 &nbsp;|&nbsp; AI-powered recommendations for students in Gujarat</p>
-</footer>
-
-<!-- ── Loading Overlay ── -->
-<div class="loading-overlay" id="loadingOverlay" style="display:none">
-  <div class="loader">
-    <div class="loader-ring"></div>
-    <p class="loader-text">Finding best PGs…</p>
-  </div>
-</div>
-
-<script src="/app.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>

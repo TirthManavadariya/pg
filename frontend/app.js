@@ -1,761 +1,768 @@
 /**
- * Roomee — AI PG Housing Hub Client Application
- * Handles:
- * - Smart NLP Semantic Vector Search (/api/semantic-search)
- * - AI Housing Chatbot (/api/chat)
- * - PyTorch Two-Tower Personalized Neural Matching (/api/recommend-personalized)
- * - XGBoost / GradientBoosting Fair Market Rent Validation (/api/predict-rent)
- * - Dynamic Filter Chips, Sorting & Modal Intelligence
+ * app.js - Frontend Application for Roomee Managed Co-living & PG Discovery Platform
  */
 
-const API_BASE = ''; // Same origin
-
-// ─── Application State ────────────────────────────────────────────────────────
+// Application State
 const state = {
-  query: '',
-  city: '',
-  sharing: '',
-  amenities: {
-    ac: false,
-    wifi: false,
-    food: false
-  },
-  maxBudget: 25000,
-  sortBy: 'relevance',
-  page: 1,
-  limit: 18,
-  listings: [],
-  totalCount: 0,
+  currentCity: 'Bangalore',
+  currentLocality: 'all',
+  gender: 'all',
+  sharing: 'all',
+  minPrice: 0,
+  maxPrice: 30000,
+  ac: false,
+  wifi: false,
+  food: false,
+  search: '',
+  sortBy: 'popular',
+  currentPage: 1,
+  limit: 12,
   totalPages: 1,
-  mode: 'all', // 'search' | 'recommendations' | 'all'
-  currentDetailListing: null,
-  isLoading: false,
-  metadata: null,
-  isChatOpen: false
+  totalResults: 0,
+  pgs: [],
+  cities: [],
+  activePgDetails: null,
+  activeFoodDay: 'Monday'
+};
+
+// DOM Element Selectors
+const DOM = {
+  // Navigation & City
+  currentCityBtn: document.getElementById('currentCityBtn'),
+  currentCityName: document.getElementById('currentCityName'),
+  currentCityIcon: document.getElementById('currentCityIcon'),
+  cityDropdownMenu: document.getElementById('cityDropdownMenu'),
+  cityDropdownGrid: document.getElementById('cityDropdownGrid'),
+  globalSearchInput: document.getElementById('globalSearchInput'),
+  globalSearchClear: document.getElementById('globalSearchClear'),
+  requestCallbackBtn: document.getElementById('requestCallbackBtn'),
+  scheduleTopVisitBtn: document.getElementById('scheduleTopVisitBtn'),
+
+  // Hero Section
+  heroCityPills: document.getElementById('heroCityPills'),
+  heroSelectCity: document.getElementById('heroSelectCity'),
+  heroSelectLocality: document.getElementById('heroSelectLocality'),
+  heroSelectGender: document.getElementById('heroSelectGender'),
+  heroSelectSharing: document.getElementById('heroSelectSharing'),
+  heroSearchBtn: document.getElementById('heroSearchBtn'),
+
+  // Filter Bar
+  genderFilterGroup: document.getElementById('genderFilterGroup'),
+  sharingFilterGroup: document.getElementById('sharingFilterGroup'),
+  sortBySelect: document.getElementById('sortBySelect'),
+  filterAc: document.getElementById('filterAc'),
+  filterWifi: document.getElementById('filterWifi'),
+  filterFood: document.getElementById('filterFood'),
+  budgetRange: document.getElementById('budgetRange'),
+  budgetVal: document.getElementById('budgetVal'),
+  resetFiltersBtn: document.getElementById('resetFiltersBtn'),
+
+  // Results & Grid
+  resultsCount: document.getElementById('resultsCount'),
+  resultsCityName: document.getElementById('resultsCityName'),
+  pgGridContainer: document.getElementById('pgGridContainer'),
+  emptyState: document.getElementById('emptyState'),
+  emptyResetBtn: document.getElementById('emptyResetBtn'),
+
+  // Pagination
+  paginationWrapper: document.getElementById('paginationWrapper'),
+  prevPageBtn: document.getElementById('prevPageBtn'),
+  nextPageBtn: document.getElementById('nextPageBtn'),
+  pageNumbersContainer: document.getElementById('pageNumbersContainer'),
+
+  // Modal & Schedule Visit
+  propertyModal: document.getElementById('propertyModal'),
+  closeModalBtn: document.getElementById('closeModalBtn'),
+  modalMainImg: document.getElementById('modalMainImg'),
+  modalImgBadge: document.getElementById('modalImgBadge'),
+  modalThumbStrip: document.getElementById('modalThumbStrip'),
+  modalPgName: document.getElementById('modalPgName'),
+  modalRating: document.getElementById('modalRating'),
+  modalLocality: document.getElementById('modalLocality'),
+  modalBadges: document.getElementById('modalBadges'),
+  modalSharingGrid: document.getElementById('modalSharingGrid'),
+  modalAmenitiesGrid: document.getElementById('modalAmenitiesGrid'),
+  menuDayTabs: document.getElementById('menuDayTabs'),
+  menuContentBox: document.getElementById('menuContentBox'),
+  modalRulesList: document.getElementById('modalRulesList'),
+  visitBookingForm: document.getElementById('visitBookingForm'),
+  formPgId: document.getElementById('formPgId'),
+  visitorName: document.getElementById('visitorName'),
+  visitorPhone: document.getElementById('visitorPhone'),
+  visitorDate: document.getElementById('visitorDate'),
+  visitorSlot: document.getElementById('visitorSlot'),
+  submitVisitBtn: document.getElementById('submitVisitBtn'),
+  bookingSuccessBox: document.getElementById('bookingSuccessBox'),
+  bookingSuccessMsg: document.getElementById('bookingSuccessMsg'),
+  bookingRefBadge: document.getElementById('bookingRefBadge'),
+  bookAnotherBtn: document.getElementById('bookAnotherBtn')
 };
 
 // ─── Initialization ──────────────────────────────────────────────────────────
+
 document.addEventListener('DOMContentLoaded', () => {
-  initApp();
+  initDateInput();
+  fetchCities();
+  setupEventListeners();
+  fetchPgs();
 });
 
-async function initApp() {
-  checkBackendHealth();
-  await loadMetadata();
-  fetchInitialListings();
-
-  // Search input live clear button toggle
-  const searchInput = document.getElementById('search-input');
-  const clearBtn = document.getElementById('clear-search-btn');
-  if (searchInput && clearBtn) {
-    searchInput.addEventListener('input', () => {
-      clearBtn.style.display = searchInput.value.trim() ? 'flex' : 'none';
-    });
+function initDateInput() {
+  // Set minimum date to tomorrow
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const yyyy = tomorrow.getFullYear();
+  const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+  const dd = String(tomorrow.getDate()).padStart(2, '0');
+  if (DOM.visitorDate) {
+    DOM.visitorDate.min = `${yyyy}-${mm}-${dd}`;
+    DOM.visitorDate.value = `${yyyy}-${mm}-${dd}`;
   }
 }
 
-// ─── Health Check ─────────────────────────────────────────────────────────────
-async function checkBackendHealth() {
+// ─── API Interactions ────────────────────────────────────────────────────────
+
+async function fetchCities() {
   try {
-    const res = await fetch(`${API_BASE}/api/health`);
-    if (res.ok) {
-      const data = await res.json();
-      const statusEl = document.getElementById('ai-status-text');
-      if (statusEl) {
-        statusEl.textContent = '3 ML Models Online';
-      }
-    }
-  } catch (err) {
-    console.warn('Backend connection note:', err);
-    const statusEl = document.getElementById('ai-status-text');
-    if (statusEl) {
-      statusEl.textContent = 'AI Core Initializing';
-    }
-  }
-}
-
-// ─── Metadata ────────────────────────────────────────────────────────────────
-async function loadMetadata() {
-  try {
-    const res = await fetch(`${API_BASE}/api/meta`);
-    if (res.ok) {
-      const data = await res.json();
-      state.metadata = data;
-      populateCityOptions(data.cities);
-    }
-  } catch (err) {
-    console.warn('Could not load metadata:', err);
-  }
-}
-
-function populateCityOptions(cities) {
-  if (!cities || !cities.length) return;
-  const select = document.getElementById('filter-city');
-  if (!select) return;
-  const currentVal = select.value;
-  select.innerHTML = '<option value="">All Cities</option>' + 
-    cities.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
-  select.value = currentVal;
-}
-
-// ─── Fetch Listings (Standard Filtered View) ──────────────────────────────────
-async function fetchInitialListings(page = 1) {
-  setLoading(true, 'Loading verified student accommodations...');
-  state.page = page;
-  state.mode = 'all';
-
-  try {
-    const params = new URLSearchParams({
-      page: state.page,
-      limit: state.limit
-    });
-
-    if (state.city) params.append('city', state.city);
-    if (state.sharing) params.append('sharing', state.sharing);
-    if (state.maxBudget) params.append('max_rent', state.maxBudget);
-    if (state.amenities.ac) params.append('ac', '1');
-    if (state.amenities.wifi) params.append('wifi', '1');
-    if (state.amenities.food) params.append('food', '1');
-
-    const res = await fetch(`${API_BASE}/api/listings?${params.toString()}`);
-    if (!res.ok) throw new Error('Failed to fetch listings');
-
+    const res = await fetch('/api/cities');
     const data = await res.json();
-    state.listings = data.listings || [];
-    state.totalCount = data.total || 0;
-    state.totalPages = data.pages || 1;
-
-    applyClientSorting();
-    renderListingsGrid();
-    updateResultsMeta();
-  } catch (err) {
-    console.error('Listings fetch error:', err);
-    showToast('Failed to load listings. Please try again.', 'error');
-  } finally {
-    setLoading(false);
-  }
-}
-
-// ─── Semantic Natural Language Search ─────────────────────────────────────────
-async function handleSemanticSearch(event) {
-  if (event) event.preventDefault();
-
-  const searchInput = document.getElementById('search-input');
-  const query = searchInput ? searchInput.value.trim() : '';
-
-  if (!query) {
-    fetchInitialListings(1);
-    return;
-  }
-
-  state.query = query;
-  state.mode = 'search';
-  setLoading(true, `Embedding query "${query}" & matching accommodations...`);
-
-  try {
-    const payload = {
-      query: query,
-      city: state.city || undefined,
-      max_budget: state.maxBudget || undefined,
-      sharing_type: state.sharing || undefined,
-      ac: state.amenities.ac ? '1' : undefined,
-      wifi: state.amenities.wifi ? '1' : undefined,
-      food_included: state.amenities.food ? '1' : undefined,
-      top_k: 24
-    };
-
-    const res = await fetch(`${API_BASE}/api/semantic-search`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) throw new Error('Semantic search request failed');
-
-    const data = await res.json();
-    state.listings = data.results || [];
-    state.totalCount = data.count || state.listings.length;
-    state.totalPages = 1;
-
-    applyClientSorting();
-    renderListingsGrid();
-    updateResultsMeta(`Semantic Match: ${state.listings.length} accommodations found for "${query}"`);
-    showToast(`Found ${state.listings.length} matching rooms!`);
-  } catch (err) {
-    console.error('Semantic search error:', err);
-    showToast('Notice: Using filter search fallback.', 'info');
-    fetchInitialListings(1);
-  } finally {
-    setLoading(false);
-  }
-}
-
-function applyQueryPrompt(promptText) {
-  const searchInput = document.getElementById('search-input');
-  if (searchInput) {
-    searchInput.value = promptText;
-    const clearBtn = document.getElementById('clear-search-btn');
-    if (clearBtn) clearBtn.style.display = 'flex';
-    handleSemanticSearch();
-  }
-}
-
-function clearSearchInput() {
-  const searchInput = document.getElementById('search-input');
-  const clearBtn = document.getElementById('clear-search-btn');
-  if (searchInput) {
-    searchInput.value = '';
-    if (clearBtn) clearBtn.style.display = 'none';
-    state.query = '';
-    fetchInitialListings(1);
-  }
-}
-
-// ─── AI Housing Chatbot ───────────────────────────────────────────────────────
-function toggleChatbot() {
-  state.isChatOpen = !state.isChatOpen;
-  const chatWindow = document.getElementById('chatbot-window');
-  if (chatWindow) {
-    chatWindow.classList.toggle('active', state.isChatOpen);
-    if (state.isChatOpen) {
-      const chatInput = document.getElementById('chat-input');
-      if (chatInput) chatInput.focus();
+    if (data.success && data.cities) {
+      state.cities = data.cities;
+      renderCityDropdown(data.cities);
+      renderHeroCityPills(data.cities);
+      renderHeroCitySelect(data.cities);
+      fetchLocalities(state.currentCity);
     }
+  } catch (err) {
+    console.error('Error fetching cities:', err);
   }
 }
 
-async function handleChatSubmit(event) {
-  if (event) event.preventDefault();
+async function fetchLocalities(cityName) {
+  try {
+    const res = await fetch(`/api/localities?city=${encodeURIComponent(cityName)}`);
+    const data = await res.json();
+    if (data.success && data.localities) {
+      renderHeroLocalitySelect(data.localities);
+    }
+  } catch (err) {
+    console.error('Error fetching localities:', err);
+  }
+}
 
-  const chatInput = document.getElementById('chat-input');
-  const message = chatInput ? chatInput.value.trim() : '';
-  if (!message) return;
+async function fetchPgs() {
+  renderLoadingState();
+  
+  const params = new URLSearchParams({
+    city: state.currentCity,
+    locality: state.currentLocality,
+    gender: state.gender,
+    sharing: state.sharing,
+    max_price: state.maxPrice,
+    sort_by: state.sortBy,
+    page: state.currentPage,
+    limit: state.limit
+  });
 
-  // Add User Message to Chat
-  addChatMessage(message, 'user');
-  chatInput.value = '';
-
-  // Add loading bot message
-  const loadingMsgId = addChatMessage('Thinking & searching accommodations...', 'bot', true);
+  if (state.ac) params.append('ac', 'true');
+  if (state.wifi) params.append('wifi', 'true');
+  if (state.food) params.append('food', 'true');
+  if (state.search) params.append('search', state.search);
 
   try {
-    const res = await fetch(`${API_BASE}/api/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
-    });
-
+    const res = await fetch(`/api/pgs?${params.toString()}`);
     const data = await res.json();
-    removeChatMessage(loadingMsgId);
 
-    // Render formatted response
-    addChatMessage(data.reply || 'I found some options for you!', 'bot', false, data.pgs);
+    if (data.success) {
+      state.pgs = data.pgs;
+      state.totalResults = data.total;
+      state.totalPages = data.total_pages;
+      renderPgGrid(data.pgs);
+      renderPagination();
+      updateMetaCounters();
+    }
   } catch (err) {
-    console.error('Chatbot error:', err);
-    removeChatMessage(loadingMsgId);
-    addChatMessage("Sorry, I couldn't reach the AI model right now. Please try again in a moment.", 'bot');
+    console.error('Error fetching PGs:', err);
+    DOM.pgGridContainer.innerHTML = `<div class="error-msg">Failed to load property listings. Please try again.</div>`;
   }
 }
 
-function sendChatPrompt(promptText) {
-  const chatInput = document.getElementById('chat-input');
-  if (chatInput) {
-    chatInput.value = promptText;
-    handleChatSubmit();
+async function fetchPgDetails(pgId, openVisitTab = false) {
+  try {
+    const res = await fetch(`/api/pg/${pgId}`);
+    const data = await res.json();
+    if (data.success && data.pg) {
+      state.activePgDetails = data.pg;
+      openModal(data.pg, openVisitTab);
+    }
+  } catch (err) {
+    console.error('Error fetching PG details:', err);
   }
 }
+window.fetchPgDetails = fetchPgDetails;
+window.closeModal = closeModal;
+window.openModal = openModal;
 
-function addChatMessage(text, sender = 'bot', isLoading = false, pgs = []) {
-  const container = document.getElementById('chat-messages');
-  if (!container) return;
+// ─── Rendering Helpers ───────────────────────────────────────────────────────
 
-  const msgId = 'msg-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4);
-  const msgEl = document.createElement('div');
-  msgEl.className = `chat-msg ${sender}-msg`;
-  msgEl.id = msgId;
-
-  // Basic markdown to html formatting for bold, italic, bullets
-  let formattedText = escapeHtml(text)
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\n/g, '<br/>');
-
-  let pgsHtml = '';
-  if (pgs && pgs.length > 0) {
-    pgsHtml = `
-      <div style="margin-top: 0.5rem; display: flex; flex-direction: column; gap: 0.4rem;">
-        ${pgs.slice(0, 3).map(pg => `
-          <div class="chat-card-preview" onclick="openListingDetail('${escapeHtml(pg.pg_id)}')">
-            <div class="chat-card-name">🏠 ${escapeHtml(pg.name)}</div>
-            <div class="chat-card-sub">📍 ${escapeHtml(pg.locality)}, ${escapeHtml(pg.city)} • <strong>₹${Number(pg.rent_monthly).toLocaleString('en-IN')}/mo</strong> (${escapeHtml(pg.sharing_type || 'Double')})</div>
-          </div>
-        `).join('')}
-      </div>
-    `;
-  }
-
-  msgEl.innerHTML = `
-    <div class="msg-bubble">
-      ${isLoading ? '<div class="spinner" style="width: 18px; height: 18px; border-width: 2px; margin: 0;"></div>' : formattedText}
-      ${pgsHtml}
+function renderCityDropdown(cities) {
+  DOM.cityDropdownGrid.innerHTML = cities.map(c => `
+    <div class="city-dropdown-item ${c.name === state.currentCity ? 'active' : ''}" onclick="selectCityAndFetch('${c.name}')">
+      <span>${c.icon}</span>
+      <span>${c.name}</span>
     </div>
-  `;
-
-  container.appendChild(msgEl);
-  container.scrollTop = container.scrollHeight;
-  return msgId;
+  `).join('');
 }
 
-function removeChatMessage(msgId) {
-  const el = document.getElementById(msgId);
-  if (el) el.remove();
+function renderHeroCityPills(cities) {
+  const topCities = cities.slice(0, 7);
+  DOM.heroCityPills.innerHTML = topCities.map(c => `
+    <button class="city-pill ${c.name === state.currentCity ? 'active' : ''}" onclick="selectCityAndFetch('${c.name}')">
+      <span>${c.icon}</span>
+      <span>${c.name}</span>
+    </button>
+  `).join('');
 }
 
-// ─── PyTorch Two-Tower Personalized Recommender ──────────────────────────────
-async function handleNeuralRecommenderSubmit(event) {
-  if (event) event.preventDefault();
-
-  const city = document.getElementById('rec-city').value;
-  const budget = parseFloat(document.getElementById('rec-budget').value) || 14000;
-  const sharing_type = document.getElementById('rec-sharing').value;
-  const food_type = document.getElementById('rec-food-type').value;
-  const ac = document.getElementById('rec-ac').checked ? 1 : 0;
-  const wifi = document.getElementById('rec-wifi').checked ? 1 : 0;
-  const food_included = document.getElementById('rec-food-inc').checked ? 1 : 0;
-
-  closeModal('modal-recommender');
-  state.mode = 'recommendations';
-  setLoading(true, 'Running PyTorch Two-Tower latent space matcher...');
-
-  try {
-    const payload = {
-      city,
-      budget,
-      sharing_type,
-      food_type,
-      ac,
-      wifi,
-      food_included,
-      top_k: 20
-    };
-
-    const res = await fetch(`${API_BASE}/api/recommend-personalized`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!res.ok) throw new Error('Personalized recommendation failed');
-
-    const data = await res.json();
-    state.listings = data.recommendations || [];
-    state.totalCount = data.count || state.listings.length;
-    state.totalPages = 1;
-
-    applyClientSorting();
-    renderListingsGrid();
-    updateResultsMeta(`✨ Neural Matcher: Top ${state.listings.length} personalized picks in ${city}`);
-    showToast(`Generated ${state.listings.length} personalized recommendations!`);
-  } catch (err) {
-    console.error('Neural matcher error:', err);
-    showToast('Neural recommendation error. Please try again.', 'error');
-  } finally {
-    setLoading(false);
-  }
+function renderHeroCitySelect(cities) {
+  DOM.heroSelectCity.innerHTML = cities.map(c => `
+    <option value="${c.name}" ${c.name === state.currentCity ? 'selected' : ''}>${c.name} (${c.count}+ stays)</option>
+  `).join('');
 }
 
-
-// ─── Client-Side Filters & Controls ──────────────────────────────────────────
-function triggerFilterChange() {
-  const citySelect = document.getElementById('filter-city');
-  state.city = citySelect ? citySelect.value : '';
-
-  if (state.mode === 'search' && state.query) {
-    handleSemanticSearch();
-  } else {
-    fetchInitialListings(1);
-  }
+function renderHeroLocalitySelect(localities) {
+  DOM.heroSelectLocality.innerHTML = `<option value="all">All Localities</option>` + localities.map(l => `
+    <option value="${l}">${l}</option>
+  `).join('');
 }
 
-function setSharingFilter(btn, value) {
-  document.querySelectorAll('#sharing-pills .segment-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  state.sharing = value;
-
-  if (state.mode === 'search' && state.query) {
-    handleSemanticSearch();
-  } else {
-    fetchInitialListings(1);
-  }
+function renderLoadingState() {
+  DOM.emptyState.style.display = 'none';
+  DOM.pgGridContainer.innerHTML = Array(6).fill(0).map(() => `
+    <div class="pg-card" style="opacity: 0.6; pointer-events: none;">
+      <div class="card-media" style="background:#e2e8f0; animation: pulse 1.5s infinite;"></div>
+      <div class="card-body">
+        <div style="height:20px; width:70%; background:#e2e8f0; border-radius:4px; margin-bottom:12px;"></div>
+        <div style="height:14px; width:40%; background:#e2e8f0; border-radius:4px; margin-bottom:20px;"></div>
+        <div style="height:38px; width:100%; background:#e2e8f0; border-radius:8px;"></div>
+      </div>
+    </div>
+  `).join('');
 }
 
-function toggleAmenity(key) {
-  state.amenities[key] = !state.amenities[key];
-  const btn = document.getElementById(`chip-${key}`);
-  if (btn) {
-    btn.classList.toggle('active', state.amenities[key]);
-  }
-
-  if (state.mode === 'search' && state.query) {
-    handleSemanticSearch();
-  } else {
-    fetchInitialListings(1);
-  }
-}
-
-function handleBudgetChange(val) {
-  state.maxBudget = parseFloat(val);
-  const display = document.getElementById('budget-display');
-  if (display) {
-    display.textContent = `₹${state.maxBudget.toLocaleString('en-IN')} / mo`;
-  }
-
-  debounce(() => {
-    if (state.mode === 'search' && state.query) {
-      handleSemanticSearch();
-    } else {
-      fetchInitialListings(1);
-    }
-  }, 300)();
-}
-
-function handleSortChange(sortVal) {
-  state.sortBy = sortVal;
-  applyClientSorting();
-  renderListingsGrid();
-}
-
-function applyClientSorting() {
-  if (!state.listings || !state.listings.length) return;
-
-  if (state.sortBy === 'price-asc') {
-    state.listings.sort((a, b) => (a.rent_monthly || 0) - (b.rent_monthly || 0));
-  } else if (state.sortBy === 'price-desc') {
-    state.listings.sort((a, b) => (b.rent_monthly || 0) - (a.rent_monthly || 0));
-  } else if (state.sortBy === 'value') {
-    state.listings.sort((a, b) => {
-      const diffA = a.fair_rent ? a.fair_rent.deal_difference_pct : 0;
-      const diffB = b.fair_rent ? b.fair_rent.deal_difference_pct : 0;
-      return diffA - diffB;
-    });
-  } else if (state.sortBy === 'relevance') {
-    state.listings.sort((a, b) => {
-      const scoreA = a.match_percentage || (a.similarity_score ? a.similarity_score * 100 : 80);
-      const scoreB = b.match_percentage || (b.similarity_score ? b.similarity_score * 100 : 80);
-      return scoreB - scoreA;
-    });
-  }
-}
-
-function resetAllFilters() {
-  state.query = '';
-  state.city = '';
-  state.sharing = '';
-  state.amenities = { ac: false, wifi: false, food: false };
-  state.maxBudget = 25000;
-  state.sortBy = 'relevance';
-
-  const searchInput = document.getElementById('search-input');
-  if (searchInput) searchInput.value = '';
-
-  const clearBtn = document.getElementById('clear-search-btn');
-  if (clearBtn) clearBtn.style.display = 'none';
-
-  const citySelect = document.getElementById('filter-city');
-  if (citySelect) citySelect.value = '';
-
-  document.querySelectorAll('#sharing-pills .segment-btn').forEach((b, i) => {
-    b.classList.toggle('active', i === 0);
-  });
-
-  ['ac', 'wifi', 'food'].forEach(key => {
-    const btn = document.getElementById(`chip-${key}`);
-    if (btn) btn.classList.remove('active');
-  });
-
-  const budgetSlider = document.getElementById('filter-budget');
-  if (budgetSlider) budgetSlider.value = 25000;
-
-  const budgetDisplay = document.getElementById('budget-display');
-  if (budgetDisplay) budgetDisplay.textContent = '₹25,000 / mo';
-
-  const sortSelect = document.getElementById('sort-by');
-  if (sortSelect) sortSelect.value = 'relevance';
-
-  fetchInitialListings(1);
-  showToast('Filters reset.');
-}
-
-// ─── UI Rendering ─────────────────────────────────────────────────────────────
-function renderListingsGrid() {
-  const grid = document.getElementById('listings-grid');
-  const emptyState = document.getElementById('empty-state');
-  const countBadge = document.getElementById('tab-count-badge');
-  const paginationWrapper = document.getElementById('pagination-wrapper');
-
-  if (!grid) return;
-
-  if (countBadge) {
-    countBadge.textContent = state.listings.length;
-  }
-
-  if (!state.listings || state.listings.length === 0) {
-    grid.innerHTML = '';
-    if (emptyState) emptyState.style.display = 'block';
-    if (paginationWrapper) paginationWrapper.style.display = 'none';
+function renderPgGrid(pgs) {
+  if (!pgs || pgs.length === 0) {
+    DOM.pgGridContainer.innerHTML = '';
+    DOM.emptyState.style.display = 'block';
     return;
   }
 
-  if (emptyState) emptyState.style.display = 'none';
-
-  const cardsHtml = state.listings.map((item, index) => {
-    const rent = item.rent_monthly || item.rent || 0;
-    const matchScore = item.match_percentage || (item.similarity_score ? Math.round(item.similarity_score * 100) : (95 - (index % 10)));
-    const fairRent = item.fair_rent || {};
-    const dealCategory = fairRent.deal_category || 'Fair Deal';
-    const badgeColor = fairRent.deal_badge_color || (dealCategory === 'Great Value' ? 'emerald' : dealCategory === 'Overpriced' ? 'amber' : 'indigo');
-
-    const acActive = item.ac === 1 || String(item.ac).toLowerCase() === 'yes';
-    const wifiActive = item.wifi === 1 || String(item.wifi).toLowerCase() === 'yes';
-    const foodActive = item.food_included === 1 || String(item.food_included).toLowerCase() === 'yes';
-
+  DOM.emptyState.style.display = 'none';
+  DOM.pgGridContainer.innerHTML = pgs.map((pg, cardIdx) => {
+    const galleryJson = JSON.stringify(pg.gallery).replace(/"/g, '&quot;');
+    const genderBadge = pg.gender === 'Women' ? '👩 Girls Only' : pg.gender === 'Men' ? '👨 Boys Only' : '👥 Unisex Co-living';
+    const sharingLabel = pg.sharing_type === 'Single' ? 'Private Single' : `${pg.sharing_type} Sharing`;
+    
     return `
-      <div class="pg-card" onclick="openListingDetail('${escapeHtml(item.pg_id || String(index))}')">
+      <div class="pg-card" id="card-${pg.id}">
+        <!-- Media Carousel -->
         <div class="card-media">
-          <div class="card-media-bg-pattern"></div>
+          <img class="card-carousel-img" id="img-${pg.id}" src="${pg.image_url}" alt="${pg.name}" loading="lazy" onerror="this.src='/static/images/properties/bedroom_luxury_1.jpg'">
+          
           <div class="card-badges-top">
-            <span class="city-badge">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              ${escapeHtml(item.city || 'Pune')}
-            </span>
-            <span class="match-score-badge">${matchScore}% Match</span>
+            ${pg.badges.slice(0, 2).map(b => `<span class="badge-pill ${b.includes('Fast') ? 'badge-fast' : 'badge-verified'}">${b}</span>`).join('')}
           </div>
-          <span class="card-room-type">${escapeHtml(item.sharing_type || 'Double')} Sharing</span>
+
+          <div class="badge-gender">${genderBadge}</div>
+
+          <!-- Carousel Controls -->
+          <button class="carousel-btn prev" onclick="navigateCardImage('${pg.id}', -1, ${galleryJson})" title="Previous Photo">&lsaquo;</button>
+          <button class="carousel-btn next" onclick="navigateCardImage('${pg.id}', 1, ${galleryJson})" title="Next Photo">&rsaquo;</button>
+
+          <!-- Dots Indicator -->
+          <div class="carousel-dots" id="dots-${pg.id}">
+            ${pg.gallery.map((_, i) => `<span class="dot ${i === 0 ? 'active' : ''}"></span>`).join('')}
+          </div>
         </div>
 
+        <!-- Card Body -->
         <div class="card-body">
-          <div class="card-header-row">
-            <h3 class="card-title">${escapeHtml(item.name || 'Student PG Stay')}</h3>
-            <div class="card-locality">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-              ${escapeHtml(item.locality || 'City Center')}, ${escapeHtml(item.city || '')}
+          <div class="card-title-row">
+            <h3 class="card-title">${pg.name}</h3>
+            <div class="card-rating-badge">★ ${pg.rating}</div>
+          </div>
+
+          <div class="card-location">
+            <span>📍 ${pg.locality}, ${pg.city}</span>
+          </div>
+
+          <div class="card-distance">
+            ⚡ ${pg.nearest_hub}
+          </div>
+
+          <!-- Amenities Strip -->
+          <div class="card-amenities-strip">
+            <span class="amenity-pill">📶 High-Speed WiFi</span>
+            ${pg.ac ? '<span class="amenity-pill">❄️ AC Room</span>' : ''}
+            ${pg.food_included ? '<span class="amenity-pill">🍲 Food Included</span>' : '<span class="amenity-pill">🧹 Daily Cleaning</span>'}
+          </div>
+
+          <!-- Pricing Row -->
+          <div class="card-pricing-row">
+            <div>
+              <span class="price-main">₹${pg.rent_monthly.toLocaleString('en-IN')}</span>
+              <span class="price-unit">/ month</span>
             </div>
+            <span class="price-sharing-tag">${sharingLabel}</span>
           </div>
 
-          <p class="card-desc-snippet">${escapeHtml(item.description || 'Modern and fully equipped accommodation for students and working professionals.')}</p>
-
-          <div class="card-amenities">
-            ${acActive ? '<span class="amenity-tag active">❄️ AC</span>' : '<span class="amenity-tag">Non-AC</span>'}
-            ${wifiActive ? '<span class="amenity-tag active">📶 Wi-Fi</span>' : ''}
-            ${foodActive ? `<span class="amenity-tag active">🍲 ${escapeHtml(item.food_type || 'Meals')}</span>` : '<span class="amenity-tag">Self Cooking</span>'}
-          </div>
-
-          <div style="margin-bottom: 0.75rem;">
-            <span class="deal-badge ${badgeColor}">
-              ${escapeHtml(dealCategory)}
-            </span>
-          </div>
-
-          <div class="card-footer">
-            <div class="price-box">
-              <div class="price-main">₹${rent.toLocaleString('en-IN')}</div>
-              <div class="price-sub">per month</div>
-            </div>
-            <button class="btn btn-secondary" onclick="event.stopPropagation(); openListingDetail('${escapeHtml(item.pg_id || String(index))}')">
+          <!-- Action Buttons -->
+          <div class="card-actions">
+            <button class="btn btn-card-details" onclick="fetchPgDetails('${pg.id}', false)">
               View Details
+            </button>
+            <button class="btn btn-card-visit" onclick="fetchPgDetails('${pg.id}', true)">
+              Schedule Visit
             </button>
           </div>
         </div>
       </div>
     `;
   }).join('');
+}
 
-  grid.innerHTML = cardsHtml;
+// In-memory carousel state map: { pgId: currentIndex }
+const cardCarouselState = {};
 
-  if (paginationWrapper) {
-    paginationWrapper.style.display = (state.mode === 'all' && state.totalPages > state.page) ? 'block' : 'none';
+window.navigateCardImage = function(pgId, direction, gallery) {
+  if (!gallery || gallery.length === 0) return;
+  if (cardCarouselState[pgId] === undefined) cardCarouselState[pgId] = 0;
+
+  let nextIdx = cardCarouselState[pgId] + direction;
+  if (nextIdx < 0) nextIdx = gallery.length - 1;
+  if (nextIdx >= gallery.length) nextIdx = 0;
+
+  cardCarouselState[pgId] = nextIdx;
+
+  const imgEl = document.getElementById(`img-${pgId}`);
+  if (imgEl) {
+    imgEl.style.opacity = '0.7';
+    imgEl.src = gallery[nextIdx];
+    setTimeout(() => { imgEl.style.opacity = '1'; }, 100);
+  }
+
+  const dotsWrap = document.getElementById(`dots-${pgId}`);
+  if (dotsWrap) {
+    const dots = dotsWrap.querySelectorAll('.dot');
+    dots.forEach((d, i) => {
+      d.className = `dot ${i === nextIdx ? 'active' : ''}`;
+    });
+  }
+};
+
+function renderPagination() {
+  const { currentPage, totalPages } = state;
+  DOM.prevPageBtn.disabled = currentPage <= 1;
+  DOM.nextPageBtn.disabled = currentPage >= totalPages;
+
+  let pages = [];
+  const maxButtons = 5;
+  let start = Math.max(1, currentPage - 2);
+  let end = Math.min(totalPages, start + maxButtons - 1);
+  if (end - start < maxButtons - 1) {
+    start = Math.max(1, end - maxButtons + 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+
+  DOM.pageNumbersContainer.innerHTML = pages.map(p => `
+    <button class="page-num ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>
+  `).join('');
+}
+
+function updateMetaCounters() {
+  DOM.resultsCount.textContent = state.totalResults.toLocaleString();
+  DOM.resultsCityName.textContent = state.currentCity;
+}
+
+// ─── Modal & Detailed Stay Drawer ───────────────────────────────────────────
+
+function openModal(pg, focusBooking = false) {
+  // Populate Gallery
+  DOM.modalMainImg.src = pg.image_url;
+  DOM.modalThumbStrip.innerHTML = pg.gallery.map((imgUrl, i) => `
+    <div class="modal-thumb ${i === 0 ? 'active' : ''}" onclick="setModalMainImg('${imgUrl}', this)">
+      <img src="${imgUrl}" alt="Gallery ${i}">
+    </div>
+  `).join('');
+
+  // Info
+  DOM.modalPgName.textContent = pg.name;
+  DOM.modalRating.textContent = `★ ${pg.rating} (${pg.reviews_count} reviews)`;
+  DOM.modalLocality.textContent = `📍 ${pg.full_address} • ${pg.nearest_hub}`;
+  
+  DOM.modalBadges.innerHTML = pg.badges.map(b => `<span class="modal-badge-item">✓ ${b}</span>`).join('');
+
+  // Pricing Sharing Matrix
+  DOM.modalSharingGrid.innerHTML = Object.entries(pg.pricing_matrix).map(([type, price]) => `
+    <div class="sharing-item-card">
+      <div>
+        <div class="type">${type} Sharing</div>
+        <div style="font-size:0.75rem; color:#64748b;">Zero Brokerage</div>
+      </div>
+      <div class="rent">₹${price.toLocaleString('en-IN')}/mo</div>
+    </div>
+  `).join('');
+
+  // Amenities
+  DOM.modalAmenitiesGrid.innerHTML = pg.amenities.map(a => `
+    <div class="amenity-grid-item" style="${a.available ? '' : 'opacity:0.4;'}">
+      <span>${a.available ? '✅' : '❌'}</span>
+      <span>${a.name}</span>
+    </div>
+  `).join('');
+
+  // Weekly Food Menu
+  renderFoodMenu(pg.food_menu);
+
+  // House Rules
+  DOM.modalRulesList.innerHTML = Object.entries(pg.house_rules).map(([key, val]) => `
+    <div class="rule-item">
+      <span>📌</span>
+      <div>
+        <strong style="text-transform: capitalize;">${key.replace('_', ' ')}:</strong> ${val}
+      </div>
+    </div>
+  `).join('');
+
+  // Setup Form
+  DOM.formPgId.value = pg.id;
+  DOM.bookingSuccessBox.style.display = 'none';
+  DOM.visitBookingForm.style.display = 'flex';
+
+  DOM.propertyModal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  if (focusBooking) {
+    DOM.visitorName.focus();
   }
 }
 
-function updateResultsMeta(customMsg) {
-  const metaEl = document.getElementById('results-count-text');
-  if (!metaEl) return;
+window.setModalMainImg = function(url, thumbEl) {
+  DOM.modalMainImg.src = url;
+  document.querySelectorAll('.modal-thumb').forEach(t => t.classList.remove('active'));
+  if (thumbEl) thumbEl.classList.add('active');
+};
 
-  if (customMsg) {
-    metaEl.textContent = customMsg;
-  } else {
-    metaEl.textContent = `Showing ${state.listings.length} of ${state.totalCount.toLocaleString()} verified accommodations`;
-  }
-}
+function renderFoodMenu(menu) {
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  
+  DOM.menuDayTabs.innerHTML = days.map(d => `
+    <button class="menu-day-tab ${d === state.activeFoodDay ? 'active' : ''}" onclick="switchFoodDay('${d}')">${d}</button>
+  `).join('');
 
-function loadMoreListings() {
-  if (state.page < state.totalPages) {
-    fetchInitialListings(state.page + 1);
-  }
-}
-
-// ─── Modal Managers ──────────────────────────────────────────────────────────
-function openListingDetail(pgId) {
-  const item = state.listings.find(x => String(x.pg_id) === String(pgId)) || state.listings[0];
-  if (!item) return;
-
-  state.currentDetailListing = item;
-
-  const rent = item.rent_monthly || item.rent || 0;
-  const matchScore = item.match_percentage || (item.similarity_score ? Math.round(item.similarity_score * 100) : 98);
-  const fairRent = item.fair_rent || {};
-  const predRent = fairRent.predicted_rent || Math.round(rent * 0.95);
-  const dealCategory = fairRent.deal_category || 'Fair Deal';
-  const badgeColor = fairRent.deal_badge_color || 'indigo';
-
-  document.getElementById('detail-name').textContent = item.name || 'PG Stay';
-  document.getElementById('detail-locality-city').textContent = `${item.locality || 'Area'}, ${item.city || 'City'}`;
-  document.getElementById('detail-sharing-pill').textContent = `${item.sharing_type || 'Double'} Sharing`;
-  document.getElementById('detail-match-score').textContent = `${matchScore}% AI Match`;
-  document.getElementById('detail-description').textContent = item.description || 'Fully furnished modern student and working professional accommodation.';
-  document.getElementById('detail-rent').innerHTML = `₹${rent.toLocaleString('en-IN')} <span class="price-unit">/ month</span>`;
-
-  // Valuation Card
-  document.getElementById('detail-deal-badge').textContent = dealCategory;
-  document.getElementById('detail-deal-badge').className = `deal-badge ${badgeColor}`;
-  document.getElementById('detail-market-avg').textContent = `₹${predRent.toLocaleString('en-IN')}`;
-
-  const diffPct = fairRent.deal_difference_pct || Math.round(((rent - predRent) / predRent) * 100);
-  document.getElementById('detail-val-diff').textContent = `${diffPct > 0 ? '+' : ''}${diffPct}% vs Market`;
-  document.getElementById('detail-deal-note').textContent = fairRent.deal_explanation || 'Price validated against AI Fair Market Benchmark model.';
-
-  // Amenities List
-  const amenitiesList = document.getElementById('detail-amenities-list');
-  const acActive = item.ac === 1 || String(item.ac).toLowerCase() === 'yes';
-  const wifiActive = item.wifi === 1 || String(item.wifi).toLowerCase() === 'yes';
-  const foodActive = item.food_included === 1 || String(item.food_included).toLowerCase() === 'yes';
-
-  amenitiesList.innerHTML = `
-    <div class="detail-amenity-item">${acActive ? '✅' : '❌'} Air Conditioning (AC)</div>
-    <div class="detail-amenity-item">${wifiActive ? '✅' : '❌'} High-Speed Wi-Fi</div>
-    <div class="detail-amenity-item">${foodActive ? '✅' : '❌'} Food Included (${item.food_type || 'Meals'})</div>
-    <div class="detail-amenity-item">✅ 24/7 Water & Power Backup</div>
-    <div class="detail-amenity-item">✅ CCTV & Biometric Security</div>
-    <div class="detail-amenity-item">✅ Daily Housekeeping Service</div>
+  const dayMenu = menu[state.activeFoodDay] || menu['Monday'];
+  DOM.menuContentBox.innerHTML = `
+    <div class="meal-row">
+      <div class="meal-label">🍳 Breakfast (7:30 AM - 10:00 AM)</div>
+      <div class="meal-desc">${dayMenu.breakfast}</div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-label">🍱 Lunch (12:30 PM - 2:30 PM)</div>
+      <div class="meal-desc">${dayMenu.lunch}</div>
+    </div>
+    <div class="meal-row">
+      <div class="meal-label">🍲 Dinner (7:30 PM - 10:00 PM)</div>
+      <div class="meal-desc">${dayMenu.dinner}</div>
+    </div>
   `;
-
-  openModal('modal-listing-detail');
 }
 
-function openRecommenderModal() {
-  openModal('modal-recommender');
-}
-
-
-function openModal(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.add('active');
-    document.body.style.overflow = 'hidden';
+window.switchFoodDay = function(day) {
+  state.activeFoodDay = day;
+  if (state.activePgDetails && state.activePgDetails.food_menu) {
+    renderFoodMenu(state.activePgDetails.food_menu);
   }
+};
+
+function closeModal() {
+  DOM.propertyModal.style.display = 'none';
+  document.body.style.overflow = 'auto';
 }
 
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-}
+// ─── Event Handlers ─────────────────────────────────────────────────────────
 
-function handleModalBackdropClick(event, id) {
-  if (event.target && event.target.id === id) {
-    closeModal(id);
-  }
-}
+function setupEventListeners() {
+  // City Dropdown Toggle
+  DOM.currentCityBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    DOM.cityDropdownMenu.classList.toggle('show');
+  });
 
-function switchView(view) {
-  if (view === 'search') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    const input = document.getElementById('search-input');
-    if (input) input.focus();
-  }
-}
+  document.addEventListener('click', () => {
+    DOM.cityDropdownMenu.classList.remove('show');
+  });
 
-function switchTab(tab) {
-  if (tab === 'results') {
-    fetchInitialListings(1);
-  }
-}
+  DOM.cityDropdownMenu.addEventListener('click', (e) => e.stopPropagation());
 
-function resetToHome(e) {
-  if (e) e.preventDefault();
-  resetAllFilters();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  // Global Search Input
+  let debounceTimeout;
+  DOM.globalSearchInput.addEventListener('input', (e) => {
+    clearTimeout(debounceTimeout);
+    state.search = e.target.value.trim();
+    DOM.globalSearchClear.style.display = state.search ? 'block' : 'none';
+    debounceTimeout = setTimeout(() => {
+      state.currentPage = 1;
+      fetchPgs();
+    }, 300);
+  });
 
-// ─── Interactive Actions ──────────────────────────────────────────────────────
-function simulateBooking() {
-  if (!state.currentDetailListing) return;
-  showToast(`Visit request sent for ${state.currentDetailListing.name}! The host will contact you.`, 'success');
-  closeModal('modal-listing-detail');
-}
+  DOM.globalSearchClear.addEventListener('click', () => {
+    DOM.globalSearchInput.value = '';
+    state.search = '';
+    DOM.globalSearchClear.style.display = 'none';
+    state.currentPage = 1;
+    fetchPgs();
+  });
 
-function copyListingLink() {
-  if (!state.currentDetailListing) return;
-  navigator.clipboard?.writeText?.(window.location.href);
-  showToast('Listing link copied to clipboard!');
-}
+  // Hero Search Capsule Events
+  DOM.heroSelectCity.addEventListener('change', (e) => {
+    selectCityAndFetch(e.target.value);
+  });
 
-function setLoading(isLoading, message = 'Loading...') {
-  state.isLoading = isLoading;
-  const loadingEl = document.getElementById('loading-state');
-  const loadingMsg = document.getElementById('loading-message');
-  const grid = document.getElementById('listings-grid');
+  DOM.heroSearchBtn.addEventListener('click', () => {
+    state.currentCity = DOM.heroSelectCity.value;
+    state.currentLocality = DOM.heroSelectLocality.value;
+    state.gender = DOM.heroSelectGender.value;
+    state.sharing = DOM.heroSelectSharing.value;
+    state.currentPage = 1;
+    
+    // Sync filters in filter bar
+    syncFilterBarUI();
+    fetchPgs();
+    
+    document.getElementById('exploreSection').scrollIntoView({ behavior: 'smooth' });
+  });
 
-  if (loadingEl) {
-    loadingEl.style.display = isLoading ? 'block' : 'none';
-  }
-  if (loadingMsg && message) {
-    loadingMsg.textContent = message;
-  }
-  if (grid && isLoading) {
-    grid.innerHTML = '';
-  }
-}
+  // Gender Filter Buttons
+  DOM.genderFilterGroup.querySelectorAll('.seg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      DOM.genderFilterGroup.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.gender = btn.dataset.gender;
+      state.currentPage = 1;
+      fetchPgs();
+    });
+  });
 
-function showToast(message, type = 'info') {
-  const container = document.getElementById('toast-container');
-  if (!container) return;
+  // Sharing Chips
+  DOM.sharingFilterGroup.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      DOM.sharingFilterGroup.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      state.sharing = chip.dataset.sharing;
+      state.currentPage = 1;
+      fetchPgs();
+    });
+  });
 
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.textContent = message;
+  // Amenities Checkboxes
+  DOM.filterAc.addEventListener('change', (e) => {
+    state.ac = e.target.checked;
+    state.currentPage = 1;
+    fetchPgs();
+  });
 
-  container.appendChild(toast);
+  DOM.filterWifi.addEventListener('change', (e) => {
+    state.wifi = e.target.checked;
+    state.currentPage = 1;
+    fetchPgs();
+  });
 
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(10px)';
-    toast.style.transition = 'all 0.2s ease-in';
-    setTimeout(() => toast.remove(), 200);
-  }, 3500);
-}
+  DOM.filterFood.addEventListener('change', (e) => {
+    state.food = e.target.checked;
+    state.currentPage = 1;
+    fetchPgs();
+  });
 
-// Utility Helpers
-function escapeHtml(str) {
-  if (typeof str !== 'string') return String(str || '');
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
+  // Budget Range Slider
+  DOM.budgetRange.addEventListener('input', (e) => {
+    state.maxPrice = parseInt(e.target.value, 10);
+    DOM.budgetVal.textContent = `₹${state.maxPrice.toLocaleString('en-IN')}`;
+  });
 
-function debounce(func, wait) {
-  let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
+  DOM.budgetRange.addEventListener('change', () => {
+    state.currentPage = 1;
+    fetchPgs();
+  });
+
+  // Sort By
+  DOM.sortBySelect.addEventListener('change', (e) => {
+    state.sortBy = e.target.value;
+    state.currentPage = 1;
+    fetchPgs();
+  });
+
+  // Reset Filters
+  DOM.resetFiltersBtn.addEventListener('click', resetAllFilters);
+  DOM.emptyResetBtn.addEventListener('click', resetAllFilters);
+
+  // Pagination
+  DOM.prevPageBtn.addEventListener('click', () => {
+    if (state.currentPage > 1) {
+      goToPage(state.currentPage - 1);
+    }
+  });
+
+  DOM.nextPageBtn.addEventListener('click', () => {
+    if (state.currentPage < state.totalPages) {
+      goToPage(state.currentPage + 1);
+    }
+  });
+
+  // Modal Close
+  DOM.closeModalBtn.addEventListener('click', closeModal);
+  DOM.propertyModal.addEventListener('click', (e) => {
+    if (e.target === DOM.propertyModal) closeModal();
+  });
+
+  // Form Submission
+  DOM.visitBookingForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    DOM.submitVisitBtn.disabled = true;
+    DOM.submitVisitBtn.textContent = 'Scheduling Visit...';
+
+    const payload = {
+      pg_id: DOM.formPgId.value,
+      name: DOM.visitorName.value,
+      phone: DOM.visitorPhone.value,
+      date: DOM.visitorDate.value,
+      slot: DOM.visitorSlot.value
     };
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-  };
+
+    try {
+      const res = await fetch('/api/book-visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        DOM.visitBookingForm.style.display = 'none';
+        DOM.bookingSuccessMsg.textContent = data.message;
+        DOM.bookingRefBadge.textContent = `Booking ID: ${data.booking_id}`;
+        DOM.bookingSuccessBox.style.display = 'block';
+      } else {
+        alert(data.error || 'Failed to schedule visit. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error submitting visit:', err);
+      alert('Network error while scheduling visit.');
+    } finally {
+      DOM.submitVisitBtn.disabled = false;
+      DOM.submitVisitBtn.textContent = 'Confirm Free Visit Now';
+    }
+  });
+
+  DOM.bookAnotherBtn.addEventListener('click', () => {
+    DOM.bookingSuccessBox.style.display = 'none';
+    DOM.visitBookingForm.style.display = 'flex';
+  });
+
+  // Top Nav quick buttons
+  DOM.scheduleTopVisitBtn.addEventListener('click', () => {
+    if (state.pgs && state.pgs.length > 0) {
+      fetchPgDetails(state.pgs[0].id, true);
+    } else {
+      document.getElementById('exploreSection').scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+
+  DOM.requestCallbackBtn.addEventListener('click', () => {
+    const phone = prompt('Please enter your 10-digit phone number for an instant callback from our Co-Living advisor:');
+    if (phone && phone.trim().length >= 10) {
+      alert(`Thank you! Our Roomee stay advisor will call you at ${phone.trim()} within 10 minutes.`);
+    }
+  });
+}
+
+window.selectCityAndFetch = function(cityName) {
+  state.currentCity = cityName;
+  state.currentLocality = 'all';
+  state.currentPage = 1;
+
+  DOM.currentCityName.textContent = cityName;
+  const found = state.cities.find(c => c.name === cityName);
+  if (found) DOM.currentCityIcon.textContent = found.icon;
+
+  DOM.cityDropdownMenu.classList.remove('show');
+
+  // Update pills & dropdowns
+  renderHeroCityPills(state.cities);
+  renderCityDropdown(state.cities);
+  DOM.heroSelectCity.value = cityName;
+  fetchLocalities(cityName);
+
+  fetchPgs();
+};
+
+window.setGenderFilter = function(gender) {
+  state.gender = gender;
+  state.currentPage = 1;
+  syncFilterBarUI();
+  fetchPgs();
+  document.getElementById('exploreSection').scrollIntoView({ behavior: 'smooth' });
+};
+
+window.setSharingFilter = function(sharing) {
+  state.sharing = sharing;
+  state.currentPage = 1;
+  syncFilterBarUI();
+  fetchPgs();
+  document.getElementById('exploreSection').scrollIntoView({ behavior: 'smooth' });
+};
+
+window.goToPage = function(pageNum) {
+  state.currentPage = pageNum;
+  fetchPgs();
+  document.getElementById('exploreSection').scrollIntoView({ behavior: 'smooth' });
+};
+
+function resetAllFilters() {
+  state.currentLocality = 'all';
+  state.gender = 'all';
+  state.sharing = 'all';
+  state.minPrice = 0;
+  state.maxPrice = 30000;
+  state.ac = false;
+  state.wifi = false;
+  state.food = false;
+  state.search = '';
+  state.sortBy = 'popular';
+  state.currentPage = 1;
+
+  DOM.globalSearchInput.value = '';
+  DOM.globalSearchClear.style.display = 'none';
+  DOM.filterAc.checked = false;
+  DOM.filterWifi.checked = false;
+  DOM.filterFood.checked = false;
+  DOM.budgetRange.value = 30000;
+  DOM.budgetVal.textContent = '₹30,000';
+  DOM.sortBySelect.value = 'popular';
+
+  syncFilterBarUI();
+  fetchPgs();
+}
+
+function syncFilterBarUI() {
+  DOM.genderFilterGroup.querySelectorAll('.seg-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.gender === state.gender);
+  });
+
+  DOM.sharingFilterGroup.querySelectorAll('.chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.sharing === state.sharing);
+  });
 }

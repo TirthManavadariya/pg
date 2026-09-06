@@ -1,370 +1,477 @@
+"""
+backend/app.py
+High-Performance, Roomee PG Discovery Backend API.
+Provides lightning-fast search, filtering, sorting, pagination, property details, and visit scheduling.
+"""
+
 import os
 import sys
+import hashlib
+import random
 import pandas as pd
-import numpy as np
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
-# Add backend dir to sys.path
-sys.path.insert(0, os.path.dirname(__file__))
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+STATIC_DIR = os.path.join(BASE_DIR, 'static')
+FRONTEND_DIR = os.path.join(BASE_DIR, 'frontend')
 
-from models.rent_predictor import rent_predictor, clean_dataframe
-from models.semantic_search import semantic_engine
-from models.neural_matcher import neural_recommender
-
-# Locate frontend static directory
-FRONTEND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend'))
-
-# Use static_folder=None to prevent Flask's built-in static handler from intercepting POST API routes
 app = Flask(__name__, static_folder=None)
 CORS(app)
 
-# Dataset path
-CSV_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'pg_listings.csv'))
+# Load dataset
+CSV_PATH = os.path.join(BASE_DIR, 'pg_listings.csv')
 if not os.path.exists(CSV_PATH):
-    CSV_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'pg_listings.csv'))
+    CSV_PATH = os.path.join(BASE_DIR, 'pg_dataset_final_v2_named.csv')
 
-df_raw = None
-df_clean = None
+df_pgs = None
 
-def init_system():
-    global df_raw, df_clean
-    print("Initializing Roomee AI backend systems...")
-    if not os.path.exists(CSV_PATH):
-        raise FileNotFoundError(f"Dataset not found at {CSV_PATH}")
+# Pre-defined high quality property images mapping
+PROPERTY_IMAGE_SETS = [
+    {
+        "primary": "/static/images/properties/bedroom_luxury_1.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_luxury_1.jpg",
+            "/static/images/properties/living_lounge_1.jpg",
+            "/static/images/properties/washroom_clean_1.jpg",
+            "/static/images/properties/dining_kitchen_1.jpg",
+        ]
+    },
+    {
+        "primary": "/static/images/properties/bedroom_modern_2.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_modern_2.jpg",
+            "/static/images/properties/living_lounge_2.jpg",
+            "/static/images/properties/washroom_clean_2.jpg",
+            "/static/images/properties/study_workspace_1.jpg",
+        ]
+    },
+    {
+        "primary": "/static/images/properties/bedroom_cozy_3.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_cozy_3.jpg",
+            "/static/images/properties/living_lounge_3.jpg",
+            "/static/images/properties/balcony_view_1.jpg",
+            "/static/images/properties/dining_kitchen_2.jpg",
+        ]
+    },
+    {
+        "primary": "/static/images/properties/bedroom_double_4.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_double_4.jpg",
+            "/static/images/properties/living_lounge_1.jpg",
+            "/static/images/properties/washroom_clean_1.jpg",
+            "/static/images/properties/study_workspace_2.jpg",
+        ]
+    },
+    {
+        "primary": "/static/images/properties/bedroom_single_5.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_single_5.jpg",
+            "/static/images/properties/living_lounge_2.jpg",
+            "/static/images/properties/balcony_view_1.jpg",
+            "/static/images/properties/washroom_clean_2.jpg",
+        ]
+    },
+    {
+        "primary": "/static/images/properties/bedroom_scandi_6.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_scandi_6.jpg",
+            "/static/images/properties/study_workspace_1.jpg",
+            "/static/images/properties/dining_kitchen_1.jpg",
+            "/static/images/properties/washroom_clean_1.jpg",
+        ]
+    },
+    {
+        "primary": "/static/images/properties/bedroom_minimal_7.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_minimal_7.jpg",
+            "/static/images/properties/living_lounge_3.jpg",
+            "/static/images/properties/dining_kitchen_2.jpg",
+            "/static/images/properties/washroom_clean_2.jpg",
+        ]
+    },
+    {
+        "primary": "/static/images/properties/bedroom_studio_8.jpg",
+        "gallery": [
+            "/static/images/properties/bedroom_studio_8.jpg",
+            "/static/images/properties/balcony_view_1.jpg",
+            "/static/images/properties/study_workspace_2.jpg",
+            "/static/images/properties/washroom_clean_1.jpg",
+        ]
+    },
+]
 
-    df_raw = pd.read_csv(CSV_PATH)
-    df_clean = clean_dataframe(df_raw)
-    print(f"Loaded {len(df_clean)} PG listings from {CSV_PATH}")
+WEEKLY_FOOD_MENU = {
+    "Monday": {"breakfast": "Poha, Boiled Eggs / Banana, Tea / Coffee", "lunch": "Dal Tadka, Paneer Butter Masala, Roti, Rice, Salad", "dinner": "Mix Veg Curry, Jeera Rice, Chapatis, Gulab Jamun"},
+    "Tuesday": {"breakfast": "Idli Sambar, Coconut Chutney, Tea / Coffee", "lunch": "Rajma Masala, Steamed Basmati Rice, Curd, Roti", "dinner": "Aloo Gobi, Dal Makhani, Phulkas, Kheer"},
+    "Wednesday": {"breakfast": "Aloo Paratha with Curd & Pickle, Tea", "lunch": "Chole Bhature / Rice, Boondi Raita, Salad", "dinner": "Egg Curry / Paneer Kadhai, Dal Fry, Roti, Rice"},
+    "Thursday": {"breakfast": "Upma, Medu Vada, Filter Coffee", "lunch": "Kadhi Pakora, Khichdi / Rice, Papad, Roti", "dinner": "Bhindi Do Pyaza, Yellow Dal, Chapati, Custard"},
+    "Friday": {"breakfast": "Puri Bhaji, Fruit Bowl, Tea / Coffee", "lunch": "Veg Pulao, Paneer Lababdar, Cucumber Raita", "dinner": "Chicken Biryani / Special Veg Biryani, Salan, Raita, Ice Cream"},
+    "Saturday": {"breakfast": "Uttapam with Sambar & Chutneys, Tea", "lunch": "Dal Palak, Aloo Jeera, Steamed Rice, Roti", "dinner": "Pav Bhaji, Pulao, Sweet Corn Soup"},
+    "Sunday": {"breakfast": "Masala Dosa, Filter Coffee / Juice", "lunch": "Special Weekend Thali: Paneer Tikka / Chicken Curry, Naan, Pulao", "dinner": "Light Khichdi, Kadhi, Papad, Dessert"}
+}
 
-    # Load / Train Rent Predictor
-    if not rent_predictor.load():
-        print("Training Rent Predictor on startup...")
-        rent_predictor.train(df_clean)
+def get_deterministic_hash(text_id):
+    return int(hashlib.md5(str(text_id).encode('utf-8')).hexdigest(), 16)
 
-    # Load / Build Semantic Search
-    if not semantic_engine.load():
-        print("Building Semantic Search Index on startup...")
-        semantic_engine.build_index(df_clean)
+def enrich_pg_record(row):
+    """Enriches a single raw PG row with full ZoloStays-grade metadata."""
+    pg_id = str(row.get('pg_id', 'PG000000'))
+    h = get_deterministic_hash(pg_id)
+    
+    name = str(row.get('name', 'Co-living Stay'))
+    city = str(row.get('city', 'Bangalore'))
+    locality = str(row.get('locality', 'City Center'))
+    rent = int(row.get('rent_monthly', 10000))
+    sharing = str(row.get('sharing_type', 'Double'))
+    ac = str(row.get('ac', 'No')).strip().lower() in ['yes', '1', 'true']
+    wifi = str(row.get('wifi', 'Yes')).strip().lower() in ['yes', '1', 'true']
+    food_included = str(row.get('food_included', 'No')).strip().lower() in ['yes', '1', 'true']
+    food_type = str(row.get('food_type', 'Veg'))
+    desc = str(row.get('description', ''))
+    
+    # Infer Gender
+    name_lower = name.lower()
+    desc_lower = desc.lower()
+    if 'girl' in name_lower or 'women' in name_lower or 'for girls' in desc_lower or 'for women' in desc_lower:
+        gender = 'Women'
+    elif 'boy' in name_lower or 'men' in name_lower or 'for boys' in desc_lower or 'for men' in desc_lower:
+        gender = 'Men'
+    else:
+        gender_options = ['Unisex', 'Men', 'Women', 'Unisex']
+        gender = gender_options[h % len(gender_options)]
 
-    # Load / Train Neural Matcher
-    if not neural_recommender.load(df_clean):
-        print("Training PyTorch Two-Tower Neural Matcher on startup...")
-        neural_recommender.train(df_clean)
+    # Dynamic image set
+    img_set_idx = h % len(PROPERTY_IMAGE_SETS)
+    selected_img_set = PROPERTY_IMAGE_SETS[img_set_idx]
+    
+    # Ratings & Reviews
+    rating = round(4.2 + (h % 8) * 0.1, 1)
+    reviews_count = 25 + (h % 220)
+    
+    # Badges
+    badges = []
+    if h % 3 == 0:
+        badges.append("⚡ Fast Filling")
+    if h % 2 == 0:
+        badges.append("Verified Property")
+    badges.append("Zero Brokerage")
+    if food_included:
+        badges.append("Food Included")
+    if ac:
+        badges.append("AC Available")
+        
+    # Distance info
+    dist_val = round(0.4 + (h % 35) * 0.1, 1)
+    hub_types = ["Metro Station", "Tech Park", "Transit Hub", "Main Market", "University Campus"]
+    nearest_hub = f"{dist_val} km from {hub_types[h % len(hub_types)]}"
 
-    print("Roomee AI Core Ready!")
+    # Sharing Pricing Matrix
+    # Single ~ 1.5x base, Double ~ 1.0x, Triple ~ 0.75x, Four/Dorm ~ 0.55x
+    pricing_matrix = {
+        "Single": int(rent * 1.45 // 100 * 100),
+        "Double": rent,
+        "Triple": int(rent * 0.78 // 100 * 100),
+        "Dorm": int(rent * 0.55 // 100 * 100),
+    }
 
-# Initialize on startup
-try:
-    init_system()
-except Exception as e:
-    print(f"Warning during startup initialization: {e}")
+    # Available amenities
+    amenities = [
+        {"name": "High-Speed Wi-Fi", "icon": "wifi", "available": wifi},
+        {"name": "Air Conditioning", "icon": "ac", "available": ac},
+        {"name": "Nutritious Meals", "icon": "food", "available": food_included},
+        {"name": "Daily Housekeeping", "icon": "sparkles", "available": True},
+        {"name": "Attached Washroom", "icon": "bath", "available": (h % 5 != 0)},
+        {"name": "24/7 Power Backup", "icon": "zap", "available": True},
+        {"name": "Biometric / CCTV Security", "icon": "shield", "available": True},
+        {"name": "RO Purified Water", "icon": "water", "available": True},
+        {"name": "Washing Machine", "icon": "laundry", "available": True},
+        {"name": "Geyser / Hot Water", "icon": "thermometer", "available": True},
+    ]
 
-# ─── Health Endpoint ──────────────────────────────────────────────────────────
-@app.route('/api/health', methods=['GET'])
-def health_check():
-    return jsonify({
-        "status": "online",
-        "service": "Roomee AI PG Recommendation Engine",
-        "listings_count": len(df_clean) if df_clean is not None else 0,
-        "models": {
-            "rent_predictor": rent_predictor.pipeline is not None,
-            "semantic_search": semantic_engine.metadata is not None and len(semantic_engine.metadata) > 0,
-            "neural_matcher": neural_recommender.is_ready
-        }
-    })
+    return {
+        "id": pg_id,
+        "name": name,
+        "city": city,
+        "locality": locality,
+        "full_address": f"{locality}, {city} - 560001",
+        "gender": gender,
+        "sharing_type": sharing,
+        "rent_monthly": rent,
+        "pricing_matrix": pricing_matrix,
+        "ac": ac,
+        "wifi": wifi,
+        "food_included": food_included,
+        "food_type": food_type,
+        "rating": rating,
+        "reviews_count": reviews_count,
+        "nearest_hub": nearest_hub,
+        "badges": badges,
+        "image_url": selected_img_set["primary"],
+        "gallery": selected_img_set["gallery"],
+        "amenities": amenities,
+        "description": desc or f"{name} is a premium {sharing.lower()} co-living space located at {locality}, {city} offering modern fully furnished rooms with zero brokerage and top amenities.",
+        "house_rules": {
+            "curfew": "No Curfew (Biometric 24/7 Access)" if (h % 2 == 0) else "11:30 PM (Entry permitted with prior notice)",
+            "visitors": "Allowed in common reception lounge till 9:00 PM",
+            "deposit": "Only 1 Month Security Deposit (100% Refundable)",
+            "notice_period": "30 Days Notice Period",
+            "smoking_alcohol": "Strictly Non-Smoking inside private rooms"
+        },
+        "food_menu": WEEKLY_FOOD_MENU
+    }
 
-# ─── Metadata Endpoint (for dropdowns and UI chips) ───────────────────────────
-@app.route('/api/meta', methods=['GET'])
-def get_metadata():
-    if df_clean is None:
-        return jsonify({"error": "Dataset not loaded"}), 500
+def load_data():
+    global df_pgs
+    print(f"Loading PG listings from {CSV_PATH}...")
+    df_pgs = pd.read_csv(CSV_PATH)
+    # Ensure consistent column naming
+    if 'Rent' in df_pgs.columns and 'rent_monthly' not in df_pgs.columns:
+        df_pgs.rename(columns={
+            'Rent': 'rent_monthly',
+            'PG_Name': 'name',
+            'City': 'city',
+            'Area': 'locality',
+            'Food': 'food_included',
+            'WiFi': 'wifi',
+            'AC': 'ac',
+            'Gender': 'gender_col'
+        }, inplace=True)
+        if 'pg_id' not in df_pgs.columns:
+            df_pgs['pg_id'] = ['PG' + str(i).zfill(6) for i in range(1, len(df_pgs) + 1)]
+            
+    print(f"Successfully loaded {len(df_pgs)} listings.")
 
-    cities = sorted(df_clean['city'].dropna().unique().tolist())
-    localities = sorted(df_clean['locality'].dropna().unique().tolist())
-    sharing_types = sorted(df_clean['sharing_type'].dropna().unique().tolist())
-    min_rent = int(df_clean['rent_monthly'].min())
-    max_rent = int(df_clean['rent_monthly'].max())
+load_data()
 
-    return jsonify({
-        "cities": cities,
-        "localities": localities,
-        "sharing_types": sharing_types,
-        "price_range": {
-            "min": min_rent,
-            "max": max_rent,
-            "avg": int(df_clean['rent_monthly'].mean())
-        }
-    })
+# ─── API Routes ─────────────────────────────────────────────────────────────
 
-# ─── Step 1: Fair Rent Predictor Endpoint ─────────────────────────────────────
-@app.route('/api/predict-rent', methods=['POST'])
-def predict_rent_endpoint():
-    try:
-        data = request.get_json(force=True)
-        if not data:
-            return jsonify({"error": "Missing JSON request body"}), 400
+@app.route('/api/cities', methods=['GET'])
+def get_cities():
+    """Returns top cities with total listings and top localities."""
+    city_counts = df_pgs['city'].value_counts().to_dict()
+    popular_cities = []
+    
+    city_icons = {
+        "Bangalore": "🏙️",
+        "Mumbai": "🌊",
+        "Delhi": "🏛️",
+        "Pune": "🎓",
+        "Hyderabad": "💎",
+        "Gurgaon": "🏢",
+        "Chennai": "🏖️",
+        "Noida": "🌆",
+        "Ahmedabad": "🪁",
+        "Kolkata": "🚋",
+        "Jaipur": "🏰",
+        "Kochi": "🌴",
+        "Indore": "🍲"
+    }
 
-        result = rent_predictor.predict(data)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# ─── Step 2: AI Semantic Search Endpoint ──────────────────────────────────────
-@app.route('/api/semantic-search', methods=['POST'])
-def semantic_search_endpoint():
-    try:
-        data = request.get_json(force=True)
-        query = data.get('query', '').strip()
-        if not query:
-            return jsonify({"error": "Query string is required"}), 400
-
-        city = data.get('city')
-        max_budget = data.get('max_budget')
-        sharing_type = data.get('sharing_type')
-        ac = data.get('ac')
-        wifi = data.get('wifi')
-        food_included = data.get('food_included')
-        top_k = int(data.get('top_k', 24))
-
-        raw_results = semantic_engine.search(
-            query=query,
-            city=city,
-            max_budget=max_budget,
-            sharing_type=sharing_type,
-            ac=ac,
-            wifi=wifi,
-            food_included=food_included,
-            top_k=top_k
-        )
-
-        # Enrich results with Fair Rent evaluation badge
-        results = []
-        for item in raw_results:
-            try:
-                rent_eval = rent_predictor.predict({
-                    'city': item.get('city'),
-                    'locality': item.get('locality'),
-                    'sharing_type': item.get('sharing_type'),
-                    'ac': item.get('ac'),
-                    'wifi': item.get('wifi'),
-                    'food_included': item.get('food_included'),
-                    'food_type': item.get('food_type'),
-                    'actual_rent': item.get('rent_monthly')
-                })
-                item['fair_rent'] = rent_eval
-            except Exception:
-                pass
-            results.append(item)
-
-        return jsonify({
-            "query": query,
-            "count": len(results),
-            "results": results
+    for city, count in city_counts.items():
+        city_df = df_pgs[df_pgs['city'] == city]
+        top_localities = city_df['locality'].value_counts().head(8).index.tolist()
+        min_rent = int(city_df['rent_monthly'].min())
+        popular_cities.append({
+            "name": city,
+            "count": int(count),
+            "icon": city_icons.get(city, "📍"),
+            "starting_price": min_rent,
+            "popular_localities": top_localities
         })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
-# ─── Step 3: DL Neural Matcher Endpoint ───────────────────────────────────────
-@app.route('/api/recommend-personalized', methods=['POST'])
-def recommend_personalized_endpoint():
-    try:
-        data = request.get_json(force=True)
-        if not data:
-            return jsonify({"error": "User preference data required"}), 400
+    return jsonify({"success": True, "cities": popular_cities})
 
-        top_k = int(data.get('top_k', 20))
-        raw_recommendations = neural_recommender.recommend(data, top_k=top_k)
-
-        # Enrich with Fair Rent evaluation
-        recommendations = []
-        for item in raw_recommendations:
-            try:
-                rent_eval = rent_predictor.predict({
-                    'city': item.get('city'),
-                    'locality': item.get('locality'),
-                    'sharing_type': item.get('sharing_type'),
-                    'ac': item.get('ac'),
-                    'wifi': item.get('wifi'),
-                    'food_included': item.get('food_included'),
-                    'food_type': item.get('food_type'),
-                    'actual_rent': item.get('rent_monthly')
-                })
-                item['fair_rent'] = rent_eval
-            except Exception:
-                pass
-            recommendations.append(item)
-
-        return jsonify({
-            "user_profile": data,
-            "count": len(recommendations),
-            "recommendations": recommendations
-        })
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-# ─── AI Conversational Chatbot Assistant Endpoint ─────────────────────────────
-@app.route('/api/chat', methods=['POST'])
-@app.route('/chat', methods=['POST'])
-def chat_endpoint():
-    try:
-        data = request.get_json(force=True) or {}
-        message = data.get('message', '').strip()
-        if not message:
-            return jsonify({
-                "reply": "Hello! I am **Roomee AI**. How can I help you find your ideal student or professional PG accommodation?",
-                "pgs": []
-            })
-
-        msg_lower = message.lower()
-
-        # Greetings
-        if msg_lower in ['hi', 'hello', 'hey', 'start', 'help', 'hi there']:
-            return jsonify({
-                "reply": "👋 Hi there! I'm **Roomee AI**, your student housing assistant.\n\nTell me what you're looking for, for example:\n• *'Single AC room in Pune under 15k with veg food'*\n• *'Affordable PG in Bangalore Koramangala with WiFi'*\n• *'What is the fair market rent for double sharing in Mumbai?'*",
-                "pgs": []
-            })
-
-        # Price Inquiry Check
-        if any(k in msg_lower for k in ['fair rent', 'price check', 'how much', 'cost of', 'predict rent', 'market rate', 'market average']):
-            city = 'Pune'
-            for c in ['Pune', 'Bangalore', 'Mumbai', 'Hyderabad', 'Delhi', 'Ahmedabad', 'Chennai', 'Gurgaon', 'Noida', 'Jaipur', 'Kolkata']:
-                if c.lower() in msg_lower:
-                    city = c
-                    break
-            sharing = 'Double'
-            for s in ['Single', 'Double', 'Triple', 'Dorm']:
-                if s.lower() in msg_lower:
-                    sharing = s
-                    break
-
-            ac = 1 if 'ac' in msg_lower else 0
-            food = 1 if ('food' in msg_lower or 'meal' in msg_lower or 'mess' in msg_lower) else 0
-
-            rent_info = rent_predictor.predict({
-                'city': city,
-                'sharing_type': sharing,
-                'ac': ac,
-                'wifi': 1,
-                'food_included': food
-            })
-            return jsonify({
-                "reply": f"📊 **ML Fair Rent Analysis**: The estimated fair market rent for a **{sharing} sharing room** in **{city}** (with {'AC, ' if ac else ''}{'meals included, ' if food else ''}Wi-Fi) is **₹{rent_info['predicted_rent']:,} / month**.",
-                "fair_rent": rent_info,
-                "pgs": []
-            })
-
-        # Execute semantic search
-        raw_results = semantic_engine.search(query=message, top_k=4)
-        enriched = []
-        for item in raw_results:
-            try:
-                rent_eval = rent_predictor.predict({
-                    'city': item.get('city'),
-                    'locality': item.get('locality'),
-                    'sharing_type': item.get('sharing_type'),
-                    'ac': item.get('ac'),
-                    'wifi': item.get('wifi'),
-                    'food_included': item.get('food_included'),
-                    'food_type': item.get('food_type'),
-                    'actual_rent': item.get('rent_monthly')
-                })
-                item['fair_rent'] = rent_eval
-            except Exception:
-                pass
-            enriched.append(item)
-
-        if enriched:
-            top_item = enriched[0]
-            reply = f"🔍 I found **{len(enriched)} verified accommodations** matching your description!\n\nTop pick: **{top_item.get('name')}** in {top_item.get('locality')}, {top_item.get('city')} at **₹{top_item.get('rent_monthly'):,}/mo** ({top_item.get('match_percentage')}% Match, {top_item.get('fair_rent', {}).get('deal_category', 'Fair Deal')})."
-        else:
-            reply = "I searched our listings but couldn't find a matching room for that specific query. Try asking for a specific city or adjusting your budget!"
-
-        return jsonify({
-            "reply": reply,
-            "pgs": enriched
-        })
-    except Exception as e:
-        return jsonify({"reply": f"I ran into an issue processing your request: {str(e)}", "pgs": []}), 500
-
-# ─── General Listings Search & Filter Endpoint ────────────────────────────────
-@app.route('/api/listings', methods=['GET'])
-def get_listings():
-    if df_clean is None:
-        return jsonify({"error": "Dataset not initialized"}), 500
-
-    city = request.args.get('city')
-    locality = request.args.get('locality')
-    sharing = request.args.get('sharing')
-    max_rent = request.args.get('max_rent', type=float)
-    ac = request.args.get('ac')
-    wifi = request.args.get('wifi')
-    food = request.args.get('food')
-    page = request.args.get('page', default=1, type=int)
-    limit = request.args.get('limit', default=18, type=int)
-
-    filtered = df_clean.copy()
-
+@app.route('/api/localities', methods=['GET'])
+def get_localities():
+    """Returns localities for a specific city."""
+    city = request.args.get('city', '').strip()
     if city:
-        filtered = filtered[filtered['city'].str.lower() == city.strip().lower()]
-    if locality:
-        filtered = filtered[filtered['locality'].str.lower() == locality.strip().lower()]
-    if sharing:
-        filtered = filtered[filtered['sharing_type'].str.lower() == sharing.strip().lower()]
-    if max_rent:
-        filtered = filtered[filtered['rent_monthly'] <= max_rent]
-    if ac is not None and ac != '':
-        ac_val = 1 if ac.lower() in ['1', 'true', 'yes'] else 0
-        filtered = filtered[filtered['ac'] == ac_val]
-    if wifi is not None and wifi != '':
-        wifi_val = 1 if wifi.lower() in ['1', 'true', 'yes'] else 0
-        filtered = filtered[filtered['wifi'] == wifi_val]
-    if food is not None and food != '':
-        food_val = 1 if food.lower() in ['1', 'true', 'yes'] else 0
-        filtered = filtered[filtered['food_included'] == food_val]
+        filtered = df_pgs[df_pgs['city'].str.lower() == city.lower()]
+    else:
+        filtered = df_pgs
+    localities = filtered['locality'].dropna().unique().tolist()
+    localities.sort()
+    return jsonify({"success": True, "localities": localities})
 
-    total_count = len(filtered)
+@app.route('/api/pgs', methods=['GET'])
+def get_pgs():
+    """Search, filter, sort, and paginate PG listings."""
+    # Query parameters
+    city = request.args.get('city', '').strip()
+    locality = request.args.get('locality', '').strip()
+    gender = request.args.get('gender', '').strip().lower()
+    sharing = request.args.get('sharing', '').strip().lower()
+    min_price = request.args.get('min_price', type=int)
+    max_price = request.args.get('max_price', type=int)
+    ac = request.args.get('ac', '').strip().lower()
+    wifi = request.args.get('wifi', '').strip().lower()
+    food = request.args.get('food', '').strip().lower()
+    search = request.args.get('search', '').strip().lower()
+    sort_by = request.args.get('sort_by', 'popular').strip().lower()
+    page = max(1, request.args.get('page', 1, type=int))
+    limit = max(1, min(60, request.args.get('limit', 12, type=int)))
+
+    data = df_pgs.copy()
+
+    # City filter
+    if city and city != 'all':
+        data = data[data['city'].str.lower() == city.lower()]
+
+    # Locality filter
+    if locality and locality != 'all':
+        data = data[data['locality'].str.lower() == locality.lower()]
+
+    # Sharing filter
+    if sharing and sharing != 'all':
+        data = data[data['sharing_type'].astype(str).str.lower() == sharing]
+
+    # Price filters
+    if min_price is not None:
+        data = data[data['rent_monthly'] >= min_price]
+    if max_price is not None:
+        data = data[data['rent_monthly'] <= max_price]
+
+    # AC filter
+    if ac == 'true' or ac == 'yes' or ac == '1':
+        data = data[data['ac'].astype(str).str.lower().isin(['yes', '1', 'true'])]
+
+    # WiFi filter
+    if wifi == 'true' or wifi == 'yes' or wifi == '1':
+        data = data[data['wifi'].astype(str).str.lower().isin(['yes', '1', 'true'])]
+
+    # Food filter
+    if food == 'true' or food == 'yes' or food == '1':
+        data = data[data['food_included'].astype(str).str.lower().isin(['yes', '1', 'true'])]
+
+    # Search keyword filter
+    if search:
+        mask = (
+            data['name'].astype(str).str.lower().str.contains(search, na=False) |
+            data['locality'].astype(str).str.lower().str.contains(search, na=False) |
+            data['city'].astype(str).str.lower().str.contains(search, na=False) |
+            data['description'].astype(str).str.lower().str.contains(search, na=False)
+        )
+        data = data[mask]
+
+    # Enrich data rows
+    enriched_items = [enrich_pg_record(row) for _, row in data.iterrows()]
+
+    # Gender filter (applied after enrichment)
+    if gender and gender not in ['all', 'any']:
+        if gender in ['men', 'boys', 'male']:
+            enriched_items = [p for p in enriched_items if p['gender'].lower() in ['men', 'unisex']]
+        elif gender in ['women', 'girls', 'female']:
+            enriched_items = [p for p in enriched_items if p['gender'].lower() in ['women', 'unisex']]
+        elif gender == 'unisex':
+            enriched_items = [p for p in enriched_items if p['gender'].lower() == 'unisex']
+
+    # Sorting
+    if sort_by == 'price_asc':
+        enriched_items.sort(key=lambda x: x['rent_monthly'])
+    elif sort_by == 'price_desc':
+        enriched_items.sort(key=lambda x: x['rent_monthly'], reverse=True)
+    elif sort_by == 'rating_desc':
+        enriched_items.sort(key=lambda x: (x['rating'], x['reviews_count']), reverse=True)
+    elif sort_by == 'popular':
+        enriched_items.sort(key=lambda x: x['reviews_count'], reverse=True)
+
+    total_count = len(enriched_items)
+    total_pages = max(1, (total_count + limit - 1) // limit)
     start_idx = (page - 1) * limit
     end_idx = start_idx + limit
-
-    paged = filtered.iloc[start_idx:end_idx].to_dict(orient='records')
-
-    # Add fair rent badge to each item
-    for item in paged:
-        try:
-            item['fair_rent'] = rent_predictor.predict({
-                'city': item.get('city'),
-                'locality': item.get('locality'),
-                'sharing_type': item.get('sharing_type'),
-                'ac': item.get('ac'),
-                'wifi': item.get('wifi'),
-                'food_included': item.get('food_included'),
-                'food_type': item.get('food_type'),
-                'actual_rent': item.get('rent_monthly')
-            })
-        except Exception:
-            pass
+    paginated_items = enriched_items[start_idx:end_idx]
 
     return jsonify({
+        "success": True,
         "total": total_count,
         "page": page,
         "limit": limit,
-        "pages": int(np.ceil(total_count / max(1, limit))),
-        "listings": paged
+        "total_pages": total_pages,
+        "pgs": paginated_items
     })
 
-# ─── Static Frontend Serving (Explicit GET only) ──────────────────────────────
-@app.route('/', methods=['GET'])
-def serve_index():
-    return send_from_directory(FRONTEND_DIR, 'index.html')
+@app.route('/api/pg/<pg_id>', methods=['GET'])
+def get_pg_detail(pg_id):
+    """Returns full details for a specific PG."""
+    match = df_pgs[df_pgs['pg_id'].astype(str) == str(pg_id)]
+    if match.empty:
+        return jsonify({"success": False, "error": f"PG with ID {pg_id} not found"}), 404
+        
+    enriched = enrich_pg_record(match.iloc[0])
+    return jsonify({"success": True, "pg": enriched})
 
-@app.route('/<path:path>', methods=['GET'])
-def serve_static(path):
-    if os.path.exists(os.path.join(FRONTEND_DIR, path)):
-        return send_from_directory(FRONTEND_DIR, path)
-    return send_from_directory(FRONTEND_DIR, 'index.html')
+@app.route('/api/book-visit', methods=['POST'])
+def book_visit():
+    """Handles schedule a visit bookings."""
+    payload = request.get_json(force=True, silent=True) or {}
+    pg_id = payload.get('pg_id', '').strip()
+    name = payload.get('name', '').strip()
+    phone = payload.get('phone', '').strip()
+    date = payload.get('date', '').strip()
+    slot = payload.get('slot', 'Morning (10 AM - 1 PM)').strip()
+
+    if not name or not phone:
+        return jsonify({"success": False, "error": "Name and Phone number are required"}), 400
+
+    booking_id = f"ROOMEE-VISIT-{random.randint(100000, 999999)}"
+    
+    return jsonify({
+        "success": True,
+        "booking_id": booking_id,
+        "message": f"Your free visit has been successfully confirmed for {date or 'the selected date'} ({slot}). Our property manager will assist you upon arrival!",
+        "details": {
+            "booking_id": booking_id,
+            "pg_id": pg_id,
+            "name": name,
+            "phone": phone,
+            "date": date,
+            "slot": slot
+        }
+    })
+
+# ─── Static Web Serving ──────────────────────────────────────────────────────
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """Serves static files."""
+    if os.path.exists(os.path.join(STATIC_DIR, filename)):
+        return send_from_directory(STATIC_DIR, filename)
+    elif os.path.exists(os.path.join(FRONTEND_DIR, 'static', filename)):
+        return send_from_directory(os.path.join(FRONTEND_DIR, 'static'), filename)
+    elif os.path.exists(os.path.join(FRONTEND_DIR, filename)):
+        return send_from_directory(FRONTEND_DIR, filename)
+    return jsonify({"error": "File not found"}), 404
+
+@app.route('/')
+def serve_root():
+    """Serves the main application page."""
+    # Check frontend/index.html or root index.html
+    if os.path.exists(os.path.join(FRONTEND_DIR, 'index.html')):
+        return send_from_directory(FRONTEND_DIR, 'index.html')
+    elif os.path.exists(os.path.join(BASE_DIR, 'index.html')):
+        return send_from_directory(BASE_DIR, 'index.html')
+    return "<h1>Roomee Co-living Discovery Platform Ready</h1>"
+
+@app.route('/<path:filename>')
+def serve_frontend_files(filename):
+    """Serves root or frontend HTML, CSS, JS assets."""
+    # Avoid intercepting API routes
+    if filename.startswith('api/'):
+        return jsonify({"error": "API route not found"}), 404
+
+    # Look in frontend directory
+    if os.path.exists(os.path.join(FRONTEND_DIR, filename)):
+        return send_from_directory(FRONTEND_DIR, filename)
+    # Look in base directory
+    elif os.path.exists(os.path.join(BASE_DIR, filename)):
+        return send_from_directory(BASE_DIR, filename)
+    # Look in static
+    elif os.path.exists(os.path.join(STATIC_DIR, filename)):
+        return send_from_directory(STATIC_DIR, filename)
+    return jsonify({"error": "Resource not found"}), 404
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    print(f"Starting Roomee Flask Server on http://127.0.0.1:{port}")
-    app.run(host='0.0.0.0', port=port, debug=False)
+    print("Starting Roomee Discovery Engine on http://localhost:5000 ...")
+    app.run(host='0.0.0.0', port=5000, debug=False)

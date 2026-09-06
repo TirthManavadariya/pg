@@ -1,504 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roomee — Modern AI PG & Student Housing Platform</title>
-  <meta name="description" content="Discover verified student and professional PG accommodations with AI semantic search, ML fair-price benchmarks, and PyTorch Two-Tower personalized matching." />
-
-  <!-- Google Font: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-
-  <!-- Stylesheet -->
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roomee | India's Largest Managed Co-living & PG Discovery Platform</title>
+  <meta name="description" content="Find verified, fully-furnished PG & co-living spaces with zero brokerage, high-speed Wi-Fi, daily housekeeping, and home-cooked meals across Bangalore, Pune, Delhi, Mumbai, Hyderabad, and more.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-  <!-- Top Navigation Header -->
+  <!-- Top Announcement Bar -->
+  <div class="top-banner">
+    <div class="container top-banner-content">
+      <span>⚡ <strong>Special Offer:</strong> Zero Brokerage + Flat ₹1,000 Off on 1st Month Rent with Code <strong>ROOMEE1000</strong></span>
+      <span class="banner-right">📞 24/7 Helpline: <strong>+91 8884 518 010</strong></span>
+    </div>
+  </div>
+
+  <!-- Header / Navbar -->
   <header class="navbar">
-    <div class="nav-container">
-      <a href="#" class="brand-logo" onclick="resetToHome(event)">
-        <div class="logo-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
+    <div class="container nav-container">
+      <div class="nav-left">
+        <a href="/" class="brand-logo">
+          <span class="logo-mark">R</span>
+          <span class="logo-text">room<span class="logo-highlight">ee</span></span>
+        </a>
+        <div class="city-selector-dropdown">
+          <button class="city-select-btn" id="currentCityBtn">
+            <span class="city-icon" id="currentCityIcon">📍</span>
+            <span class="city-name" id="currentCityName">Bangalore</span>
+            <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="city-dropdown-menu" id="cityDropdownMenu">
+            <div class="city-dropdown-header">Select Your City</div>
+            <div class="city-grid" id="cityDropdownGrid">
+              <!-- Populated by JS -->
+            </div>
+          </div>
         </div>
-        <span class="brand-name">Roomee</span>
-        <span class="brand-tag">AI Housing Hub</span>
-      </a>
+      </div>
 
-      <!-- Navigation Links -->
-      <nav class="nav-links">
-        <button class="nav-link active" onclick="switchView('search')" id="nav-search-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          Smart Search
-        </button>
-        <button class="nav-link" onclick="openRecommenderModal()" id="nav-neural-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"></path><path d="M12 2a10 10 0 0 1 10 10"></path><circle cx="12" cy="12" r="4"></circle></svg>
-          Neural Matcher
-        </button>
-        <button class="nav-link" onclick="toggleChatbot()" id="nav-chatbot-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-          AI Chatbot
-        </button>
-      </nav>
+      <div class="nav-search-bar">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="globalSearchInput" placeholder="Search by locality, tech park, university, or PG name..." autocomplete="off">
+        <button id="globalSearchClear" class="clear-search-btn" style="display:none;">&times;</button>
+      </div>
 
-      <!-- System Status Badge -->
       <div class="nav-right">
-        <div class="ai-live-badge" title="Scikit-Learn, Dense Vector Search & PyTorch Two-Tower Models Ready">
-          <span class="live-dot"></span>
-          <span class="badge-text" id="ai-status-text">AI Core Ready</span>
-        </div>
+        <a href="#exploreSection" class="nav-link">Explore Stays</a>
+        <a href="#whyRoomee" class="nav-link">Why Roomee</a>
+        <button class="btn btn-outline" id="requestCallbackBtn">Request Callback</button>
+        <button class="btn btn-primary" id="scheduleTopVisitBtn">Schedule Visit</button>
       </div>
     </div>
   </header>
 
-  <!-- Main Container -->
-  <main class="main-wrapper">
-
-    <!-- Hero Search Section -->
-    <section class="hero-section">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-container">
       <div class="hero-badge">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-        Multi-Model AI Housing Engine
+        <span class="pulse-dot"></span> 30,000+ Verified Beds Available
       </div>
-      <h1 class="hero-title">Find your perfect PG stay with AI intelligence.</h1>
+      <h1 class="hero-title">
+        India’s Most Loved <span class="highlight-text">Co-Living & PG</span> Network
+      </h1>
       <p class="hero-subtitle">
-        Explore 30,000+ verified student & professional rooms powered by semantic search, XGBoost fair market pricing, and PyTorch personalized neural matching.
+        Fully managed, zero brokerage, vibrant rooms with home-cooked meals, high-speed Wi-Fi, and 24/7 security.
       </p>
 
-      <!-- Smart Natural Language Search Box -->
-      <div class="search-box-card">
-        <form id="smart-search-form" onsubmit="handleSemanticSearch(event)" class="search-form">
-          <div class="search-input-wrapper">
-            <div class="search-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </div>
-            <input
-              type="text"
-              id="search-input"
-              class="search-input"
-              placeholder="e.g. Quiet single AC room in Pune under 15k with veg food..."
-              autocomplete="off"
-            />
-            <button type="button" class="clear-btn" id="clear-search-btn" onclick="clearSearchInput()" style="display: none;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-          </div>
-          <button type="submit" class="btn btn-primary search-submit-btn" id="search-submit-btn">
-            <span>Search</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
-        </form>
+      <!-- City Quick Select Pills -->
+      <div class="city-quick-pills" id="heroCityPills">
+        <!-- Populated by JS -->
+      </div>
 
-        <!-- Prompt Suggestions Chips -->
-        <div class="search-chips-row">
-          <span class="chips-label">Try asking:</span>
-          <div class="chips-list">
-            <button type="button" class="chip" onclick="applyQueryPrompt('Quiet single AC room in Pune under 15k with veg food')">
-              🏠 Single AC room in Pune under 15k
-            </button>
-            <button type="button" class="chip" onclick="applyQueryPrompt('Double sharing PG in Koramangala Bangalore near tech companies')">
-              💻 Double in Koramangala Bangalore
-            </button>
-            <button type="button" class="chip" onclick="applyQueryPrompt('Affordable student hostel in Hyderabad Madhapur with WiFi and food')">
-              🎓 Student stay in Hyderabad with WiFi
-            </button>
-            <button type="button" class="chip" onclick="applyQueryPrompt('Spacious girls PG in Mumbai Powai with AC and meals')">
-              ✨ Girls PG in Mumbai Powai
-            </button>
+      <!-- Hero Search & Filter Capsule -->
+      <div class="hero-search-capsule">
+        <div class="capsule-item">
+          <label>City</label>
+          <select id="heroSelectCity" class="capsule-select">
+            <option value="Bangalore">Bangalore</option>
+            <option value="Pune">Pune</option>
+            <option value="Ahmedabad">Ahmedabad</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Chennai">Chennai</option>
+            <option value="Hyderabad">Hyderabad</option>
+            <option value="Mumbai">Mumbai</option>
+            <option value="Gurgaon">Gurgaon</option>
+            <option value="Noida">Noida</option>
+            <option value="Jaipur">Jaipur</option>
+          </select>
+        </div>
+        <div class="capsule-divider"></div>
+        <div class="capsule-item">
+          <label>Locality</label>
+          <select id="heroSelectLocality" class="capsule-select">
+            <option value="all">All Localities</option>
+          </select>
+        </div>
+        <div class="capsule-divider"></div>
+        <div class="capsule-item">
+          <label>Occupancy / Gender</label>
+          <select id="heroSelectGender" class="capsule-select">
+            <option value="all">Any Gender</option>
+            <option value="unisex">Unisex Co-living</option>
+            <option value="men">Boys / Men</option>
+            <option value="women">Girls / Women</option>
+          </select>
+        </div>
+        <div class="capsule-divider"></div>
+        <div class="capsule-item">
+          <label>Sharing Type</label>
+          <select id="heroSelectSharing" class="capsule-select">
+            <option value="all">All Sharing</option>
+            <option value="single">Private Room</option>
+            <option value="double">Double Sharing</option>
+            <option value="triple">Triple Sharing</option>
+            <option value="dorm">Dorm / Quad</option>
+          </select>
+        </div>
+        <button class="btn btn-hero-search" id="heroSearchBtn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <span>Find My Stay</span>
+        </button>
+      </div>
+
+      <!-- Trust Badges Strip -->
+      <div class="trust-strip">
+        <div class="trust-item">
+          <div class="trust-icon">🛡️</div>
+          <div>
+            <strong>100% Zero Brokerage</strong>
+            <span>Direct booking, no middlemen</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🧹</div>
+          <div>
+            <strong>Daily Housekeeping</strong>
+            <span>Clean rooms & fresh linen</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">🍳</div>
+          <div>
+            <strong>Home-Style Food</strong>
+            <span>Nutritious breakfast & dinner</span>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">⚡</div>
+          <div>
+            <strong>High-Speed Wi-Fi</strong>
+            <span>Seamless WFH & streaming</span>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- Filters and Control Bar -->
-    <section class="controls-section">
-      <div class="filters-card">
-        <div class="filters-grid">
+  <!-- Main Explore & Filter Section -->
+  <main class="main-content" id="exploreSection">
+    <div class="container">
+
+      <!-- Sticky Filter Bar -->
+      <div class="filter-wrapper">
+        <div class="filter-header-bar">
           
-          <!-- City Filter -->
-          <div class="filter-group">
-            <label for="filter-city" class="filter-label">City</label>
-            <div class="select-wrapper">
-              <select id="filter-city" class="custom-select" onchange="triggerFilterChange()">
-                <option value="">All Cities</option>
-                <option value="Ahmedabad">Ahmedabad</option>
-                <option value="Bangalore">Bangalore</option>
-                <option value="Chennai">Chennai</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Gurgaon">Gurgaon</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Jaipur">Jaipur</option>
-                <option value="Kolkata">Kolkata</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Noida">Noida</option>
-                <option value="Pune">Pune</option>
-              </select>
-            </div>
+          <!-- Gender segmented control -->
+          <div class="gender-segmented-control" id="genderFilterGroup">
+            <button class="seg-btn active" data-gender="all">All</button>
+            <button class="seg-btn" data-gender="unisex">Unisex</button>
+            <button class="seg-btn" data-gender="men">👨 Men / Boys</button>
+            <button class="seg-btn" data-gender="women">👩 Women / Girls</button>
           </div>
 
-          <!-- Sharing Type Filter -->
-          <div class="filter-group">
-            <label class="filter-label">Room Sharing</label>
-            <div class="segmented-control" id="sharing-pills">
-              <button type="button" class="segment-btn active" data-value="" onclick="setSharingFilter(this, '')">Any</button>
-              <button type="button" class="segment-btn" data-value="Single" onclick="setSharingFilter(this, 'Single')">Single</button>
-              <button type="button" class="segment-btn" data-value="Double" onclick="setSharingFilter(this, 'Double')">Double</button>
-              <button type="button" class="segment-btn" data-value="Triple" onclick="setSharingFilter(this, 'Triple')">Triple</button>
-              <button type="button" class="segment-btn" data-value="Dorm" onclick="setSharingFilter(this, 'Dorm')">Dorm</button>
-            </div>
+          <!-- Sharing Type Pills -->
+          <div class="sharing-chips" id="sharingFilterGroup">
+            <button class="chip active" data-sharing="all">All Rooms</button>
+            <button class="chip" data-sharing="single">Single Room</button>
+            <button class="chip" data-sharing="double">Double Sharing</button>
+            <button class="chip" data-sharing="triple">Triple Sharing</button>
+            <button class="chip" data-sharing="dorm">Dorm / Quad</button>
           </div>
 
-          <!-- Amenities Filter -->
-          <div class="filter-group">
-            <label class="filter-label">Amenities</label>
-            <div class="toggle-chips-group">
-              <button type="button" class="toggle-chip" id="chip-ac" onclick="toggleAmenity('ac')">
-                <span class="chip-check"></span> AC
-              </button>
-              <button type="button" class="toggle-chip" id="chip-wifi" onclick="toggleAmenity('wifi')">
-                <span class="chip-check"></span> Wi-Fi
-              </button>
-              <button type="button" class="toggle-chip" id="chip-food" onclick="toggleAmenity('food')">
-                <span class="chip-check"></span> Meals Included
-              </button>
-            </div>
+          <!-- Sort dropdown -->
+          <div class="sort-wrapper">
+            <label for="sortBySelect">Sort by:</label>
+            <select id="sortBySelect" class="sort-select">
+              <option value="popular">Popular & Recommended</option>
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="rating_desc">Highest Rated (4.5+)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Secondary Filter Bar (Amenities & Budget) -->
+        <div class="secondary-filter-bar">
+          <!-- Amenities Chips -->
+          <div class="amenities-chips">
+            <label class="amenity-checkbox">
+              <input type="checkbox" id="filterAc">
+              <span class="custom-chip">❄️ AC</span>
+            </label>
+            <label class="amenity-checkbox">
+              <input type="checkbox" id="filterWifi">
+              <span class="custom-chip">📶 High-Speed WiFi</span>
+            </label>
+            <label class="amenity-checkbox">
+              <input type="checkbox" id="filterFood">
+              <span class="custom-chip">🍲 Food Included</span>
+            </label>
           </div>
 
           <!-- Budget Range Slider -->
-          <div class="filter-group budget-group">
-            <div class="budget-header">
-              <label class="filter-label" for="filter-budget">Max Budget</label>
-              <span class="budget-value" id="budget-display">₹25,000 / mo</span>
+          <div class="budget-slider-wrapper">
+            <div class="budget-label-row">
+              <span>Max Rent: <strong id="budgetVal">₹30,000</strong>/mo</span>
             </div>
-            <input
-              type="range"
-              id="filter-budget"
-              min="5000"
-              max="35000"
-              step="500"
-              value="25000"
-              class="budget-slider"
-              oninput="handleBudgetChange(this.value)"
-            />
+            <input type="range" id="budgetRange" min="4000" max="30000" step="500" value="30000" class="styled-slider">
           </div>
 
-        </div>
-
-        <!-- Filter Action Bar -->
-        <div class="filters-footer">
-          <div class="results-meta" id="results-count-text">
-            Showing verified accommodations
-          </div>
-          <div class="filter-actions">
-            <div class="sort-wrapper">
-              <label for="sort-by" class="sort-label">Sort by:</label>
-              <select id="sort-by" class="sort-select" onchange="handleSortChange(this.value)">
-                <option value="relevance">AI Relevance / Match</option>
-                <option value="value">Best Fair-Rent Deals</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-              </select>
-            </div>
-            <button type="button" class="btn btn-ghost" onclick="resetAllFilters()">
-              Reset Filters
-            </button>
-          </div>
+          <!-- Reset Filter Button -->
+          <button id="resetFiltersBtn" class="btn-reset-filters" title="Reset all filters">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Reset Filters
+          </button>
         </div>
       </div>
-    </section>
 
-    <!-- Results Section -->
-    <section class="results-section">
-
-      <!-- Active Mode Indicator Tabs -->
-      <div class="view-tabs">
-        <button class="view-tab active" id="tab-all-results" onclick="switchTab('results')">
-          <span class="tab-title">Listings & AI Results</span>
-          <span class="tab-badge" id="tab-count-badge">0</span>
-        </button>
-        <button class="view-tab" id="tab-ai-recommendations" onclick="openRecommenderModal()">
-          <span class="tab-title">✨ AI Personalized Top Picks</span>
-          <span class="tab-pill">PyTorch Two-Tower</span>
-        </button>
+      <!-- Results Stats & Active Chips Header -->
+      <div class="results-meta-bar">
+        <div class="results-count-text">
+          Showing <span id="resultsCount">0</span> PG Stays in <span id="resultsCityName">Bangalore</span>
+        </div>
+        <div class="view-toggle">
+          <span class="active-badge" id="resultsBadgeText">⚡ Instant Book Available</span>
+        </div>
       </div>
 
-      <!-- Loading State -->
-      <div id="loading-state" class="loading-state" style="display: none;">
-        <div class="spinner"></div>
-        <p class="loading-text" id="loading-message">Embedding query & calculating fair rent metrics...</p>
-      </div>
-
-      <!-- Listings Grid Container -->
-      <div id="listings-grid" class="listings-grid">
-        <!-- Dynamically rendered via app.js -->
+      <!-- PG Grid List -->
+      <div class="pg-grid" id="pgGridContainer">
+        <!-- Dynamic Cards Injected by JS -->
       </div>
 
       <!-- Empty State -->
-      <div id="empty-state" class="empty-state" style="display: none;">
-        <div class="empty-icon">🏠</div>
-        <h3 class="empty-title">No matching accommodations found</h3>
-        <p class="empty-desc">Try loosening your budget, clearing some amenity filters, or trying a different natural query.</p>
-        <button class="btn btn-secondary" onclick="resetAllFilters()">Reset All Filters</button>
+      <div class="empty-state" id="emptyState" style="display: none;">
+        <div class="empty-icon">🔍</div>
+        <h3>No matching PGs found</h3>
+        <p>Try loosening your budget, removing amenities filters, or picking another locality.</p>
+        <button class="btn btn-primary" id="emptyResetBtn">Reset All Filters</button>
       </div>
 
-      <!-- Pagination / Load More -->
-      <div id="pagination-wrapper" class="pagination-wrapper" style="display: none;">
-        <button class="btn btn-secondary" id="load-more-btn" onclick="loadMoreListings()">
-          Load More Listings
-        </button>
+      <!-- Pagination -->
+      <div class="pagination-wrapper" id="paginationWrapper">
+        <button class="page-nav-btn" id="prevPageBtn" disabled>&larr; Previous</button>
+        <div class="page-numbers" id="pageNumbersContainer">
+          <!-- Page pills -->
+        </div>
+        <button class="page-nav-btn" id="nextPageBtn">Next &rarr;</button>
       </div>
 
-    </section>
-
+    </div>
   </main>
 
-  <!-- ─── Floating AI Chatbot Widget ─── -->
-  <div class="chatbot-fab" id="chatbot-fab" onclick="toggleChatbot()">
-    <div class="fab-icon">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-      </svg>
-    </div>
-    <span class="fab-text">Ask Roomee AI</span>
-  </div>
-
-  <div class="chatbot-window" id="chatbot-window">
-    <div class="chat-header">
-      <div class="chat-header-info">
-        <div class="chat-avatar">🤖</div>
-        <div>
-          <h3 class="chat-title">Roomee AI Assistant</h3>
-          <span class="chat-status">🟢 Online • NLP & Fair Rent Engine</span>
-        </div>
-      </div>
-      <button class="chat-close-btn" onclick="toggleChatbot()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
-    </div>
-
-    <div class="chat-messages" id="chat-messages">
-      <div class="chat-msg bot-msg">
-        <div class="msg-bubble">
-          👋 Hi! I'm <strong>Roomee AI</strong>. Tell me your accommodation preferences (e.g. <em>"Single AC room in Pune under 15k with veg food"</em> or <em>"Check market rent in Bangalore"</em>) and I'll find you the best matches!
-        </div>
-      </div>
-    </div>
-
-    <!-- Quick prompt chips inside chat -->
-    <div class="chat-quick-chips">
-      <button type="button" class="chat-chip" onclick="sendChatPrompt('Single AC room in Pune under 15k with veg food')">Single AC in Pune</button>
-      <button type="button" class="chat-chip" onclick="sendChatPrompt('Fair market rent for double room in Bangalore')">Rent in Bangalore</button>
-      <button type="button" class="chat-chip" onclick="sendChatPrompt('Girls PG in Mumbai with food')">Girls PG Mumbai</button>
-    </div>
-
-    <form class="chat-input-bar" onsubmit="handleChatSubmit(event)">
-      <input type="text" id="chat-input" class="chat-input" placeholder="Type your housing question..." autocomplete="off" />
-      <button type="submit" class="chat-send-btn">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="22" y1="2" x2="11" y2="13"></line>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-        </svg>
-      </button>
-    </form>
-  </div>
-
-  <!-- ─── Modal 1: Personalized Neural Matcher Profile ─── -->
-  <div id="modal-recommender" class="modal-overlay" onclick="handleModalBackdropClick(event, 'modal-recommender')">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <div class="modal-header-text">
-          <div class="modal-pretitle">PyTorch Two-Tower Matching Network</div>
-          <h2 class="modal-title">Personalized Student Housing Recommendation</h2>
-        </div>
-        <button class="modal-close-btn" onclick="closeModal('modal-recommender')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
+  <!-- Why Choose Roomee Section -->
+  <section class="why-zolo-section" id="whyRoomee">
+    <div class="container">
+      <div class="section-heading-center">
+        <h2>Why 1,00,000+ Young Professionals Choose Roomee</h2>
+        <p>Say goodbye to annoying landlords, hidden brokerage fees, and rigid lock-ins.</p>
       </div>
 
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#eef2ff; color:#6366f1;">
+            🔒
+          </div>
+          <h3>1-Month Deposit</h3>
+          <p>Unlike traditional rentals demanding 6-10 months deposit, we only require 1 month refundable deposit.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#ecfdf5; color:#10b981;">
+            🍱
+          </div>
+          <h3>Homely Daily Meals</h3>
+          <p>Hygienic, chef-prepared hot breakfast and dinner with rich regional cuisines rotated every week.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#fffbeb; color:#f59e0b;">
+            🎮
+          </div>
+          <h3>Vibrant Community</h3>
+          <p>Common lounges with PlayStation, pool table, OTT movie nights, weekend tournaments, and networking.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#fdf2f8; color:#ec4899;">
+            📱
+          </div>
+          <h3>Smart App Management</h3>
+          <p>Raise maintenance tickets, pay rent, invite guests, and manage meal preferences with one tap.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Property Details & Schedule Visit Modal -->
+  <div class="modal-overlay" id="propertyModal" style="display: none;">
+    <div class="modal-card">
+      <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      
       <div class="modal-body">
-        <p class="modal-desc">
-          Our deep learning User Tower projects your exact student profile into a 32-dimensional latent preference space to find matching PG accommodations instantly.
-        </p>
-
-        <form id="recommender-form" onsubmit="handleNeuralRecommenderSubmit(event)">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="rec-city">Target City *</label>
-              <select id="rec-city" class="custom-select" required>
-                <option value="Pune">Pune</option>
-                <option value="Bangalore">Bangalore</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Delhi">Delhi</option>
-                <option value="Ahmedabad">Ahmedabad</option>
-                <option value="Chennai">Chennai</option>
-                <option value="Gurgaon">Gurgaon</option>
-                <option value="Noida">Noida</option>
-                <option value="Jaipur">Jaipur</option>
-                <option value="Kolkata">Kolkata</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="rec-budget">Monthly Rent Budget (₹) *</label>
-              <input type="number" id="rec-budget" class="form-input" min="4000" max="40000" step="500" value="14000" required />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="rec-sharing">Preferred Sharing</label>
-              <select id="rec-sharing" class="custom-select">
-                <option value="Single">Single Room (Private)</option>
-                <option value="Double" selected>Double Sharing</option>
-                <option value="Triple">Triple Sharing</option>
-                <option value="Dorm">Dormitory</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label" for="rec-food-type">Food Preference</label>
-              <select id="rec-food-type" class="custom-select">
-                <option value="Veg">Vegetarian Meals</option>
-                <option value="Non-Veg">Non-Vegetarian Meals</option>
-                <option value="Both" selected>Any / Both Meals</option>
-                <option value="None">Self Cooking / No Food</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">Must-Have Amenities</label>
-            <div class="checkbox-row">
-              <label class="checkbox-label">
-                <input type="checkbox" id="rec-ac" checked />
-                <span>Air Conditioning (AC)</span>
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" id="rec-wifi" checked />
-                <span>High-Speed Wi-Fi</span>
-              </label>
-              <label class="checkbox-label">
-                <input type="checkbox" id="rec-food-inc" checked />
-                <span>Meals Included</span>
-              </label>
-            </div>
-          </div>
-
-          <div class="modal-actions">
-            <button type="button" class="btn btn-secondary" onclick="closeModal('modal-recommender')">Cancel</button>
-            <button type="submit" class="btn btn-primary" id="rec-submit-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              Find Matching PGs
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-
-
-  <!-- ─── Modal 3: Detailed PG Listing View ─── -->
-  <div id="modal-listing-detail" class="modal-overlay" onclick="handleModalBackdropClick(event, 'modal-listing-detail')">
-    <div class="modal-dialog modal-dialog-lg">
-      <div class="modal-header">
-        <div class="modal-header-text">
-          <span class="detail-locality-tag" id="detail-locality-city">Locality, City</span>
-          <h2 class="modal-title" id="detail-name">PG Accommodation Name</h2>
-        </div>
-        <button class="modal-close-btn" onclick="closeModal('modal-listing-detail')">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
-      </div>
-
-      <div class="modal-body">
-        
-        <!-- Room Banner / Image Gallery Simulation -->
-        <div class="detail-gallery">
-          <div class="detail-image-main" id="detail-image-box">
-            <div class="room-pill-tag" id="detail-sharing-pill">Double Sharing</div>
-            <div class="room-score-tag" id="detail-match-score">98% Match</div>
-          </div>
-        </div>
-
-        <div class="detail-content-grid">
+        <!-- Left: Details & Gallery -->
+        <div class="modal-details-col">
           
-          <!-- Left Column: Specs & Description -->
-          <div class="detail-left">
-            <div class="detail-section">
-              <h3 class="detail-heading">About this Accommodation</h3>
-              <p class="detail-desc" id="detail-description">Description text...</p>
+          <!-- Modal Gallery Preview -->
+          <div class="modal-gallery">
+            <div class="modal-main-img-wrap">
+              <img id="modalMainImg" src="" alt="Property View">
+              <div class="modal-img-badge" id="modalImgBadge">Verified Roomee Stay</div>
             </div>
-
-            <div class="detail-section">
-              <h3 class="detail-heading">Amenities & Inclusions</h3>
-              <div class="detail-amenities-grid" id="detail-amenities-list">
-                <!-- Populated via JS -->
-              </div>
+            <div class="modal-thumb-strip" id="modalThumbStrip">
+              <!-- Thumbs injected by JS -->
             </div>
           </div>
 
-          <!-- Right Column: Fair Rent Pricing Card & Booking Action -->
-          <div class="detail-right">
-            <div class="price-summary-card">
-              <div class="price-header">
-                <span class="price-label">Monthly Rent</span>
-                <div class="price-amount" id="detail-rent">₹0 <span class="price-unit">/ month</span></div>
-              </div>
+          <!-- Title & Badges -->
+          <div class="modal-header-info">
+            <div class="modal-title-row">
+              <h2 id="modalPgName">Roomee Stay Name</h2>
+              <div class="rating-badge" id="modalRating">★ 4.8 (120 reviews)</div>
+            </div>
+            <p class="modal-locality" id="modalLocality">📍 Koramangala, Bangalore</p>
+            <div class="modal-badge-row" id="modalBadges"></div>
+          </div>
 
-              <!-- ML Valuation Intelligence Box -->
-              <div class="ml-valuation-box" id="detail-ml-box">
-                <div class="ml-val-header">
-                  <span class="ml-val-title">🤖 AI Fair-Price Valuation</span>
-                  <span class="deal-badge" id="detail-deal-badge">Great Value</span>
-                </div>
-                <div class="ml-val-body">
-                  <div class="ml-val-row">
-                    <span>Estimated Market Average:</span>
-                    <strong id="detail-market-avg">₹0</strong>
-                  </div>
-                  <div class="ml-val-row">
-                    <span>Valuation Variance:</span>
-                    <strong id="detail-val-diff">0%</strong>
-                  </div>
-                  <p class="ml-val-notes" id="detail-deal-note"></p>
-                </div>
-              </div>
-
-              <!-- Action Buttons -->
-              <div class="detail-actions">
-                <button class="btn btn-primary btn-block" onclick="simulateBooking()">
-                  ⚡ Schedule a Visit / Contact Host
-                </button>
-                <button class="btn btn-secondary btn-block" onclick="copyListingLink()">
-                  🔗 Share Listing
-                </button>
-              </div>
+          <!-- Pricing Table -->
+          <div class="modal-section">
+            <h4 class="section-title">Sharing Options & Monthly Rent</h4>
+            <div class="sharing-grid" id="modalSharingGrid">
+              <!-- Sharing cards -->
             </div>
           </div>
 
+          <!-- Amenities Grid -->
+          <div class="modal-section">
+            <h4 class="section-title">Included Amenities & Services</h4>
+            <div class="amenities-grid" id="modalAmenitiesGrid">
+              <!-- Amenity items -->
+            </div>
+          </div>
+
+          <!-- Weekly Food Menu -->
+          <div class="modal-section">
+            <h4 class="section-title">Weekly Food Menu</h4>
+            <div class="menu-day-tabs" id="menuDayTabs">
+              <!-- Day buttons -->
+            </div>
+            <div class="menu-content-box" id="menuContentBox">
+              <!-- Injected meal info -->
+            </div>
+          </div>
+
+          <!-- House Rules & Policies -->
+          <div class="modal-section">
+            <h4 class="section-title">Stay Policies & House Rules</h4>
+            <div class="rules-list" id="modalRulesList">
+              <!-- Rules -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Instant Schedule Visit Sticky Card -->
+        <div class="modal-booking-col">
+          <div class="booking-card">
+            <div class="booking-card-header">
+              <h3>Schedule a Free Visit</h3>
+              <p>Experience the space in-person with our Property Manager.</p>
+            </div>
+
+            <form id="visitBookingForm" class="visit-form">
+              <input type="hidden" id="formPgId" value="">
+              
+              <div class="form-group">
+                <label>Your Full Name *</label>
+                <input type="text" id="visitorName" placeholder="e.g. Rahul Sharma" required>
+              </div>
+
+              <div class="form-group">
+                <label>Mobile Number *</label>
+                <input type="tel" id="visitorPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+              </div>
+
+              <div class="form-group">
+                <label>Preferred Visit Date *</label>
+                <input type="date" id="visitorDate" required>
+              </div>
+
+              <div class="form-group">
+                <label>Time Slot *</label>
+                <select id="visitorSlot" class="form-select">
+                  <option value="Morning (10:00 AM - 01:00 PM)">Morning (10:00 AM - 01:00 PM)</option>
+                  <option value="Afternoon (01:00 PM - 05:00 PM)">Afternoon (01:00 PM - 05:00 PM)</option>
+                  <option value="Evening (05:00 PM - 08:30 PM)">Evening (05:00 PM - 08:30 PM)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-visit-submit" id="submitVisitBtn">
+                Confirm Free Visit Now
+              </button>
+
+              <div class="booking-guarantee">
+                🔒 Zero obligation • Instant SMS & WhatsApp confirmation
+              </div>
+            </form>
+
+            <!-- Booking Success Notification -->
+            <div class="booking-success-box" id="bookingSuccessBox" style="display:none;">
+              <div class="success-icon">🎉</div>
+              <h4>Visit Scheduled!</h4>
+              <p id="bookingSuccessMsg">Your visit is confirmed.</p>
+              <div class="ref-badge" id="bookingRefBadge">Ref: ROOMEE-VISIT-123456</div>
+              <button class="btn btn-outline btn-block" id="bookAnotherBtn" style="margin-top:12px;">Schedule Another</button>
+            </div>
+
+          </div>
         </div>
 
       </div>
     </div>
   </div>
 
-  <!-- Toast Container -->
-  <div id="toast-container" class="toast-container"></div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-col">
+        <a href="/" class="brand-logo footer-logo">
+          <span class="logo-mark">R</span>
+          <span class="logo-text">room<span class="logo-highlight">ee</span></span>
+        </a>
+        <p class="footer-desc">
+          Roomee is India’s largest co-living brand providing hassle-free, fully managed stays tailored for students and working professionals.
+        </p>
+      </div>
+      <div class="footer-col">
+        <h4>Top Cities</h4>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Bangalore')">PG in Bangalore</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Pune')">PG in Pune</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Ahmedabad')">PG in Ahmedabad</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Delhi')">PG in Delhi NCR</a></li>
+          <li><a href="javascript:void(0)" onclick="selectCityAndFetch('Hyderabad')">PG in Hyderabad</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Living Types</h4>
+        <ul>
+          <li><a href="javascript:void(0)" onclick="setGenderFilter('unisex')">Unisex Co-Living</a></li>
+          <li><a href="javascript:void(0)" onclick="setGenderFilter('women')">Girls PG & Hostels</a></li>
+          <li><a href="javascript:void(0)" onclick="setGenderFilter('men')">Boys PG & Hostels</a></li>
+          <li><a href="javascript:void(0)" onclick="setSharingFilter('single')">Private Studio Stays</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support & Help</h4>
+        <ul>
+          <li><a href="#">House Rules</a></li>
+          <li><a href="#">Deposit & Refund Policy</a></li>
+          <li><a href="#">Safety & Security</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container bottom-row">
+        <p>© 2026 Roomee Co-living Solutions. All rights reserved.</p>
+        <div class="footer-socials">
+          <span>Made with ❤️ for comfortable co-living</span>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  <!-- Scripts -->
-  <script src="app.js"></script>
+  <script src="/app.js"></script>
 </body>
 </html>
