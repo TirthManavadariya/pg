@@ -1,0 +1,1001 @@
+City,PG_Name,Area,Rent,Distance_km,Food,WiFi,AC,Gender,Label,Near_Transport
+Ahmedabad,Tejas House,Bopal,3315,1.32,No,No,No,Boys,Recommended,Auto Stand
+Anand,Metro Corner,Bopal,13316,8.57,No,Yes,No,Unisex,Not Recommended,Nothing
+Anand,Tulsi Retreat,Vastrapur,6117,1.61,Yes,No,Yes,Boys,Recommended,Nothing
+Anand,Modern Inn,Vastrapur,9961,4.71,No,Yes,No,Boys,Not Recommended,Bus Stand
+Anand,Priya Home,Maninagar,5438,4.59,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Kavya Guest House,Maninagar,9849,0.57,No,Yes,No,Girls,Recommended,Auto Stand
+Ahmedabad,Comfort Residency,Satellite,6682,2.39,No,No,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Laxmi Quarters,Maninagar,9565,8.54,Yes,No,No,Boys,Not Recommended,Nothing
+Ahmedabad,Sai Annexe,Satellite,9098,0.86,No,No,No,Boys,Recommended,Auto Stand
+Ahmedabad,Sagar Residency,Navrangpura,14469,4.35,No,No,No,Girls,Not Recommended,Nothing
+Anand,Riya Abode,Bopal,14104,0.96,No,No,No,Boys,Recommended,Nothing
+Anand,Yash Hostel,Vastrapur,9350,4.92,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Radha Living,Satellite,9534,9.96,Yes,No,No,Girls,Not Recommended,Nothing
+Anand,Kavya Corner,Vastrapur,11108,2.51,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Shanti Palace,Navrangpura,12917,1.79,Yes,Yes,Yes,Unisex,Recommended,Nothing
+Anand,Azure Place,Navrangpura,3844,1.15,No,No,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Param Comfort,Bopal,14692,9.95,Yes,Yes,No,Boys,Not Recommended,Nothing
+Anand,Krishna Place,Satellite,13395,8.86,No,No,No,Girls,Not Recommended,Nothing
+Anand,Moonlight Home,Vastrapur,8365,6.16,No,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Hari Inn,Vastrapur,10379,6.63,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Mangal Square,Bopal,9836,7.87,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Sagar Hub,Navrangpura,10698,1.24,No,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Happy Spaces,Maninagar,7962,4.02,No,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Pooja House,Bopal,8526,8.93,Yes,Yes,Yes,Girls,Not Recommended,Bus Stand
+Anand,Hari Home,Satellite,8754,7.45,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Nisha Point,Vastrapur,4541,2.91,Yes,Yes,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Aditya Court,Maninagar,13162,9.61,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Tara Abode,Satellite,9448,3.46,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Lucky Lodge,Maninagar,8858,3.3,No,Yes,No,Boys,Not Recommended,Nothing
+Anand,Sai Point,Navrangpura,11157,9.61,No,No,Yes,Boys,Not Recommended,Auto Stand
+Anand,Ganesh Retreat,Vastrapur,6852,9.43,Yes,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Sunrise Suites,Satellite,4945,6.4,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Param Spaces,Bopal,4899,1.91,No,No,Yes,Unisex,Recommended,Nothing
+Anand,Tejas Court,Vastrapur,3117,7.4,No,No,No,Boys,Recommended,Nothing
+Anand,Elite Court,Maninagar,10993,6.42,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Mangal Quarters,Vastrapur,11225,1.93,No,No,Yes,Girls,Recommended,Bus Stand
+Anand,Aashish Stay,Satellite,3057,1.46,Yes,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Sagar Palace,Maninagar,5901,5.66,No,No,No,Unisex,Not Recommended,Nothing
+Anand,Pooja Haven,Maninagar,9602,7.55,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Elite Spaces,Satellite,11345,3.35,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Hari Corner,Satellite,8173,7.04,No,Yes,No,Unisex,Not Recommended,Nothing
+Anand,Tejas Retreat,Satellite,14251,4.08,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Vishnu Nest,Satellite,11006,5.85,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Sai Lodge,Bopal,6534,5.66,Yes,No,No,Girls,Recommended,Nothing
+Ahmedabad,Saraswati Rooms,Bopal,7583,3.29,No,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Krishna Enclave,Maninagar,12805,1.07,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Krishna Studio,Navrangpura,13979,6.18,No,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Ratan Spaces,Bopal,9642,8.39,Yes,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Global Hub,Satellite,5297,0.97,Yes,Yes,Yes,Girls,Recommended,Auto Stand
+Ahmedabad,Modern Haven,Satellite,7184,9.72,No,No,No,Boys,Not Recommended,Nothing
+Anand,Riya Hub,Maninagar,14902,3.14,No,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Jyoti Guest House,Satellite,14854,2.7,No,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Jyoti Rooms,Vastrapur,3099,6.94,No,Yes,No,Boys,Recommended,Nothing
+Anand,Subh Retreat,Bopal,9035,4.84,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Modern Annexe,Navrangpura,6119,1.01,No,No,Yes,Unisex,Recommended,Nothing
+Anand,Dhruv Home,Satellite,11113,6.82,No,Yes,No,Girls,Not Recommended,Nothing
+Anand,Bright House,Vastrapur,9426,1.88,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Prime Palace,Navrangpura,9161,4.75,No,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Azure Stay,Navrangpura,3115,8.39,No,Yes,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Gopal Suites,Bopal,8029,8.21,No,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Disha Spaces,Maninagar,4142,1.85,Yes,Yes,No,Girls,Recommended,Nothing
+Ahmedabad,Kiran Hub,Navrangpura,6861,5.79,Yes,No,No,Boys,Recommended,Auto Stand
+Anand,Nisha PG,Satellite,10836,6.66,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,City Corner,Bopal,12625,6.35,No,No,No,Boys,Not Recommended,Nothing
+Anand,Veer Place,Bopal,3952,2.56,Yes,Yes,Yes,Unisex,Recommended,Nothing
+Ahmedabad,City Point,Bopal,4390,2.39,Yes,No,No,Boys,Recommended,Bus Stand
+Anand,Lotus Palace,Vastrapur,7619,7.69,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Mogra PG,Vastrapur,8629,8.5,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Swagat Annexe,Bopal,11283,7.62,Yes,No,Yes,Boys,Not Recommended,Nothing
+Anand,Golden Annexe,Navrangpura,5876,6.05,Yes,Yes,Yes,Girls,Not Recommended,Bus Stand
+Anand,Moonlight Heights,Satellite,6157,7.89,No,No,No,Boys,Recommended,Bus Stand
+Ahmedabad,Tejas Annexe,Vastrapur,12131,2.75,Yes,No,Yes,Boys,Not Recommended,Nothing
+Anand,Sagar Abode,Vastrapur,14297,4.91,No,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Prime Court,Vastrapur,14552,5.01,No,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Elite Block,Navrangpura,6399,7.67,Yes,No,Yes,Unisex,Recommended,Auto Stand
+Anand,Shanti Enclave,Bopal,14214,5.37,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Ishaan Residency,Satellite,12448,6.83,Yes,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,City Court,Vastrapur,9719,4.7,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Ambika Haven,Navrangpura,8099,1.2,No,Yes,No,Boys,Not Recommended,Nothing
+Anand,Star Haven,Maninagar,8620,3.79,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Meera Home,Navrangpura,3022,3.4,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Ganesh Studio,Bopal,3797,1.53,Yes,No,No,Boys,Recommended,Auto Stand
+Anand,Lucky Villa,Bopal,4062,5.45,No,Yes,No,Girls,Recommended,Nothing
+Ahmedabad,New Zone,Maninagar,6360,3.7,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Nisha Palace,Navrangpura,11870,9.93,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Swagat Block,Bopal,14703,7.13,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Sagar Guest House,Navrangpura,11270,9.27,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Krishna Abode,Satellite,9870,1.52,No,No,Yes,Boys,Recommended,Nothing
+Ahmedabad,Ambika Rooms,Satellite,8780,6.14,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Anand,Yash Court,Vastrapur,3000,7.79,No,Yes,No,Unisex,Recommended,Auto Stand
+Anand,Jasmine Block,Navrangpura,9361,4.73,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Champa House,Navrangpura,5064,1.98,No,No,Yes,Girls,Recommended,Bus Stand
+Ahmedabad,Lucky Place,Vastrapur,14136,4.03,No,No,No,Boys,Not Recommended,Nothing
+Anand,Green Retreat,Navrangpura,7882,9.75,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Kavya Retreat,Bopal,10178,2.64,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Shanti Stay,Navrangpura,11224,8.1,No,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Aditya Nest,Maninagar,13233,6.56,No,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Sai Stay,Satellite,7490,2.1,Yes,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Comfort Place,Maninagar,7042,6.9,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Om Annexe,Bopal,13773,3.01,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Balaji Corner,Navrangpura,4344,5.33,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Ishaan Quarters,Bopal,3481,3.27,No,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Priya Villa,Navrangpura,5719,7.34,Yes,Yes,No,Girls,Recommended,Bus Stand
+Anand,Tara Zone,Bopal,4479,2.51,Yes,Yes,No,Unisex,Recommended,Bus Stand
+Anand,Tulsi Zone,Vastrapur,5784,0.94,Yes,Yes,Yes,Boys,Recommended,Auto Stand
+Anand,Moti Abode,Vastrapur,13243,3.1,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Sunrise Inn,Navrangpura,3091,0.76,Yes,No,Yes,Girls,Recommended,Bus Stand
+Anand,Lotus Square,Vastrapur,8446,8.6,Yes,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Azure Hostel,Navrangpura,14706,6.05,No,No,Yes,Boys,Not Recommended,Nothing
+Anand,Gulmohar Nest,Maninagar,3187,4.55,No,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Yash Inn,Maninagar,4864,8.98,No,No,Yes,Boys,Recommended,Nothing
+Anand,Star Rooms,Bopal,10520,0.75,No,Yes,No,Boys,Recommended,Bus Stand
+Ahmedabad,Riddhi Inn,Maninagar,7557,6.4,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Tulsi Abode,Vastrapur,5015,8.91,No,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Diamond Living,Bopal,14904,6.86,Yes,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Modern Guest House,Maninagar,3503,5.97,No,No,Yes,Boys,Recommended,Nothing
+Ahmedabad,Pearl Corner,Maninagar,12121,6.04,Yes,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Gulmohar Haven,Navrangpura,9190,2.63,Yes,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Om Living,Navrangpura,5969,4.83,Yes,Yes,No,Girls,Recommended,Bus Stand
+Anand,Nisha Inn,Vastrapur,13328,2.9,No,No,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Bright PG,Navrangpura,9019,5.33,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Laxmi Haven,Maninagar,12471,5.73,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Silver Hostel,Bopal,13331,6.17,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Ishaan Zone,Navrangpura,10522,7.35,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Krishna Rooms,Navrangpura,5488,3.34,Yes,Yes,Yes,Girls,Recommended,Bus Stand
+Ahmedabad,Star Palace,Vastrapur,10623,8.46,No,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Hari PG,Satellite,8824,4.05,No,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Gopal Hub,Maninagar,12415,4.61,No,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Mogra Point,Bopal,11436,9.16,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Azure Studio,Maninagar,9287,4.28,No,Yes,No,Girls,Not Recommended,Nothing
+Ahmedabad,Prime Abode,Bopal,12173,5.02,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Shiv Quarters,Vastrapur,5479,5.04,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Star Nest,Navrangpura,14776,8.78,No,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Saraswati Nest,Navrangpura,3583,5.65,No,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Bright Zone,Maninagar,4935,7.05,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Kabir Block,Navrangpura,14148,9.54,No,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Elite Nest,Maninagar,6018,5.01,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Rohan Home,Maninagar,5332,0.68,No,Yes,No,Unisex,Recommended,Nothing
+Anand,Pearl Stay,Maninagar,5159,5.78,No,Yes,No,Boys,Recommended,Nothing
+Anand,Disha Stay,Satellite,6134,7.37,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Balaji Rooms,Maninagar,13869,9.79,No,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Classic Haven,Navrangpura,4894,0.51,No,Yes,Yes,Boys,Recommended,Bus Stand
+Anand,Jyoti Lodge,Bopal,10817,7.65,No,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Surya Home,Vastrapur,10071,3.61,No,No,No,Unisex,Not Recommended,Nothing
+Anand,Coral Block,Bopal,7199,8.12,Yes,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Saraswati Hub,Satellite,6424,9.41,No,No,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Rose Enclave,Vastrapur,3408,4.3,No,No,No,Boys,Recommended,Auto Stand
+Anand,Balaji Hub,Vastrapur,10950,8.28,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Ratan Villa,Satellite,9887,9.92,No,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Veer Heights,Navrangpura,11741,5.07,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Mogra Enclave,Satellite,5159,6.32,No,Yes,Yes,Boys,Recommended,Nothing
+Anand,Om PG,Navrangpura,13074,4.27,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Mogra Inn,Bopal,9552,4.04,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Om Quarters,Navrangpura,9078,1.37,Yes,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Kabir Hub,Navrangpura,9291,7.56,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Anand,New Square,Navrangpura,12984,5.39,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Lucky Haven,Satellite,4789,5.88,Yes,Yes,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Prabhu Point,Navrangpura,13850,1.97,No,Yes,No,Boys,Recommended,Nothing
+Anand,Elite Living,Maninagar,7032,9.3,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Priya Heights,Bopal,13965,7.74,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Akash Block,Maninagar,6771,0.6,Yes,No,Yes,Unisex,Recommended,Auto Stand
+Anand,Royal Heights,Bopal,7070,1.19,Yes,No,No,Girls,Not Recommended,Auto Stand
+Anand,Moonlight Villa,Satellite,6607,9.82,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Anand,Swagat House,Satellite,6725,3.16,Yes,No,Yes,Boys,Recommended,Nothing
+Anand,Moonlight Comfort,Satellite,5698,1.44,No,No,Yes,Boys,Recommended,Nothing
+Ahmedabad,Aashish Point,Satellite,8187,5.26,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Sagar Quarters,Satellite,11112,5.28,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Riddhi Quarters,Satellite,10446,1.18,No,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Tejas Hub,Navrangpura,4521,2.29,Yes,Yes,No,Girls,Recommended,Auto Stand
+Anand,Kabir Studio,Vastrapur,5784,4.66,No,Yes,No,Girls,Recommended,Bus Stand
+Anand,Vrinda Nest,Vastrapur,10721,4.45,No,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Laxmi Guest House,Satellite,7706,3.13,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Param Lodge,Satellite,7938,7.1,Yes,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Shanti Place,Satellite,12750,3.17,Yes,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,New Hub,Vastrapur,5835,2.5,No,Yes,Yes,Girls,Recommended,Bus Stand
+Anand,Nisha Guest House,Bopal,7427,1.31,Yes,No,No,Unisex,Recommended,Auto Stand
+Anand,Riya PG,Bopal,7166,5.83,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,City Stay,Vastrapur,3978,5.75,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Prime Lodge,Navrangpura,7730,5.95,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Prabhu Comfort,Vastrapur,14840,9.85,No,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Lotus Villa,Navrangpura,12379,9.22,No,No,No,Boys,Not Recommended,Nothing
+Ahmedabad,Happy Heights,Bopal,7400,3.3,Yes,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Subh Lodge,Bopal,12043,2.17,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Tulsi Inn,Bopal,14012,7.3,Yes,Yes,No,Boys,Not Recommended,Nothing
+Anand,Mangal Hostel,Maninagar,9527,8.73,No,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Surya Comfort,Vastrapur,6135,3.32,Yes,No,Yes,Boys,Recommended,Auto Stand
+Anand,Balaji Palace,Navrangpura,12364,6.89,No,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Golden Hostel,Bopal,9682,4.39,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Metro Shelter,Satellite,11033,5.46,No,No,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Narayan Hostel,Navrangpura,6028,1.68,Yes,No,Yes,Boys,Recommended,Nothing
+Anand,Tulsi Corner,Navrangpura,13630,6.35,Yes,Yes,Yes,Girls,Not Recommended,Bus Stand
+Anand,Elite Inn,Navrangpura,12797,1.79,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Hari Lodge,Vastrapur,5444,0.9,No,Yes,Yes,Unisex,Recommended,Auto Stand
+Anand,Aryan Retreat,Bopal,3559,6.39,Yes,No,Yes,Girls,Recommended,Bus Stand
+Ahmedabad,Sapphire Spaces,Vastrapur,12367,7.71,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Siddhi Heights,Bopal,9852,5.42,No,Yes,No,Boys,Not Recommended,Bus Stand
+Anand,Sai Retreat,Navrangpura,14752,7.99,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Metro Abode,Bopal,12824,2.84,No,Yes,Yes,Boys,Recommended,Bus Stand
+Anand,Heera Place,Bopal,8929,9.56,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Anand,Param Stay,Vastrapur,10222,9.96,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Param Square,Navrangpura,6043,4.85,No,Yes,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Veer Annexe,Satellite,11359,4.7,Yes,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Metro House,Satellite,9493,8.06,No,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Swagat Shelter,Bopal,8880,3.66,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Jyoti Hub,Satellite,9599,2.02,Yes,No,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Comfort Inn,Vastrapur,7942,1.1,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Disha Guest House,Vastrapur,4559,5.57,No,Yes,No,Girls,Recommended,Auto Stand
+Ahmedabad,Siddhi Enclave,Bopal,5398,8.66,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Lotus Annexe,Satellite,8015,7.12,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Anand,City Suites,Bopal,11191,4.0,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Vrinda Lodge,Vastrapur,14047,8.94,No,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Lotus PG,Navrangpura,4721,6.76,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Nirav Abode,Navrangpura,13905,3.82,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Subh Guest House,Navrangpura,5872,6.72,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Surya Enclave,Navrangpura,6930,7.45,Yes,Yes,Yes,Unisex,Recommended,Auto Stand
+Anand,Classic Heights,Satellite,10625,9.92,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Anand,Kabir Heights,Vastrapur,11149,7.01,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Moti Enclave,Vastrapur,14425,2.52,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Heera Point,Navrangpura,6012,1.58,Yes,Yes,Yes,Girls,Recommended,Bus Stand
+Anand,Nisha Villa,Bopal,3429,3.43,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Diamond Hostel,Vastrapur,4412,8.89,Yes,Yes,No,Boys,Recommended,Bus Stand
+Anand,Hari Shelter,Bopal,8581,3.3,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,Akash Heights,Satellite,8825,7.03,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Heera PG,Navrangpura,6782,9.35,Yes,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Durga Point,Bopal,3093,3.68,Yes,No,No,Unisex,Recommended,Bus Stand
+Anand,Rose Guest House,Maninagar,14299,8.84,No,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Jyoti Enclave,Satellite,8609,8.96,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,Gulmohar Living,Satellite,8038,0.92,No,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Jasmine Quarters,Vastrapur,10709,3.67,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Rohan Zone,Navrangpura,7079,8.86,No,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Silver Home,Maninagar,9688,9.46,No,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Anand Annexe,Navrangpura,13875,0.62,No,No,No,Unisex,Not Recommended,Auto Stand
+Anand,Tejas Place,Vastrapur,8514,3.79,Yes,Yes,No,Girls,Not Recommended,Nothing
+Ahmedabad,Ambika Retreat,Navrangpura,9654,7.85,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Sapphire Comfort,Vastrapur,3760,1.5,No,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Metro Lodge,Vastrapur,3150,3.41,Yes,No,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Akash Stay,Satellite,3142,4.35,No,No,No,Boys,Recommended,Nothing
+Anand,Mogra Hostel,Satellite,13953,2.97,No,Yes,Yes,Girls,Recommended,Auto Stand
+Anand,Aditya Abode,Navrangpura,7039,1.55,Yes,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Gopal Studio,Navrangpura,5182,3.28,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Heera Haven,Maninagar,8893,8.0,Yes,No,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Global PG,Satellite,7569,4.16,No,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Moonlight Guest House,Navrangpura,6264,2.57,Yes,No,Yes,Girls,Recommended,Auto Stand
+Ahmedabad,Radha Shelter,Satellite,13948,2.19,Yes,Yes,Yes,Unisex,Recommended,Auto Stand
+Anand,Nirav Spaces,Vastrapur,14035,2.15,Yes,No,No,Boys,Recommended,Auto Stand
+Anand,Bright Haven,Satellite,10267,7.9,Yes,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Classic Spaces,Navrangpura,12394,3.18,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Modern Spaces,Maninagar,11767,2.63,Yes,No,No,Girls,Recommended,Nothing
+Ahmedabad,Kiran Enclave,Vastrapur,4093,7.94,No,No,No,Girls,Recommended,Nothing
+Ahmedabad,Jasmine Annexe,Vastrapur,12566,9.82,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Azure Living,Vastrapur,6932,6.03,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Elite Zone,Maninagar,13153,9.75,No,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Champa Hub,Satellite,8920,6.33,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Nirav Studio,Satellite,14772,5.32,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Aditya Haven,Bopal,11856,9.69,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Param Living,Vastrapur,6234,1.37,No,No,No,Unisex,Recommended,Nothing
+Ahmedabad,Om Point,Maninagar,5133,9.37,No,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Narayan Enclave,Navrangpura,7843,4.9,No,No,Yes,Girls,Not Recommended,Nothing
+Anand,Modern Comfort,Satellite,11729,2.69,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Sai Suites,Vastrapur,8654,8.96,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Prime Quarters,Vastrapur,5347,4.18,No,Yes,Yes,Boys,Recommended,Bus Stand
+Anand,Lucky Hostel,Vastrapur,6800,5.15,Yes,Yes,No,Girls,Recommended,Auto Stand
+Ahmedabad,Moti Place,Vastrapur,3178,2.32,Yes,No,Yes,Girls,Recommended,Nothing
+Anand,Priya Spaces,Navrangpura,14154,8.35,Yes,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Coral Nest,Bopal,8361,7.94,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Rose Hostel,Bopal,3574,1.79,Yes,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Gopal Residency,Vastrapur,8521,0.65,No,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Tara Suites,Satellite,10233,0.52,No,No,Yes,Girls,Recommended,Auto Stand
+Ahmedabad,Vedant PG,Satellite,12212,6.86,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Mangal Heights,Maninagar,6886,2.87,Yes,No,No,Boys,Recommended,Auto Stand
+Ahmedabad,Gopal Hostel,Vastrapur,10390,1.83,No,Yes,No,Girls,Recommended,Bus Stand
+Ahmedabad,Pooja Retreat,Satellite,14361,9.62,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Ishaan Retreat,Navrangpura,14706,9.63,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Aashish Guest House,Navrangpura,6182,1.84,No,No,No,Boys,Recommended,Nothing
+Anand,Gopal Place,Navrangpura,3470,2.42,Yes,No,Yes,Unisex,Recommended,Bus Stand
+Anand,Heera Palace,Satellite,12139,8.53,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Gulmohar Villa,Maninagar,4519,1.53,No,Yes,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Surya Residency,Satellite,3736,4.16,No,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Ratan Residency,Bopal,10810,6.8,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Ganesh Guest House,Vastrapur,3065,7.04,No,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Pearl Nest,Maninagar,4680,0.69,Yes,No,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Swagat Suites,Maninagar,9837,8.28,No,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Vishnu Quarters,Bopal,14377,4.98,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Riddhi Suites,Satellite,11730,5.34,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Param Hostel,Navrangpura,4058,5.62,Yes,Yes,Yes,Boys,Recommended,Auto Stand
+Anand,Vrinda Home,Navrangpura,9802,1.69,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Aryan Residency,Bopal,13808,4.4,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Priya Nest,Satellite,10736,7.76,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Siddhi Retreat,Vastrapur,6867,9.45,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Yash Stay,Vastrapur,7244,8.22,Yes,No,No,Boys,Not Recommended,Bus Stand
+Anand,Yash Lodge,Navrangpura,5246,2.91,No,No,No,Boys,Recommended,Auto Stand
+Anand,Metro Haven,Navrangpura,13789,9.19,Yes,No,Yes,Boys,Not Recommended,Auto Stand
+Anand,Sapphire Residency,Maninagar,6164,4.82,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Balaji Villa,Maninagar,8216,9.08,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Aryan House,Maninagar,9899,2.03,Yes,No,Yes,Girls,Not Recommended,Nothing
+Anand,Meera Quarters,Maninagar,3404,5.13,No,No,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Gulmohar Hub,Maninagar,11028,5.84,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Anand,Prabhu Palace,Navrangpura,9207,8.44,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Sagar House,Bopal,7472,1.15,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Elite Heights,Navrangpura,3835,1.2,No,No,No,Boys,Recommended,Bus Stand
+Ahmedabad,Moonlight Residency,Satellite,9902,3.23,Yes,No,No,Boys,Not Recommended,Nothing
+Ahmedabad,Ambika Suites,Satellite,12256,9.96,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Ratan Abode,Navrangpura,5837,7.52,Yes,No,No,Boys,Recommended,Auto Stand
+Ahmedabad,Om Haven,Maninagar,13400,6.08,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Disha House,Satellite,10093,7.91,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Meera Lodge,Bopal,5542,2.37,No,Yes,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Siddhi Guest House,Navrangpura,5748,5.43,Yes,No,Yes,Girls,Recommended,Bus Stand
+Anand,Prabhu Stay,Bopal,10081,2.94,No,No,No,Boys,Recommended,Nothing
+Ahmedabad,Kabir Place,Navrangpura,10064,9.6,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Royal Hostel,Satellite,4644,4.06,Yes,No,No,Unisex,Recommended,Nothing
+Anand,Ishaan Inn,Maninagar,10717,4.86,Yes,Yes,No,Girls,Not Recommended,Nothing
+Anand,Lotus Court,Navrangpura,6255,8.15,Yes,No,Yes,Boys,Recommended,Bus Stand
+Anand,Tejas Spaces,Vastrapur,13116,5.89,No,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Prime Guest House,Maninagar,14076,0.68,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Golden Block,Satellite,12655,5.13,No,No,No,Boys,Not Recommended,Nothing
+Ahmedabad,Yash Corner,Vastrapur,3682,4.41,No,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Akash Zone,Vastrapur,11384,2.29,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Gulmohar Guest House,Bopal,7269,5.5,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Vishnu Haven,Bopal,11685,4.68,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Laxmi Corner,Maninagar,11037,1.11,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Anand,Champa Haven,Vastrapur,7386,7.99,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Gulmohar Suites,Satellite,4730,1.33,No,Yes,Yes,Boys,Recommended,Bus Stand
+Anand,Riddhi Residency,Maninagar,4088,8.48,Yes,No,No,Unisex,Recommended,Auto Stand
+Anand,Dhruv Enclave,Maninagar,9574,8.43,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Pearl Studio,Navrangpura,12818,9.78,No,Yes,No,Girls,Not Recommended,Nothing
+Ahmedabad,Krishna Square,Bopal,10545,5.35,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Swagat Place,Maninagar,11376,8.64,No,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Param Corner,Satellite,13570,1.54,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Anand,Ganesh Haven,Bopal,8418,4.66,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Moti Studio,Maninagar,6074,5.54,No,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Riya Haven,Satellite,14303,9.62,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Aryan Studio,Navrangpura,7810,4.41,Yes,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Champa Residency,Navrangpura,11600,2.4,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Laxmi Point,Navrangpura,6881,3.5,Yes,Yes,Yes,Boys,Recommended,Nothing
+Anand,Radha Rooms,Satellite,11127,3.3,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Tulsi Heights,Vastrapur,6909,2.16,Yes,Yes,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Jyoti Court,Bopal,4693,3.28,No,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Aryan Block,Satellite,13855,5.45,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Nisha Place,Vastrapur,13768,8.33,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Mangal Spaces,Maninagar,10494,2.79,No,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Aashish Heights,Maninagar,8479,1.36,No,Yes,No,Girls,Recommended,Auto Stand
+Anand,Vrinda Retreat,Vastrapur,13086,3.35,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Classic Abode,Vastrapur,12541,5.57,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Saraswati House,Satellite,6683,3.62,No,Yes,No,Girls,Not Recommended,Nothing
+Anand,Pooja Shelter,Navrangpura,7671,6.97,Yes,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Diamond Quarters,Navrangpura,3315,8.36,Yes,No,No,Boys,Not Recommended,Bus Stand
+Anand,Vedant Corner,Satellite,12211,6.68,No,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Kavya Block,Maninagar,11609,3.9,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Disha Point,Navrangpura,6695,2.65,No,Yes,No,Girls,Recommended,Auto Stand
+Ahmedabad,Sunrise Abode,Bopal,9025,4.77,Yes,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Shiv Retreat,Vastrapur,10582,2.01,No,Yes,No,Girls,Recommended,Auto Stand
+Anand,Subh Shelter,Bopal,8238,6.48,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Durga PG,Maninagar,12400,1.21,Yes,No,No,Boys,Not Recommended,Auto Stand
+Anand,Pooja Villa,Bopal,6142,7.55,Yes,No,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Bright Point,Maninagar,5954,1.09,No,Yes,No,Girls,Recommended,Bus Stand
+Anand,New Studio,Bopal,11154,2.08,Yes,Yes,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Moonlight PG,Maninagar,4958,4.75,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Tara Point,Satellite,8753,2.92,No,Yes,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Aryan Zone,Navrangpura,3783,1.01,No,No,No,Boys,Recommended,Nothing
+Ahmedabad,Jasmine Place,Vastrapur,4741,3.33,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Vrinda Zone,Vastrapur,10200,7.19,No,No,Yes,Boys,Not Recommended,Auto Stand
+Anand,Heera Studio,Maninagar,5495,8.96,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,Om Nest,Navrangpura,5997,2.09,Yes,Yes,Yes,Unisex,Recommended,Bus Stand
+Anand,Prime Comfort,Navrangpura,8172,5.63,Yes,No,Yes,Boys,Not Recommended,Auto Stand
+Anand,Meera Heights,Vastrapur,13660,2.62,No,Yes,No,Girls,Recommended,Bus Stand
+Ahmedabad,Classic Hostel,Navrangpura,8600,4.54,No,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Sagar Retreat,Navrangpura,4317,3.35,No,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Nirav Suites,Maninagar,8002,4.95,Yes,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Champa Living,Satellite,12304,2.86,No,Yes,No,Boys,Not Recommended,Nothing
+Anand,Durga Guest House,Satellite,14938,9.47,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Ambika Nest,Vastrapur,8977,4.52,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Akash Inn,Satellite,9703,5.44,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Rose Quarters,Navrangpura,6572,4.4,Yes,Yes,No,Boys,Recommended,Bus Stand
+Ahmedabad,Swagat Home,Navrangpura,4786,4.19,No,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Elite Haven,Bopal,11539,8.7,No,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Golden Stay,Satellite,8270,5.76,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Elite PG,Vastrapur,10828,6.51,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Anand,Moti Living,Satellite,12860,4.28,No,Yes,No,Boys,Not Recommended,Auto Stand
+Anand,Disha Zone,Navrangpura,3594,4.49,No,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Shiv Lodge,Bopal,5345,9.31,Yes,Yes,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Anand Spaces,Vastrapur,5022,6.98,Yes,Yes,No,Boys,Recommended,Nothing
+Ahmedabad,Om Retreat,Vastrapur,3682,1.4,Yes,No,No,Unisex,Recommended,Bus Stand
+Anand,Swagat Abode,Satellite,5213,1.65,Yes,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Azure House,Vastrapur,6861,5.5,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Priya Retreat,Vastrapur,6064,7.43,No,No,No,Girls,Not Recommended,Auto Stand
+Anand,Veer Comfort,Navrangpura,14225,1.9,Yes,No,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Aashish Comfort,Vastrapur,8928,3.94,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Silver Heights,Vastrapur,5600,2.31,Yes,Yes,No,Boys,Recommended,Nothing
+Anand,Jasmine House,Maninagar,3383,9.76,Yes,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Gulmohar Heights,Bopal,8851,4.59,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Heera Corner,Vastrapur,11478,6.78,Yes,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Jasmine Home,Satellite,4407,7.46,No,No,No,Unisex,Recommended,Nothing
+Anand,Disha Lodge,Navrangpura,12539,9.59,No,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Lotus Enclave,Vastrapur,6678,1.59,No,Yes,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Metro Home,Vastrapur,3729,5.44,No,Yes,No,Girls,Not Recommended,Nothing
+Anand,Sai Residency,Maninagar,9730,7.65,No,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Aashish Lodge,Vastrapur,10065,7.77,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Golden Zone,Satellite,3523,1.48,No,No,No,Girls,Recommended,Bus Stand
+Anand,Nirav Living,Bopal,3453,1.24,Yes,No,No,Boys,Recommended,Auto Stand
+Ahmedabad,Param Shelter,Navrangpura,6637,8.47,Yes,No,No,Unisex,Recommended,Nothing
+Anand,Tejas Studio,Maninagar,6903,9.0,No,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Laxmi Zone,Bopal,8218,1.7,No,Yes,No,Girls,Recommended,Auto Stand
+Anand,Siddhi Hostel,Navrangpura,14665,8.02,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Moonlight Palace,Vastrapur,14946,8.39,No,Yes,No,Unisex,Not Recommended,Nothing
+Anand,Dhruv Point,Vastrapur,4649,0.84,Yes,Yes,Yes,Boys,Recommended,Nothing
+Ahmedabad,Heera Lodge,Maninagar,12319,3.87,Yes,No,No,Boys,Not Recommended,Nothing
+Anand,Mogra Home,Vastrapur,5942,1.56,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Vishnu House,Satellite,13419,1.35,Yes,Yes,Yes,Girls,Recommended,Nothing
+Ahmedabad,Heera Annexe,Maninagar,12041,8.19,No,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Shanti Spaces,Maninagar,13050,2.38,No,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Moti Nest,Satellite,5853,7.58,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Diamond Block,Navrangpura,14574,4.9,Yes,No,No,Unisex,Not Recommended,Nothing
+Anand,Subh Studio,Satellite,4238,8.14,No,No,Yes,Unisex,Recommended,Auto Stand
+Anand,Aditya Living,Bopal,13724,5.5,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Bright Quarters,Maninagar,11572,1.49,Yes,Yes,Yes,Girls,Recommended,Nothing
+Ahmedabad,Aashish Villa,Satellite,6175,4.14,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Anand Living,Vastrapur,6798,1.85,Yes,Yes,No,Boys,Recommended,Bus Stand
+Ahmedabad,Ishaan House,Navrangpura,9313,8.32,No,Yes,No,Boys,Not Recommended,Bus Stand
+Anand,Nisha Hostel,Maninagar,6616,3.43,Yes,Yes,No,Girls,Not Recommended,Nothing
+Anand,Laxmi Retreat,Navrangpura,10099,0.91,No,No,No,Unisex,Not Recommended,Nothing
+Anand,City Spaces,Vastrapur,6684,9.08,No,No,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Classic Comfort,Vastrapur,9560,7.63,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Rohan Corner,Navrangpura,5932,9.22,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Coral Zone,Navrangpura,5606,2.86,Yes,Yes,No,Unisex,Recommended,Nothing
+Anand,Aryan Haven,Navrangpura,11350,6.36,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Mogra Comfort,Maninagar,9697,5.31,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Gopal Abode,Satellite,5221,5.44,Yes,No,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Disha Annexe,Maninagar,4293,1.53,Yes,Yes,No,Boys,Recommended,Auto Stand
+Ahmedabad,Modern Stay,Navrangpura,12041,6.22,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Riddhi Annexe,Navrangpura,6914,2.12,No,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Aashish PG,Vastrapur,8520,2.34,No,No,No,Boys,Recommended,Auto Stand
+Anand,Anand Heights,Bopal,13359,7.0,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Kavya Studio,Bopal,8323,0.6,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Prime Living,Vastrapur,11097,3.93,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Pooja Zone,Vastrapur,12207,2.96,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Siddhi Place,Satellite,4848,1.02,Yes,Yes,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Nisha Suites,Bopal,7820,7.52,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Diamond Haven,Vastrapur,7982,1.07,No,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Sai Hostel,Navrangpura,8117,2.01,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Happy Enclave,Satellite,14839,4.35,No,No,No,Girls,Not Recommended,Nothing
+Anand,Aryan Suites,Vastrapur,9679,6.59,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Anand,Gopal Comfort,Vastrapur,8751,1.88,No,No,No,Boys,Recommended,Bus Stand
+Ahmedabad,Dhruv Lodge,Bopal,12467,2.91,No,No,No,Girls,Recommended,Auto Stand
+Ahmedabad,New Annexe,Vastrapur,14224,7.93,No,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Kavya Place,Vastrapur,12166,6.5,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Sunrise Living,Maninagar,3416,5.29,No,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Sunrise Block,Bopal,3906,2.05,Yes,Yes,Yes,Unisex,Recommended,Bus Stand
+Anand,Global Hostel,Satellite,3619,5.71,Yes,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Yash Comfort,Vastrapur,8074,4.7,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Om Zone,Navrangpura,7343,5.87,Yes,Yes,No,Girls,Not Recommended,Nothing
+Anand,Surya Rooms,Bopal,6096,1.12,Yes,Yes,No,Unisex,Recommended,Nothing
+Anand,Yash Home,Navrangpura,14684,5.19,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Narayan Suites,Maninagar,3128,3.4,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Saraswati Studio,Bopal,11421,2.77,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Priya Lodge,Satellite,8963,6.14,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Surya Stay,Bopal,13466,4.63,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Balaji Point,Satellite,12329,3.98,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Anand,Sai Home,Bopal,12574,6.67,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Lotus Inn,Satellite,8176,5.86,No,No,Yes,Girls,Not Recommended,Nothing
+Anand,Tejas Inn,Satellite,13281,6.87,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Jasmine Palace,Maninagar,4097,2.48,Yes,Yes,Yes,Unisex,Recommended,Nothing
+Anand,Durga Residency,Navrangpura,4980,4.77,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Star Point,Bopal,3333,1.28,No,No,No,Unisex,Recommended,Nothing
+Anand,Mangal Court,Bopal,8571,0.77,No,No,Yes,Girls,Not Recommended,Nothing
+Anand,Lotus Comfort,Navrangpura,4749,1.04,Yes,No,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Tulsi Block,Vastrapur,14395,5.96,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Moti Shelter,Navrangpura,13496,5.07,No,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Silver Shelter,Satellite,7134,8.94,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Ganesh Suites,Maninagar,8487,9.63,Yes,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Surya Haven,Satellite,14806,7.89,No,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Dhruv Comfort,Bopal,11827,2.48,No,No,No,Girls,Recommended,Auto Stand
+Ahmedabad,Sai Spaces,Satellite,14726,4.45,No,No,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Mogra Hub,Navrangpura,8775,8.59,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Royal Spaces,Navrangpura,6407,4.03,No,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Anand Palace,Vastrapur,5936,7.89,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Tejas Guest House,Navrangpura,9820,1.61,No,No,Yes,Girls,Recommended,Nothing
+Anand,Vrinda Spaces,Vastrapur,4789,7.08,Yes,No,Yes,Girls,Recommended,Nothing
+Anand,Durga Abode,Bopal,8910,4.63,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Gopal Zone,Vastrapur,5606,3.02,No,Yes,Yes,Unisex,Recommended,Auto Stand
+Anand,Moonlight Haven,Vastrapur,11062,7.68,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Hari Square,Vastrapur,7783,7.42,No,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Shiv Residency,Satellite,14442,2.82,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Ratan Corner,Maninagar,4731,0.71,Yes,Yes,No,Girls,Recommended,Bus Stand
+Ahmedabad,Royal Nest,Vastrapur,4341,1.36,No,No,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Sagar Studio,Vastrapur,4268,2.67,No,Yes,No,Unisex,Recommended,Nothing
+Ahmedabad,Anand Retreat,Satellite,10571,8.05,Yes,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Sagar Square,Navrangpura,6120,5.6,No,No,Yes,Boys,Not Recommended,Auto Stand
+Anand,Radha Abode,Navrangpura,4139,5.32,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Surya Hub,Navrangpura,14079,2.72,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Aditya Lodge,Maninagar,9371,9.07,Yes,No,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Ambika Living,Vastrapur,6168,9.79,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Comfort Court,Navrangpura,12631,9.67,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,New Home,Maninagar,8192,9.46,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Shiv Enclave,Satellite,10228,1.74,Yes,Yes,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Coral Shelter,Satellite,13352,8.55,No,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Sapphire Villa,Bopal,14174,8.65,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Priya Court,Maninagar,5362,7.06,Yes,Yes,No,Boys,Recommended,Nothing
+Anand,Kiran Annexe,Satellite,5985,4.37,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Aashish Palace,Vastrapur,5837,9.29,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Shiv Place,Maninagar,7543,6.68,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Om Comfort,Navrangpura,13319,4.3,No,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Riya Court,Satellite,3954,4.26,No,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Laxmi Rooms,Navrangpura,10006,1.37,Yes,No,No,Boys,Recommended,Auto Stand
+Ahmedabad,Royal Hub,Satellite,9822,2.72,Yes,Yes,No,Girls,Recommended,Auto Stand
+Anand,Mogra Court,Bopal,8193,3.44,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Moonlight Retreat,Vastrapur,14636,2.92,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Akash Retreat,Navrangpura,8597,1.27,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Veer Stay,Vastrapur,13441,6.45,No,Yes,No,Girls,Not Recommended,Nothing
+Anand,Durga Hostel,Satellite,13250,9.34,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,City Villa,Maninagar,7547,6.78,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Anand,Happy Lodge,Bopal,5522,1.73,No,Yes,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Durga Studio,Maninagar,9463,3.35,No,No,No,Boys,Not Recommended,Nothing
+Anand,City Inn,Satellite,10485,3.6,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Gopal Spaces,Bopal,11621,8.74,No,Yes,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Prabhu Hostel,Navrangpura,7195,4.48,No,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Kavya Comfort,Navrangpura,11615,1.57,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Coral Inn,Vastrapur,5735,9.44,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Ishaan Hostel,Vastrapur,10412,8.48,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Prabhu Quarters,Satellite,14277,7.66,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Jasmine Living,Navrangpura,4621,2.6,No,No,No,Girls,Recommended,Bus Stand
+Anand,Balaji Court,Vastrapur,12772,4.89,Yes,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Sunrise Court,Navrangpura,6139,1.61,No,Yes,No,Unisex,Recommended,Nothing
+Ahmedabad,Priya Square,Vastrapur,5770,7.13,No,No,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Param Abode,Navrangpura,14427,2.54,Yes,Yes,Yes,Boys,Recommended,Nothing
+Ahmedabad,Veer Residency,Bopal,12687,8.35,No,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Bright Place,Bopal,12673,2.36,No,Yes,No,Girls,Recommended,Auto Stand
+Anand,Tulsi Villa,Vastrapur,9321,1.02,No,No,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Lucky Quarters,Vastrapur,11682,6.8,No,No,No,Boys,Not Recommended,Nothing
+Ahmedabad,Kavya Quarters,Navrangpura,10345,6.88,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Sai Place,Maninagar,13877,9.02,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Golden House,Maninagar,3976,9.31,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Metro Villa,Navrangpura,11594,6.47,No,Yes,No,Boys,Not Recommended,Bus Stand
+Anand,Royal Square,Vastrapur,12157,2.96,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Balaji Enclave,Vastrapur,10068,4.9,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Green Shelter,Maninagar,6123,4.59,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Swagat Nest,Navrangpura,7395,2.38,No,No,Yes,Boys,Recommended,Nothing
+Ahmedabad,New Hostel,Vastrapur,8324,7.2,No,Yes,No,Girls,Not Recommended,Bus Stand
+Anand,Kiran House,Satellite,11168,5.54,No,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,Lucky Zone,Maninagar,7112,7.78,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Champa Court,Vastrapur,7498,9.35,Yes,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Rohan Inn,Vastrapur,8782,2.19,No,No,No,Unisex,Not Recommended,Nothing
+Anand,Champa Annexe,Vastrapur,10303,3.57,No,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Radha Lodge,Maninagar,10303,1.8,Yes,Yes,Yes,Unisex,Recommended,Bus Stand
+Anand,Nirav Heights,Vastrapur,6940,7.99,Yes,No,No,Girls,Recommended,Auto Stand
+Ahmedabad,Mogra Residency,Bopal,13776,3.07,No,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Star Zone,Vastrapur,12331,2.91,No,No,No,Girls,Not Recommended,Nothing
+Anand,Heera Guest House,Satellite,14501,3.67,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Moonlight Studio,Vastrapur,13772,8.41,Yes,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Jasmine Stay,Navrangpura,6052,3.92,No,Yes,No,Unisex,Recommended,Bus Stand
+Anand,Ganesh Enclave,Maninagar,14342,6.85,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Sagar Comfort,Navrangpura,4427,5.08,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Param Enclave,Navrangpura,7420,7.93,No,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Hari Block,Navrangpura,12857,3.13,Yes,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Shiv Spaces,Bopal,3898,3.26,Yes,Yes,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Kabir Guest House,Vastrapur,10192,4.74,No,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Sunrise House,Vastrapur,10465,0.99,Yes,Yes,Yes,Unisex,Recommended,Bus Stand
+Anand,Yash Quarters,Bopal,14019,1.46,No,No,Yes,Boys,Not Recommended,Nothing
+Anand,Lotus Living,Bopal,4091,5.64,No,No,Yes,Boys,Recommended,Nothing
+Anand,Riddhi Spaces,Navrangpura,5729,2.23,No,No,No,Boys,Recommended,Auto Stand
+Anand,Heera Hostel,Satellite,6582,5.96,No,No,Yes,Boys,Recommended,Nothing
+Ahmedabad,Sunrise Enclave,Satellite,4514,9.28,Yes,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Azure Enclave,Navrangpura,10307,6.99,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Vrinda Court,Navrangpura,6780,9.29,Yes,Yes,No,Unisex,Recommended,Auto Stand
+Anand,Prime Zone,Vastrapur,14384,5.16,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Lucky Home,Maninagar,13410,7.65,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Ganesh Home,Satellite,8485,1.6,No,Yes,Yes,Unisex,Recommended,Auto Stand
+Anand,Prabhu Villa,Vastrapur,12117,1.45,Yes,No,No,Boys,Not Recommended,Auto Stand
+Anand,Riya Nest,Vastrapur,4336,4.61,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Mangal Guest House,Satellite,12978,5.65,No,No,No,Girls,Not Recommended,Nothing
+Anand,Disha Heights,Bopal,3449,3.33,No,No,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Mangal Inn,Maninagar,4044,9.06,Yes,No,No,Unisex,Not Recommended,Nothing
+Anand,Tara Annexe,Vastrapur,11269,9.09,Yes,No,No,Unisex,Not Recommended,Nothing
+Anand,Krishna Comfort,Maninagar,4645,4.02,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Vedant Retreat,Maninagar,6216,0.8,Yes,No,No,Boys,Recommended,Auto Stand
+Anand,Moonlight Square,Maninagar,8884,5.6,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Tara Retreat,Navrangpura,14271,5.9,Yes,Yes,No,Girls,Not Recommended,Nothing
+Anand,Azure Residency,Satellite,13365,3.07,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Anand,Sagar Corner,Satellite,9716,3.54,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Riddhi Square,Vastrapur,5855,3.25,Yes,No,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Shanti Shelter,Maninagar,9202,8.69,Yes,No,No,Girls,Not Recommended,Nothing
+Anand,Global Rooms,Navrangpura,10653,8.66,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Lucky Comfort,Vastrapur,10937,9.86,Yes,No,Yes,Boys,Not Recommended,Nothing
+Anand,Tejas Residency,Navrangpura,14336,7.92,No,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Laxmi Block,Maninagar,14472,5.86,No,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Krishna Suites,Bopal,10902,8.8,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Coral Spaces,Maninagar,14977,5.6,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Riddhi Palace,Bopal,5484,9.88,No,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,Prabhu Heights,Satellite,6865,2.08,No,No,No,Girls,Recommended,Nothing
+Anand,Vishnu Home,Vastrapur,9289,3.66,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Bright Comfort,Navrangpura,7771,5.71,Yes,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Ganesh Corner,Vastrapur,7061,6.9,Yes,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Jasmine Guest House,Vastrapur,7236,3.0,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Ishaan Living,Vastrapur,10601,2.27,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Coral Corner,Maninagar,10327,2.42,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Krishna Annexe,Satellite,12576,9.6,No,No,No,Unisex,Not Recommended,Auto Stand
+Anand,City Square,Bopal,4836,2.7,No,Yes,No,Unisex,Recommended,Nothing
+Ahmedabad,Lotus House,Navrangpura,9326,7.3,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Anand,Anand Studio,Satellite,9916,2.03,No,Yes,No,Girls,Recommended,Nothing
+Anand,Kiran Heights,Bopal,7544,6.47,No,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Happy Retreat,Satellite,7132,9.48,No,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Ratan Nest,Vastrapur,12689,5.72,Yes,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Shanti Quarters,Satellite,5268,8.06,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Durga Quarters,Satellite,8379,5.39,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Modern Hub,Bopal,3897,4.56,No,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Classic PG,Bopal,9066,6.04,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Dhruv Guest House,Maninagar,4628,9.47,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Golden Villa,Maninagar,6434,1.98,No,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Hari Retreat,Vastrapur,13419,6.01,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Kabir Square,Satellite,6153,3.01,Yes,No,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Om Rooms,Bopal,10215,9.98,Yes,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Happy Guest House,Maninagar,5699,4.29,Yes,Yes,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Green Spaces,Vastrapur,14489,8.35,No,No,No,Boys,Not Recommended,Nothing
+Anand,Om Enclave,Maninagar,4312,4.1,No,No,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Tara Guest House,Satellite,6845,7.07,Yes,Yes,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Tara Rooms,Satellite,11280,6.79,No,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Tejas Hostel,Satellite,5021,2.62,No,No,Yes,Boys,Recommended,Nothing
+Ahmedabad,Shiv House,Bopal,9385,0.67,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Heera Residency,Navrangpura,13283,5.47,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Vishnu Palace,Vastrapur,4008,9.15,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Surya Spaces,Vastrapur,4159,0.8,No,Yes,No,Unisex,Recommended,Nothing
+Ahmedabad,Subh Home,Bopal,7683,1.14,Yes,Yes,Yes,Boys,Recommended,Auto Stand
+Anand,Tulsi Guest House,Maninagar,8131,4.77,Yes,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Kavya Rooms,Vastrapur,9378,3.71,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Kiran Home,Maninagar,8163,6.08,No,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Ratan Heights,Navrangpura,8924,1.04,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Riddhi Retreat,Vastrapur,8908,2.46,Yes,Yes,No,Boys,Recommended,Auto Stand
+Ahmedabad,Narayan Palace,Vastrapur,8636,8.92,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Diamond Square,Maninagar,11434,6.07,Yes,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Siddhi Comfort,Maninagar,4071,4.45,No,No,No,Boys,Not Recommended,Nothing
+Anand,Balaji Inn,Satellite,12245,1.97,No,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Sapphire Shelter,Satellite,11595,5.79,No,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Golden Studio,Navrangpura,8197,4.46,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Meera Enclave,Maninagar,5212,9.1,No,Yes,Yes,Boys,Not Recommended,Nothing
+Anand,Aditya Enclave,Maninagar,12696,8.48,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Jasmine Heights,Maninagar,5556,3.56,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Param Nest,Maninagar,10493,0.98,No,No,No,Unisex,Recommended,Nothing
+Ahmedabad,Mangal Annexe,Vastrapur,9617,8.47,No,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Om Heights,Vastrapur,14806,8.16,No,Yes,No,Boys,Not Recommended,Nothing
+Anand,Comfort Nest,Bopal,5234,8.85,No,No,No,Boys,Recommended,Auto Stand
+Anand,Om Home,Bopal,12842,7.38,Yes,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Akash Annexe,Vastrapur,7140,5.85,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Champa Abode,Maninagar,12367,7.13,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Vishnu Zone,Maninagar,12215,5.46,Yes,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Kabir Comfort,Bopal,6276,5.69,No,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Star Living,Satellite,11534,6.68,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Moonlight Place,Maninagar,3680,0.77,Yes,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Ganesh Annexe,Bopal,5342,0.59,Yes,Yes,Yes,Girls,Recommended,Nothing
+Ahmedabad,Veer Shelter,Maninagar,10078,0.86,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Happy Haven,Navrangpura,7905,9.63,Yes,No,No,Girls,Not Recommended,Bus Stand
+Anand,Kiran Block,Satellite,13515,9.91,No,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Akash Palace,Bopal,12380,1.16,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Subh Court,Vastrapur,5071,5.74,Yes,No,No,Boys,Not Recommended,Nothing
+Anand,Anand Suites,Bopal,12424,2.37,Yes,No,No,Girls,Recommended,Auto Stand
+Ahmedabad,Disha Nest,Navrangpura,6393,8.92,No,No,Yes,Girls,Recommended,Nothing
+Anand,Aditya Place,Maninagar,7620,9.73,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Anand Hub,Satellite,13958,3.55,No,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Narayan Home,Navrangpura,11598,0.92,Yes,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Jyoti Comfort,Bopal,8248,3.36,Yes,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Yash Rooms,Vastrapur,13632,3.11,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,New Block,Vastrapur,8902,8.23,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,Rohan Court,Vastrapur,11130,3.56,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Green Court,Maninagar,4171,0.89,Yes,Yes,Yes,Girls,Recommended,Bus Stand
+Ahmedabad,Ambika Shelter,Vastrapur,10731,2.14,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Anand,Ishaan Abode,Satellite,7683,3.47,Yes,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Radha Villa,Vastrapur,6673,4.49,No,No,No,Boys,Recommended,Nothing
+Ahmedabad,Prime Stay,Bopal,6487,9.89,No,Yes,Yes,Girls,Not Recommended,Bus Stand
+Ahmedabad,Shiv Inn,Bopal,7833,4.2,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Surya Villa,Navrangpura,14539,2.42,Yes,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Disha Suites,Bopal,6259,9.86,Yes,No,No,Boys,Recommended,Auto Stand
+Ahmedabad,Pearl Palace,Satellite,12111,4.49,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Jasmine Lodge,Navrangpura,6108,1.55,Yes,Yes,No,Boys,Recommended,Nothing
+Anand,Moti Court,Bopal,5620,4.59,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Balaji Living,Satellite,13819,8.73,No,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Akash Point,Vastrapur,3585,7.99,Yes,Yes,No,Boys,Recommended,Nothing
+Ahmedabad,Champa Retreat,Bopal,5806,9.94,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Ambika Zone,Vastrapur,7802,2.62,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Anand,Diamond Court,Maninagar,3526,7.39,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Tara Living,Vastrapur,9193,6.59,No,No,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Gulmohar Point,Satellite,6368,4.71,Yes,No,No,Boys,Not Recommended,Bus Stand
+Anand,Hari Annexe,Vastrapur,13210,2.36,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Kiran Hostel,Maninagar,7668,2.18,No,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Elite Abode,Maninagar,8138,5.2,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Sagar Villa,Satellite,11083,0.73,No,Yes,No,Boys,Recommended,Auto Stand
+Ahmedabad,Veer Zone,Bopal,10723,6.61,No,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Prabhu Inn,Bopal,7971,4.36,No,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Nirav House,Satellite,6938,3.27,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Anand Home,Bopal,9873,4.2,No,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Elite Corner,Satellite,4541,4.79,No,No,Yes,Boys,Recommended,Bus Stand
+Anand,Global Guest House,Maninagar,10892,5.26,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Anand,Champa Square,Bopal,9203,1.33,No,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Metro Hostel,Maninagar,4179,9.78,No,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Bright Rooms,Navrangpura,7291,8.68,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Kabir Court,Bopal,12065,9.78,Yes,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Balaji Suites,Bopal,5820,3.83,No,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Ganesh Court,Vastrapur,4453,7.93,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Anand,Radha Residency,Vastrapur,11552,6.38,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Saraswati Inn,Vastrapur,9224,3.07,No,Yes,No,Girls,Not Recommended,Nothing
+Ahmedabad,Yash Place,Navrangpura,8735,7.52,No,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Global Villa,Bopal,10787,5.24,No,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Comfort Point,Satellite,8773,4.17,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Aryan Villa,Vastrapur,3044,1.5,No,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Aryan Living,Navrangpura,9644,3.67,No,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Akash PG,Maninagar,12069,8.59,Yes,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Ganesh Residency,Maninagar,13481,9.08,No,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Vrinda Quarters,Navrangpura,12071,9.35,No,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Prime Block,Satellite,3567,4.67,No,No,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Anand Haven,Bopal,12971,9.73,No,No,No,Boys,Not Recommended,Nothing
+Anand,Durga House,Maninagar,5896,8.59,Yes,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Lucky House,Vastrapur,7963,1.31,No,No,No,Girls,Recommended,Nothing
+Anand,Dhruv Residency,Vastrapur,5538,3.37,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Anand,Aditya Annexe,Maninagar,4331,1.09,Yes,No,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Tara Haven,Navrangpura,4100,7.33,Yes,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Global Point,Satellite,4476,1.97,Yes,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Azure PG,Navrangpura,7627,5.78,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Akash Square,Vastrapur,6828,8.41,No,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Balaji Hostel,Vastrapur,10940,9.81,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Pearl Home,Navrangpura,13676,4.14,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Kiran Court,Navrangpura,14252,2.99,No,No,No,Unisex,Not Recommended,Nothing
+Anand,Lucky Block,Bopal,6149,3.36,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Priya Annexe,Bopal,9453,7.74,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Kabir Residency,Bopal,4724,0.95,Yes,No,No,Boys,Recommended,Auto Stand
+Anand,Happy Suites,Bopal,11789,6.69,No,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Prabhu Hub,Vastrapur,14504,7.81,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Green Square,Maninagar,7443,4.32,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Lucky Square,Maninagar,12604,6.8,No,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Jyoti Place,Navrangpura,13524,3.76,Yes,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Modern Lodge,Satellite,6761,8.61,Yes,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Mangal Place,Bopal,13080,3.96,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Gulmohar Zone,Satellite,4046,3.89,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Aditya Shelter,Maninagar,3403,6.65,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Mogra Lodge,Satellite,9780,8.3,Yes,No,No,Girls,Not Recommended,Bus Stand
+Anand,Shiv Abode,Navrangpura,12756,8.12,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Happy Abode,Maninagar,11024,7.56,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Ambika Annexe,Navrangpura,4156,0.88,No,Yes,Yes,Girls,Recommended,Auto Stand
+Ahmedabad,Ratan Zone,Vastrapur,3688,7.42,No,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Veer Abode,Maninagar,14346,6.52,Yes,Yes,No,Boys,Not Recommended,Bus Stand
+Anand,Anand Square,Navrangpura,4180,3.67,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Aashish House,Vastrapur,8298,7.76,No,Yes,No,Girls,Not Recommended,Bus Stand
+Anand,Prabhu Guest House,Vastrapur,11534,1.04,No,Yes,No,Boys,Not Recommended,Auto Stand
+Anand,Heera Living,Navrangpura,12511,6.0,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Dhruv Court,Vastrapur,7607,2.46,No,Yes,No,Unisex,Recommended,Nothing
+Anand,Nirav Corner,Satellite,9339,8.32,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Sagar Shelter,Navrangpura,9232,7.86,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Priya Point,Satellite,12928,1.9,Yes,No,No,Boys,Recommended,Bus Stand
+Ahmedabad,Vishnu Inn,Maninagar,6312,5.13,Yes,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Shiv Heights,Maninagar,8509,4.9,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Champa Guest House,Bopal,3194,1.48,No,Yes,Yes,Girls,Recommended,Nothing
+Ahmedabad,Silver Living,Bopal,10800,6.79,Yes,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Siddhi Living,Maninagar,3768,1.02,No,Yes,No,Girls,Recommended,Bus Stand
+Anand,Happy Square,Maninagar,9928,6.74,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Akash Guest House,Navrangpura,8643,9.82,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Subh Annexe,Maninagar,4665,1.59,No,No,Yes,Girls,Recommended,Nothing
+Anand,Elite Residency,Bopal,10710,2.43,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Global Living,Maninagar,14906,9.16,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Comfort Villa,Bopal,9691,6.86,No,Yes,No,Boys,Not Recommended,Bus Stand
+Anand,Veer Court,Navrangpura,13205,6.59,No,Yes,No,Unisex,Not Recommended,Nothing
+Anand,Subh Suites,Bopal,9054,7.46,Yes,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Prabhu Living,Navrangpura,14802,5.9,Yes,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Om Villa,Maninagar,13559,7.14,Yes,Yes,No,Girls,Not Recommended,Nothing
+Anand,Ratan Enclave,Satellite,8010,6.58,Yes,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Tulsi House,Satellite,11138,3.01,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Dhruv Block,Satellite,9042,7.03,Yes,Yes,Yes,Girls,Not Recommended,Bus Stand
+Anand,Gopal House,Bopal,14294,7.72,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Swagat Hub,Navrangpura,8934,3.45,No,No,No,Boys,Not Recommended,Nothing
+Anand,Champa Quarters,Bopal,3136,5.1,No,No,No,Boys,Not Recommended,Nothing
+Anand,Classic Villa,Maninagar,14589,1.67,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Golden Living,Navrangpura,14115,9.52,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Laxmi Enclave,Bopal,12562,3.38,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Siddhi Stay,Maninagar,8559,6.68,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Durga Palace,Maninagar,13831,6.58,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Tejas Shelter,Satellite,14268,1.77,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Radha House,Vastrapur,9876,4.78,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Balaji Studio,Navrangpura,13105,7.72,Yes,Yes,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Metro Court,Maninagar,8248,6.73,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Nisha Court,Satellite,10997,2.2,Yes,No,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Akash Home,Satellite,11082,5.12,No,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Lucky Heights,Satellite,8554,3.17,No,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Moti Stay,Bopal,7732,5.28,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,New Enclave,Navrangpura,14558,5.61,Yes,No,No,Boys,Not Recommended,Nothing
+Ahmedabad,Champa Spaces,Maninagar,5439,5.63,Yes,No,No,Girls,Recommended,Auto Stand
+Anand,Nirav Square,Bopal,10790,6.76,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,New Shelter,Maninagar,13316,6.32,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,New Guest House,Vastrapur,5901,0.96,Yes,Yes,No,Boys,Recommended,Bus Stand
+Anand,Kabir Nest,Bopal,13739,5.69,No,Yes,No,Boys,Not Recommended,Bus Stand
+Anand,Classic Block,Satellite,5671,2.91,Yes,Yes,Yes,Boys,Recommended,Bus Stand
+Anand,Prime Heights,Vastrapur,14438,6.81,Yes,No,Yes,Girls,Not Recommended,Nothing
+Anand,Silver Palace,Maninagar,4583,9.9,No,Yes,No,Boys,Recommended,Nothing
+Ahmedabad,Vishnu Retreat,Navrangpura,12468,8.99,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Siddhi Block,Vastrapur,14998,0.94,No,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Vrinda Abode,Vastrapur,14611,9.48,No,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Tejas Corner,Satellite,7800,4.26,No,Yes,No,Girls,Not Recommended,Nothing
+Anand,New Heights,Bopal,8279,8.84,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Anand,Kabir Palace,Maninagar,3833,7.41,No,Yes,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Silver Place,Vastrapur,5590,7.45,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Happy Hub,Maninagar,4418,8.16,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Tara Hostel,Vastrapur,8478,6.15,No,No,Yes,Boys,Not Recommended,Auto Stand
+Anand,Vedant Haven,Maninagar,6729,6.86,No,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Heera Heights,Vastrapur,11517,6.84,Yes,No,Yes,Girls,Not Recommended,Nothing
+Anand,Mogra Stay,Maninagar,9283,1.0,Yes,Yes,Yes,Girls,Recommended,Nothing
+Anand,Jasmine Hostel,Vastrapur,6959,0.78,Yes,Yes,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Vedant Spaces,Bopal,8523,6.27,No,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Rose Place,Navrangpura,3463,5.25,Yes,Yes,Yes,Boys,Recommended,Nothing
+Anand,Saraswati Enclave,Navrangpura,8184,3.62,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Siddhi Rooms,Satellite,4341,8.75,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,New Court,Vastrapur,5567,8.6,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Saraswati Haven,Maninagar,6487,8.25,No,No,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Gulmohar House,Maninagar,8169,7.04,Yes,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Aashish Living,Navrangpura,4544,9.82,No,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Tulsi Comfort,Satellite,12960,1.59,Yes,Yes,No,Girls,Not Recommended,Nothing
+Ahmedabad,Sunrise Nest,Navrangpura,8003,1.3,Yes,Yes,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Shiv Suites,Satellite,14744,8.05,No,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Akash Hostel,Vastrapur,13593,3.66,No,No,Yes,Girls,Not Recommended,Nothing
+Anand,Tulsi Palace,Vastrapur,13786,3.44,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Vishnu Enclave,Satellite,9857,6.79,Yes,Yes,No,Boys,Not Recommended,Nothing
+Anand,Diamond Palace,Bopal,14882,5.36,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Dhruv Annexe,Maninagar,12046,1.66,Yes,No,Yes,Girls,Not Recommended,Nothing
+Anand,Gulmohar Studio,Bopal,8878,4.09,Yes,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Ambika Studio,Bopal,10776,6.98,No,No,No,Boys,Not Recommended,Auto Stand
+Anand,Green Home,Navrangpura,12463,4.67,No,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Ratan Annexe,Maninagar,6514,6.65,No,Yes,No,Boys,Recommended,Auto Stand
+Ahmedabad,Mogra Haven,Satellite,8514,9.39,Yes,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Bright Nest,Bopal,6776,2.23,No,Yes,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Anand PG,Vastrapur,9142,3.16,No,Yes,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Subh Rooms,Vastrapur,13509,7.34,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Heera Nest,Navrangpura,12303,1.81,Yes,No,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Meera Abode,Maninagar,6681,1.06,No,Yes,Yes,Girls,Recommended,Auto Stand
+Ahmedabad,Subh Point,Satellite,4028,9.51,No,Yes,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Om Suites,Navrangpura,12748,6.19,No,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Kabir Living,Satellite,10449,3.86,Yes,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Nisha Corner,Vastrapur,13085,9.17,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Surya House,Vastrapur,3459,3.16,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Ahmedabad,New Inn,Vastrapur,5755,1.86,No,No,No,Girls,Recommended,Auto Stand
+Ahmedabad,Ratan Court,Satellite,8612,7.72,No,Yes,No,Boys,Not Recommended,Auto Stand
+Anand,Riddhi Court,Satellite,9742,4.0,No,No,No,Girls,Not Recommended,Auto Stand
+Anand,Global Abode,Satellite,10123,6.22,No,No,No,Boys,Not Recommended,Nothing
+Ahmedabad,Sagar Annexe,Vastrapur,7161,4.52,No,No,Yes,Girls,Not Recommended,Nothing
+Anand,Narayan Zone,Navrangpura,11217,2.91,Yes,No,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Prime Annexe,Maninagar,7404,4.63,Yes,No,Yes,Boys,Not Recommended,Auto Stand
+Anand,Modern Enclave,Navrangpura,3643,8.3,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Akash Enclave,Maninagar,14520,5.41,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Ahmedabad,Elite Rooms,Vastrapur,14373,9.53,Yes,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Kabir Annexe,Navrangpura,12281,2.28,Yes,No,Yes,Girls,Recommended,Nothing
+Ahmedabad,Pooja Studio,Satellite,9695,4.33,Yes,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Prabhu Place,Maninagar,4938,3.14,Yes,No,No,Boys,Not Recommended,Auto Stand
+Anand,City Hostel,Maninagar,8783,5.53,No,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Jyoti Heights,Navrangpura,8230,0.59,No,Yes,No,Boys,Not Recommended,Auto Stand
+Anand,Aditya Residency,Satellite,7825,4.73,Yes,No,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Swagat Retreat,Maninagar,5139,7.15,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Silver Block,Satellite,8504,2.16,Yes,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Aditya Suites,Navrangpura,12505,6.57,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Global Haven,Navrangpura,8414,9.72,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Comfort House,Satellite,8316,6.21,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Diamond Residency,Vastrapur,7366,2.45,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Jasmine Enclave,Bopal,12876,6.17,No,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Coral Comfort,Maninagar,7758,6.26,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Moti Quarters,Navrangpura,5824,7.93,Yes,No,Yes,Girls,Recommended,Nothing
+Anand,Moti Annexe,Satellite,3881,6.03,Yes,Yes,Yes,Boys,Recommended,Bus Stand
+Ahmedabad,Star Villa,Maninagar,11850,4.48,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Nirav Quarters,Bopal,14913,6.22,No,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Riya Enclave,Vastrapur,13467,9.06,No,Yes,No,Girls,Not Recommended,Nothing
+Ahmedabad,Vedant Block,Navrangpura,11398,2.67,Yes,Yes,No,Unisex,Recommended,Nothing
+Anand,Hari Enclave,Navrangpura,8457,1.47,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Golden Spaces,Vastrapur,8003,9.59,Yes,Yes,No,Boys,Not Recommended,Nothing
+Anand,Pooja Place,Bopal,8360,1.52,No,No,Yes,Girls,Recommended,Bus Stand
+Anand,Veer Hub,Bopal,8105,3.89,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Param Heights,Bopal,14565,2.51,No,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Anand,Radha Heights,Maninagar,5822,1.17,No,Yes,Yes,Girls,Recommended,Bus Stand
+Ahmedabad,Anand Quarters,Vastrapur,9069,1.9,No,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Ishaan Enclave,Navrangpura,10891,5.82,No,Yes,No,Girls,Not Recommended,Bus Stand
+Anand,Vedant Square,Maninagar,13617,7.01,Yes,No,No,Girls,Not Recommended,Bus Stand
+Anand,Riya Corner,Satellite,6472,3.58,Yes,No,No,Boys,Recommended,Auto Stand
+Ahmedabad,Anand House,Vastrapur,5323,2.01,No,No,Yes,Girls,Recommended,Auto Stand
+Ahmedabad,Ratan Square,Bopal,5619,2.54,Yes,No,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Happy Point,Maninagar,9628,2.84,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Ganesh Square,Vastrapur,5206,4.84,No,Yes,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Jasmine Hub,Maninagar,6242,2.13,Yes,No,Yes,Girls,Recommended,Nothing
+Ahmedabad,Vedant Quarters,Bopal,14669,9.37,No,No,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Sapphire Corner,Maninagar,12630,2.99,No,No,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Akash Haven,Navrangpura,5852,8.2,No,No,No,Unisex,Recommended,Nothing
+Ahmedabad,Tulsi Nest,Maninagar,13580,5.9,No,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Kiran Retreat,Satellite,8565,6.55,No,No,Yes,Boys,Not Recommended,Nothing
+Anand,Bright Inn,Bopal,5400,5.83,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Anand,Aryan Inn,Vastrapur,9411,2.94,No,No,No,Boys,Recommended,Nothing
+Ahmedabad,Modern PG,Navrangpura,12769,7.46,No,Yes,No,Girls,Not Recommended,Nothing
+Anand,Moti Zone,Maninagar,12113,1.47,Yes,No,No,Boys,Recommended,Bus Stand
+Ahmedabad,Vedant Abode,Maninagar,5592,2.79,No,No,No,Unisex,Recommended,Auto Stand
+Anand,Anand Enclave,Satellite,9167,3.16,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Anand Nest,Satellite,13524,7.67,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Pooja Lodge,Vastrapur,8963,4.25,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Golden Lodge,Navrangpura,8486,5.61,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,Ratan Studio,Maninagar,8036,3.99,No,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Pearl Point,Vastrapur,13679,1.84,No,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Comfort PG,Navrangpura,3108,7.86,No,Yes,Yes,Boys,Recommended,Nothing
+Ahmedabad,Durga Inn,Maninagar,7845,7.92,Yes,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Narayan Point,Navrangpura,7624,4.4,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Mogra Block,Bopal,11310,6.96,Yes,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Dhruv Villa,Vastrapur,7034,4.47,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Kabir Spaces,Bopal,13197,9.07,No,Yes,No,Unisex,Not Recommended,Nothing
+Ahmedabad,Aashish Abode,Navrangpura,9424,8.01,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,City Place,Maninagar,3714,9.97,Yes,No,Yes,Girls,Not Recommended,Nothing
+Ahmedabad,Pearl PG,Maninagar,14711,5.37,Yes,Yes,No,Boys,Not Recommended,Nothing
+Anand,Riddhi Point,Navrangpura,14138,6.89,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Golden Rooms,Vastrapur,3463,8.27,Yes,Yes,Yes,Unisex,Recommended,Nothing
+Anand,Azure Annexe,Navrangpura,8958,7.96,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Heera Inn,Navrangpura,14206,5.19,No,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Pearl Villa,Maninagar,11302,9.73,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Vedant Enclave,Satellite,14304,2.84,No,Yes,No,Boys,Not Recommended,Nothing
+Anand,Tulsi PG,Satellite,10047,2.89,Yes,No,No,Girls,Recommended,Nothing
+Ahmedabad,Aashish Place,Bopal,6662,2.76,Yes,Yes,Yes,Girls,Recommended,Nothing
+Ahmedabad,Swagat Court,Satellite,3815,5.1,No,No,No,Boys,Recommended,Nothing
+Anand,Balaji Nest,Vastrapur,8546,6.37,Yes,Yes,No,Boys,Not Recommended,Nothing
+Ahmedabad,Ambika Palace,Navrangpura,12503,4.92,No,No,Yes,Girls,Not Recommended,Nothing
+Anand,Ambika House,Maninagar,10319,5.25,Yes,Yes,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Tejas Point,Navrangpura,5040,3.51,No,No,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Prabhu Retreat,Bopal,4216,7.35,Yes,Yes,No,Girls,Not Recommended,Auto Stand
+Anand,Vedant Comfort,Navrangpura,13388,7.43,No,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Pooja Quarters,Navrangpura,3143,1.25,Yes,No,No,Boys,Recommended,Nothing
+Anand,Tulsi Home,Bopal,11595,5.04,Yes,No,No,Unisex,Not Recommended,Auto Stand
+Anand,Kiran Living,Navrangpura,5374,1.72,No,No,Yes,Boys,Recommended,Auto Stand
+Anand,Om House,Vastrapur,3607,9.39,No,No,No,Girls,Recommended,Bus Stand
+Anand,Star Annexe,Satellite,12579,2.19,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Silver Enclave,Satellite,14037,6.15,Yes,Yes,Yes,Boys,Not Recommended,Auto Stand
+Anand,City Quarters,Navrangpura,8041,3.67,No,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Jyoti Studio,Maninagar,6986,1.84,Yes,Yes,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Laxmi Annexe,Satellite,9166,9.2,No,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Champa Nest,Satellite,6661,4.74,Yes,No,No,Girls,Recommended,Auto Stand
+Anand,Mogra Villa,Satellite,5749,4.35,Yes,No,Yes,Girls,Recommended,Bus Stand
+Ahmedabad,Rohan Hostel,Bopal,10887,1.9,Yes,Yes,No,Girls,Recommended,Nothing
+Anand,Mogra Nest,Satellite,13121,4.23,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Riya Spaces,Satellite,12999,6.91,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Anand,Ambika Residency,Navrangpura,14428,7.99,Yes,No,No,Boys,Not Recommended,Auto Stand
+Anand,Ratan Hub,Maninagar,7303,4.14,Yes,Yes,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Jyoti Stay,Navrangpura,11358,5.78,Yes,No,No,Unisex,Not Recommended,Bus Stand
+Anand,Modern Hostel,Vastrapur,11594,6.43,No,No,No,Girls,Not Recommended,Auto Stand
+Anand,Prabhu Suites,Maninagar,10607,5.83,No,No,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Champa Suites,Navrangpura,4006,2.03,No,No,Yes,Unisex,Recommended,Bus Stand
+Ahmedabad,Yash Square,Satellite,9804,6.94,No,No,Yes,Girls,Not Recommended,Nothing
+Anand,Classic Shelter,Bopal,12875,1.23,No,Yes,No,Girls,Recommended,Bus Stand
+Anand,Pooja Rooms,Vastrapur,11677,2.86,No,Yes,No,Unisex,Recommended,Auto Stand
+Ahmedabad,Kiran Villa,Navrangpura,10281,3.49,Yes,No,Yes,Boys,Not Recommended,Bus Stand
+Ahmedabad,Radha PG,Navrangpura,12479,1.33,No,No,Yes,Girls,Not Recommended,Auto Stand
+Anand,Green Heights,Satellite,13097,3.17,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Ahmedabad,Pooja Suites,Maninagar,3271,0.64,No,No,Yes,Unisex,Recommended,Nothing
+Ahmedabad,Sai Haven,Vastrapur,11554,8.51,Yes,Yes,Yes,Girls,Not Recommended,Nothing
+Anand,Mogra Square,Navrangpura,4897,2.15,Yes,Yes,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Prime Corner,Bopal,11306,1.33,No,No,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Diamond House,Bopal,8538,3.17,Yes,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Comfort Hostel,Satellite,7699,4.64,No,Yes,No,Unisex,Not Recommended,Nothing
+Anand,Akash Residency,Maninagar,9693,0.93,Yes,Yes,No,Girls,Recommended,Nothing
+Anand,Balaji Quarters,Maninagar,13283,9.23,No,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Lucky Inn,Maninagar,12714,3.08,Yes,No,No,Boys,Not Recommended,Bus Stand
+Anand,Tulsi Lodge,Satellite,12666,7.62,Yes,Yes,No,Girls,Not Recommended,Nothing
+Ahmedabad,Sai Quarters,Vastrapur,14982,0.9,Yes,No,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Kabir Point,Vastrapur,5132,6.68,Yes,Yes,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Sai Enclave,Vastrapur,7493,6.05,No,No,Yes,Boys,Not Recommended,Auto Stand
+Ahmedabad,Tara Enclave,Bopal,11826,9.46,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Ahmedabad,Balaji Heights,Satellite,11780,8.07,Yes,Yes,No,Girls,Not Recommended,Bus Stand
+Ahmedabad,Global Block,Vastrapur,4619,9.87,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Radha Hostel,Maninagar,8791,8.76,Yes,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Durga Corner,Bopal,11876,3.46,No,No,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Star Shelter,Bopal,11292,6.62,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Aditya Guest House,Satellite,11848,7.99,No,Yes,No,Unisex,Not Recommended,Bus Stand
+Anand,Riya Studio,Bopal,6888,3.25,Yes,No,Yes,Unisex,Recommended,Nothing
+Anand,Bright Square,Maninagar,14937,7.01,No,No,No,Girls,Not Recommended,Bus Stand
+Anand,Veer Suites,Satellite,10967,9.98,Yes,Yes,No,Unisex,Not Recommended,Nothing
+Anand,Coral Hostel,Satellite,5951,3.8,Yes,Yes,Yes,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Balaji Retreat,Maninagar,10080,6.81,No,No,No,Boys,Not Recommended,Auto Stand
+Ahmedabad,Durga Comfort,Vastrapur,4112,6.79,Yes,No,No,Girls,Recommended,Bus Stand
+Ahmedabad,Riya Hostel,Maninagar,13496,6.22,No,No,No,Boys,Not Recommended,Nothing
+Anand,Modern Suites,Maninagar,11698,0.7,No,Yes,No,Boys,Recommended,Bus Stand
+Ahmedabad,Tulsi Hub,Maninagar,13583,3.74,Yes,No,No,Boys,Not Recommended,Auto Stand
+Anand,Veer Home,Navrangpura,14228,5.28,Yes,Yes,No,Unisex,Not Recommended,Auto Stand
+Anand,Laxmi Abode,Navrangpura,5322,7.28,Yes,Yes,Yes,Boys,Not Recommended,Nothing
+Ahmedabad,Bright Corner,Maninagar,10948,9.97,Yes,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Om Abode,Navrangpura,3584,6.02,No,Yes,Yes,Girls,Recommended,Bus Stand
+Anand,Narayan Heights,Vastrapur,5427,3.68,No,Yes,No,Unisex,Recommended,Auto Stand
+Anand,Royal Quarters,Bopal,4639,8.78,No,Yes,Yes,Unisex,Recommended,Auto Stand
+Anand,Ratan Haven,Vastrapur,6764,5.02,Yes,No,Yes,Girls,Recommended,Nothing
+Ahmedabad,Nisha Enclave,Satellite,3079,3.7,No,No,Yes,Unisex,Recommended,Auto Stand
+Ahmedabad,Gulmohar Square,Satellite,14839,0.98,No,Yes,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Ambika Hub,Bopal,11780,8.75,Yes,Yes,No,Girls,Not Recommended,Auto Stand
+Ahmedabad,Dhruv Spaces,Vastrapur,6622,3.38,No,No,Yes,Boys,Recommended,Nothing
+Anand,Sunrise Zone,Maninagar,5680,3.7,No,No,No,Boys,Not Recommended,Bus Stand
+Ahmedabad,Saraswati Quarters,Maninagar,12607,0.53,No,No,Yes,Unisex,Not Recommended,Auto Stand
+Anand,Prabhu Enclave,Satellite,5759,4.56,No,Yes,Yes,Girls,Not Recommended,Auto Stand
+Anand,Moti Lodge,Bopal,5367,7.98,No,No,Yes,Boys,Not Recommended,Nothing
+Anand,Meera Retreat,Satellite,12415,3.06,No,No,Yes,Girls,Not Recommended,Bus Stand
+Anand,Global Residency,Navrangpura,8743,8.56,No,No,No,Boys,Not Recommended,Bus Stand
+Anand,Swagat Hostel,Navrangpura,4092,5.68,Yes,Yes,Yes,Girls,Recommended,Auto Stand
+Ahmedabad,Shiv Comfort,Navrangpura,8537,1.72,No,Yes,No,Girls,Not Recommended,Nothing
+Anand,Sapphire Place,Navrangpura,13524,7.69,Yes,No,No,Girls,Not Recommended,Auto Stand
+Anand,Meera Haven,Maninagar,3067,6.39,No,Yes,Yes,Unisex,Not Recommended,Nothing
+Anand,Dhruv Place,Vastrapur,8987,4.57,No,No,No,Boys,Not Recommended,Nothing
+Anand,Vrinda Studio,Vastrapur,10073,1.01,Yes,No,Yes,Boys,Recommended,Nothing
+Anand,Veer Studio,Navrangpura,7083,6.45,Yes,Yes,No,Girls,Not Recommended,Nothing
+Anand,Mogra Palace,Satellite,11742,5.98,No,Yes,No,Unisex,Not Recommended,Bus Stand
+Ahmedabad,Mangal Palace,Bopal,11971,0.9,No,No,No,Girls,Not Recommended,Nothing
+Ahmedabad,Modern Studio,Satellite,5084,3.28,No,Yes,No,Unisex,Recommended,Bus Stand
+Ahmedabad,Kiran Lodge,Satellite,3259,1.69,No,No,Yes,Boys,Recommended,Auto Stand
+Ahmedabad,Shanti Hostel,Bopal,13771,0.55,No,No,No,Girls,Recommended,Bus Stand

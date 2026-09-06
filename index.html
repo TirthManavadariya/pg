@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PG Finder – Ahmedabad & Anand</title>
+  <meta name="description" content="Find the best Paying Guest (PG) accommodations near your college in Ahmedabad and Anand with AI-powered rank scoring." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<!-- ── Animated Background ── -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- ── Navbar ── -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-title">PG<span class="accent">Finder</span></span>
+  </div>
+  <div class="nav-badge">AI Powered</div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">✨ Smart PG Recommendation</div>
+    <h1 class="hero-title">Find Your <span class="gradient-text">Perfect PG</span><br />Near Your College</h1>
+    <p class="hero-subtitle">AI-powered scoring ranks the best paying guest accommodations in Ahmedabad &amp; Anand based on affordability, amenities &amp; proximity.</p>
+  </div>
+</section>
+
+<!-- ── Search Form Card ── -->
+<section class="search-section">
+  <div class="glass-card form-card">
+    <h2 class="form-title">🔍 Search PGs</h2>
+    <p class="form-subtitle">Tell us your preferences and we'll rank the best options for you.</p>
+
+    <form id="pgForm" onsubmit="searchPGs(event)">
+
+      <div class="form-grid">
+
+        <!-- Gender -->
+        <div class="field-group">
+          <label class="field-label" for="gender">Gender</label>
+          <div class="select-wrapper">
+            <select id="gender" name="gender" required>
+              <option value="" disabled selected>Select gender…</option>
+              <option value="Boys">👦 Boys</option>
+              <option value="Girls">👧 Girls</option>
+              <option value="Unisex">🧑 Unisex (Any)</option>
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+        </div>
+
+        <!-- College -->
+        <div class="field-group">
+          <label class="field-label" for="college">College</label>
+          <div class="select-wrapper">
+            <select id="college" name="college" required>
+              <option value="" disabled selected>Select your college…</option>
+              <!-- populated via JS -->
+            </select>
+            <span class="select-arrow">▾</span>
+          </div>
+        </div>
+
+        <!-- Max Rent -->
+        <div class="field-group full-width">
+          <label class="field-label" for="rent">
+            Maximum Rent
+            <span class="rent-value" id="rentDisplay">₹8,000 / month</span>
+          </label>
+          <div class="range-wrapper">
+            <span class="range-label">₹3,000</span>
+            <input
+              type="range"
+              id="rent"
+              name="rent"
+              min="3000"
+              max="15000"
+              step="500"
+              value="8000"
+              oninput="updateRentDisplay(this.value)"
+            />
+            <span class="range-label">₹15,000</span>
+          </div>
+          <div class="rent-ticks">
+            <span>Budget</span>
+            <span>Mid-range</span>
+            <span>Premium</span>
+          </div>
+        </div>
+
+      </div>
+
+      <button type="submit" class="btn-search" id="searchBtn">
+        <span class="btn-inner">
+          <span class="btn-icon">🚀</span>
+          <span class="btn-text">Find Best PGs</span>
+        </span>
+        <div class="btn-glow"></div>
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ── Results ── -->
+<section class="results-section" id="resultsSection" style="display:none">
+
+  <!-- Stats Bar -->
+  <div class="stats-bar glass-card" id="statsBar">
+    <div class="stat-item">
+      <span class="stat-number" id="statTotal">0</span>
+      <span class="stat-label">PGs Found</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number" id="statCity">–</span>
+      <span class="stat-label">City</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-number" id="statTopScore">–</span>
+      <span class="stat-label">Top Score</span>
+    </div>
+  </div>
+
+  <!-- Results Header -->
+  <div class="results-header">
+    <h2 class="results-title" id="resultsTitle">Top Recommended PGs</h2>
+    <p class="results-sub" id="results-sub-college">Ranked by our AI score combining rent, distance &amp; amenities</p>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="pg-grid" id="pgGrid"></div>
+
+</section>
+
+<!-- ── No Results ── -->
+<div class="no-results glass-card" id="noResults" style="display:none">
+  <div class="no-results-icon">🔍</div>
+  <h3>No PGs Found</h3>
+  <p id="noResultsMsg">Try increasing your budget or selecting a different gender filter.</p>
+</div>
+
+<!-- ── Footer ── -->
+<footer class="footer">
+  <p>PGFinder © 2025 &nbsp;|&nbsp; AI-powered recommendations for students in Gujarat</p>
+</footer>
+
+<!-- ── Loading Overlay ── -->
+<div class="loading-overlay" id="loadingOverlay" style="display:none">
+  <div class="loader">
+    <div class="loader-ring"></div>
+    <p class="loader-text">Finding best PGs…</p>
+  </div>
+</div>
+
+<script src="/app.js"></script>
+</body>
+</html>
