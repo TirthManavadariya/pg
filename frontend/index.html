@@ -52,11 +52,16 @@
         <button id="globalSearchClear" class="clear-search-btn" style="display:none;">&times;</button>
       </div>
 
-      <div class="nav-right">
+      <div class="nav-right" id="navRight">
         <a href="#exploreSection" class="nav-link">Explore Stays</a>
         <a href="#whyRoomee" class="nav-link">Why Roomee</a>
+        
+        <!-- Auth & Role Action Container (Populated dynamically) -->
+        <div class="nav-auth-container" id="navAuthContainer">
+          <!-- Injected by JS -->
+        </div>
+
         <button class="btn btn-outline" id="requestCallbackBtn">Request Callback</button>
-        <button class="btn btn-primary" id="scheduleTopVisitBtn">Schedule Visit</button>
       </div>
     </div>
   </header>
@@ -118,183 +123,201 @@
           <label>Sharing Type</label>
           <select id="heroSelectSharing" class="capsule-select">
             <option value="all">All Sharing</option>
-            <option value="single">Private Room</option>
+            <option value="single">Single Private Room</option>
             <option value="double">Double Sharing</option>
             <option value="triple">Triple Sharing</option>
-            <option value="dorm">Dorm / Quad</option>
+            <option value="dorm">Dormitory Style</option>
           </select>
         </div>
-        <button class="btn btn-hero-search" id="heroSearchBtn">
+        <button class="btn btn-primary btn-hero-search" id="heroSearchBtn">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <span>Find My Stay</span>
+          Search Stays
         </button>
       </div>
 
-      <!-- Trust Badges Strip -->
+      <!-- Trust Bar Strip -->
       <div class="trust-strip">
         <div class="trust-item">
-          <div class="trust-icon">🛡️</div>
+          <span class="trust-icon">🛡️</span>
           <div>
-            <strong>100% Zero Brokerage</strong>
-            <span>Direct booking, no middlemen</span>
+            <strong>100% Verified</strong>
+            <span>Zero Fake Listings</span>
           </div>
         </div>
         <div class="trust-item">
-          <div class="trust-icon">🧹</div>
+          <span class="trust-icon">💰</span>
           <div>
-            <strong>Daily Housekeeping</strong>
-            <span>Clean rooms & fresh linen</span>
+            <strong>Zero Brokerage</strong>
+            <span>Direct Property Booking</span>
           </div>
         </div>
         <div class="trust-item">
-          <div class="trust-icon">🍳</div>
+          <span class="trust-icon">⚡</span>
           <div>
-            <strong>Home-Style Food</strong>
-            <span>Nutritious breakfast & dinner</span>
+            <strong>Instant Online Booking</strong>
+            <span>Confirm Bed in 60 Seconds</span>
           </div>
         </div>
         <div class="trust-item">
-          <div class="trust-icon">⚡</div>
+          <span class="trust-icon">🔑</span>
           <div>
-            <strong>High-Speed Wi-Fi</strong>
-            <span>Seamless WFH & streaming</span>
+            <strong>Flexible Leases</strong>
+            <span>1-Month Minimum Stay</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Main Explore & Filter Section -->
-  <main class="main-content" id="exploreSection">
+  <!-- Main Explore Section -->
+  <main class="explore-section" id="exploreSection">
     <div class="container">
-
+      
       <!-- Sticky Filter Bar -->
-      <div class="filter-wrapper">
+      <div class="sticky-filter-wrapper">
         <div class="filter-header-bar">
           
-          <!-- Gender segmented control -->
-          <div class="gender-segmented-control" id="genderFilterGroup">
-            <button class="seg-btn active" data-gender="all">All</button>
-            <button class="seg-btn" data-gender="unisex">Unisex</button>
-            <button class="seg-btn" data-gender="men">👨 Men / Boys</button>
-            <button class="seg-btn" data-gender="women">👩 Women / Girls</button>
+          <!-- Gender Segmented Control -->
+          <div class="filter-group">
+            <label class="filter-label">Gender:</label>
+            <div class="gender-segmented-control" id="genderFilterGroup">
+              <button class="seg-btn active" data-gender="all">All</button>
+              <button class="seg-btn" data-gender="unisex">Unisex</button>
+              <button class="seg-btn" data-gender="women">Women</button>
+              <button class="seg-btn" data-gender="men">Men</button>
+            </div>
           </div>
 
-          <!-- Sharing Type Pills -->
-          <div class="sharing-chips" id="sharingFilterGroup">
-            <button class="chip active" data-sharing="all">All Rooms</button>
-            <button class="chip" data-sharing="single">Single Room</button>
-            <button class="chip" data-sharing="double">Double Sharing</button>
-            <button class="chip" data-sharing="triple">Triple Sharing</button>
-            <button class="chip" data-sharing="dorm">Dorm / Quad</button>
+          <!-- Sharing Type Filter Chips -->
+          <div class="filter-group">
+            <label class="filter-label">Sharing:</label>
+            <div class="sharing-chips" id="sharingFilterGroup">
+              <button class="chip active" data-sharing="all">All</button>
+              <button class="chip" data-sharing="single">Single</button>
+              <button class="chip" data-sharing="double">Double</button>
+              <button class="chip" data-sharing="triple">Triple</button>
+              <button class="chip" data-sharing="dorm">Dorm</button>
+            </div>
           </div>
 
-          <!-- Sort dropdown -->
+          <!-- Sort Dropdown -->
           <div class="sort-wrapper">
-            <label for="sortBySelect">Sort by:</label>
+            <label for="sortBySelect">Sort By:</label>
             <select id="sortBySelect" class="sort-select">
-              <option value="popular">Popular & Recommended</option>
+              <option value="popular">Most Popular</option>
+              <option value="rating_desc">Highest Rated</option>
               <option value="price_asc">Price: Low to High</option>
               <option value="price_desc">Price: High to Low</option>
-              <option value="rating_desc">Highest Rated (4.5+)</option>
             </select>
           </div>
+
         </div>
 
-        <!-- Secondary Filter Bar (Amenities & Budget) -->
+        <!-- Secondary Filter Controls -->
         <div class="secondary-filter-bar">
-          <!-- Amenities Chips -->
-          <div class="amenities-chips">
-            <label class="amenity-checkbox">
+          
+          <!-- Amenities quick toggles -->
+          <div class="amenity-toggle-group">
+            <label class="toggle-chip">
               <input type="checkbox" id="filterAc">
-              <span class="custom-chip">❄️ AC</span>
+              <span>❄️ AC Available</span>
             </label>
-            <label class="amenity-checkbox">
+            <label class="toggle-chip">
               <input type="checkbox" id="filterWifi">
-              <span class="custom-chip">📶 High-Speed WiFi</span>
+              <span>📶 High-Speed WiFi</span>
             </label>
-            <label class="amenity-checkbox">
+            <label class="toggle-chip">
               <input type="checkbox" id="filterFood">
-              <span class="custom-chip">🍲 Food Included</span>
+              <span>🍲 Food Included</span>
             </label>
           </div>
 
-          <!-- Budget Range Slider -->
-          <div class="budget-slider-wrapper">
-            <div class="budget-label-row">
-              <span>Max Rent: <strong id="budgetVal">₹30,000</strong>/mo</span>
-            </div>
-            <input type="range" id="budgetRange" min="4000" max="30000" step="500" value="30000" class="styled-slider">
+          <!-- Price Range Slider -->
+          <div class="price-slider-group">
+            <span class="price-slider-label">Max Budget: <strong id="budgetVal">₹30,000</strong>/mo</span>
+            <input type="range" id="budgetRange" min="3000" max="35000" step="1000" value="30000" class="range-slider">
           </div>
 
-          <!-- Reset Filter Button -->
-          <button id="resetFiltersBtn" class="btn-reset-filters" title="Reset all filters">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-            Reset Filters
-          </button>
+          <!-- Clear Filters -->
+          <button class="btn-text-clear" id="resetFiltersBtn">Reset Filters</button>
         </div>
       </div>
 
-      <!-- Results Stats & Active Chips Header -->
-      <div class="results-meta-bar">
-        <div class="results-count-text">
-          Showing <span id="resultsCount">0</span> PG Stays in <span id="resultsCityName">Bangalore</span>
-        </div>
-        <div class="view-toggle">
-          <span class="active-badge" id="resultsBadgeText">⚡ Instant Book Available</span>
+      <!-- Results Meta Info -->
+      <div class="results-meta-header">
+        <h2 class="results-headline">
+          Showing <span id="resultsCount">0</span> Co-living Spaces in <span id="resultsCityName">Bangalore</span>
+        </h2>
+        <div class="verified-indicator">
+          <span class="check-icon">✓</span> All properties inspected by Roomee Field Auditors
         </div>
       </div>
 
-      <!-- PG Grid List -->
+      <!-- Property Cards Grid -->
       <div class="pg-grid" id="pgGridContainer">
-        <!-- Dynamic Cards Injected by JS -->
+        <!-- Dynamically populated by app.js -->
       </div>
 
       <!-- Empty State -->
-      <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state-card" id="emptyStateCard" style="display: none;">
         <div class="empty-icon">🔍</div>
-        <h3>No matching PGs found</h3>
-        <p>Try loosening your budget, removing amenities filters, or picking another locality.</p>
+        <h3>No properties match your current filters</h3>
+        <p>Try expanding your budget, selecting "All Sharing", or choosing a different locality.</p>
         <button class="btn btn-primary" id="emptyResetBtn">Reset All Filters</button>
       </div>
 
-      <!-- Pagination -->
+      <!-- Pagination Strip -->
       <div class="pagination-wrapper" id="paginationWrapper">
-        <button class="page-nav-btn" id="prevPageBtn" disabled>&larr; Previous</button>
+        <button class="btn btn-outline btn-page" id="prevPageBtn" disabled>&larr; Previous</button>
         <div class="page-numbers" id="pageNumbersContainer">
-          <!-- Page pills -->
+          <!-- Page numbers -->
         </div>
-        <button class="page-nav-btn" id="nextPageBtn">Next &rarr;</button>
+        <button class="btn btn-outline btn-page" id="nextPageBtn">Next &rarr;</button>
       </div>
 
     </div>
   </main>
 
-  <!-- Why Choose Roomee Section -->
-  <section class="why-zolo-section" id="whyRoomee">
+  <!-- Why Roomee Feature Section -->
+  <section class="why-roomee-section" id="whyRoomee">
     <div class="container">
-      <div class="section-heading-center">
-        <h2>Why 1,00,000+ Young Professionals Choose Roomee</h2>
-        <p>Say goodbye to annoying landlords, hidden brokerage fees, and rigid lock-ins.</p>
+      <div class="section-title-wrap text-center">
+        <span class="sub-badge">THE ROOMEE PROMISE</span>
+        <h2>Why 100,000+ Young Adults Choose Roomee</h2>
+        <p>Everything you need for an elevated, stress-free living experience.</p>
       </div>
 
       <div class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon-box" style="background:#eef2ff; color:#6366f1;">
-            🔒
+          <div class="feature-icon-box" style="background:#eff6ff; color:#3b82f6;">
+            🛡️
           </div>
-          <h3>1-Month Deposit</h3>
-          <p>Unlike traditional rentals demanding 6-10 months deposit, we only require 1 month refundable deposit.</p>
+          <h3>Zero Brokerage Guarantee</h3>
+          <p>Book directly with Roomee without paying a single rupee to middlemen or brokers.</p>
         </div>
         <div class="feature-card">
           <div class="feature-icon-box" style="background:#ecfdf5; color:#10b981;">
-            🍱
+            🍲
           </div>
-          <h3>Homely Daily Meals</h3>
-          <p>Hygienic, chef-prepared hot breakfast and dinner with rich regional cuisines rotated every week.</p>
+          <h3>Nutritious 3-Time Meals</h3>
+          <p>Freshly prepared hygienic breakfast, lunch, and dinner with daily rotating regional menus.</p>
         </div>
         <div class="feature-card">
-          <div class="feature-icon-box" style="background:#fffbeb; color:#f59e0b;">
+          <div class="feature-icon-box" style="background:#fef3c7; color:#f59e0b;">
+            🧹
+          </div>
+          <h3>Daily Deep Housekeeping</h3>
+          <p>Professional cleaning staff cleans your room, private washrooms, and common spaces daily.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#e0e7ff; color:#6366f1;">
+            ⚡
+          </div>
+          <h3>24/7 Power & High-Speed WiFi</h3>
+          <p>Up to 300 Mbps unlimited optical fiber Internet with uninterrupted generator power backup.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon-box" style="background:#f0fdf4; color:#22c55e;">
             🎮
           </div>
           <h3>Vibrant Community</h3>
@@ -311,7 +334,7 @@
     </div>
   </section>
 
-  <!-- Property Details & Schedule Visit Modal -->
+  <!-- Property Details, Book Room & Schedule Visit Modal -->
   <div class="modal-overlay" id="propertyModal" style="display: none;">
     <div class="modal-card">
       <button class="modal-close-btn" id="closeModalBtn">&times;</button>
@@ -341,11 +364,14 @@
             <div class="modal-badge-row" id="modalBadges"></div>
           </div>
 
-          <!-- Pricing Table -->
+          <!-- Pricing Table & Live Bed Inventory -->
           <div class="modal-section">
-            <h4 class="section-title">Sharing Options & Monthly Rent</h4>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <h4 class="section-title" style="margin-bottom: 0;">Room Inventory & Pricing</h4>
+              <span class="live-inventory-badge">🟢 Real-Time Bed Availability</span>
+            </div>
             <div class="sharing-grid" id="modalSharingGrid">
-              <!-- Sharing cards -->
+              <!-- Sharing cards populated by JS -->
             </div>
           </div>
 
@@ -378,15 +404,79 @@
 
         </div>
 
-        <!-- Right: Instant Schedule Visit Sticky Card -->
+        <!-- Right: Tabbed Booking & Schedule Visit Sticky Card -->
         <div class="modal-booking-col">
           <div class="booking-card">
-            <div class="booking-card-header">
-              <h3>Schedule a Free Visit</h3>
-              <p>Experience the space in-person with our Property Manager.</p>
+            
+            <!-- Segmented Modal Tabs -->
+            <div class="modal-tab-header">
+              <button class="modal-tab-btn active" id="tabBookRoomBtn" type="button">⚡ Book Room</button>
+              <button class="modal-tab-btn" id="tabScheduleVisitBtn" type="button">📅 Schedule Visit</button>
             </div>
 
-            <form id="visitBookingForm" class="visit-form">
+            <!-- TAB 1: BOOK ROOM FORM -->
+            <form id="roomBookingForm" class="visit-form">
+              <input type="hidden" id="bookFormPgId" value="">
+              
+              <div class="form-group">
+                <label>Select Room Category & Bed *</label>
+                <select id="bookRoomSelect" class="form-select" required>
+                  <option value="">Loading room options...</option>
+                </select>
+                <div class="room-availability-hint" id="roomAvailHint"></div>
+              </div>
+
+              <div class="form-group">
+                <label>Expected Move-in Date *</label>
+                <input type="date" id="bookMoveInDate" required>
+              </div>
+
+              <div class="form-group">
+                <label>Your Full Name *</label>
+                <input type="text" id="bookStudentName" placeholder="e.g. Rahul Sharma" required>
+              </div>
+
+              <div class="form-group">
+                <label>Mobile Number *</label>
+                <input type="tel" id="bookStudentPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+              </div>
+
+              <div class="form-group">
+                <label>College / Work Organization</label>
+                <input type="text" id="bookCollegeName" placeholder="e.g. Christ University / Infosys">
+              </div>
+
+              <div class="form-group">
+                <label>Special Preferences (Optional)</label>
+                <input type="text" id="bookNotes" placeholder="e.g. Quiet floor, study table near window">
+              </div>
+
+              <!-- Price Breakdown Box -->
+              <div class="booking-price-summary">
+                <div class="price-row">
+                  <span>Monthly Rent:</span>
+                  <strong id="summaryRentVal">₹--/mo</strong>
+                </div>
+                <div class="price-row">
+                  <span>Token Advance:</span>
+                  <strong class="text-brand">₹2,000</strong>
+                </div>
+                <div class="price-subtext">
+                  ✨ 100% adjustable against 1st month rent. Zero brokerage fee.
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-visit-submit" id="submitBookRoomBtn">
+                Proceed to Reserve & Pay Token (₹2,000)
+              </button>
+
+              <div class="booking-guarantee">
+                🔒 Safe & Instant Confirmation • Locked-in Bed Availability
+              </div>
+            </form>
+
+            <!-- TAB 2: SCHEDULE VISIT FORM -->
+            <form id="visitBookingForm" class="visit-form" style="display: none;">
               <input type="hidden" id="formPgId" value="">
               
               <div class="form-group">
@@ -424,11 +514,14 @@
 
             <!-- Booking Success Notification -->
             <div class="booking-success-box" id="bookingSuccessBox" style="display:none;">
-              <div class="success-icon">🎉</div>
-              <h4>Visit Scheduled!</h4>
+              <div class="success-icon" id="bookingSuccessIcon">🎉</div>
+              <h4 id="bookingSuccessTitle">Visit Scheduled!</h4>
               <p id="bookingSuccessMsg">Your visit is confirmed.</p>
-              <div class="ref-badge" id="bookingRefBadge">Ref: ROOMEE-VISIT-123456</div>
-              <button class="btn btn-outline btn-block" id="bookAnotherBtn" style="margin-top:12px;">Schedule Another</button>
+              <div class="ref-badge" id="bookingRefBadge">Ref: ROOMEE-123456</div>
+              <div class="success-actions" style="margin-top:14px; display:flex; gap:8px;">
+                <button class="btn btn-primary btn-block" id="viewInDashboardBtn">View in Dashboard</button>
+                <button class="btn btn-outline btn-block" id="bookAnotherBtn">Close</button>
+              </div>
             </div>
 
           </div>
@@ -437,6 +530,227 @@
       </div>
     </div>
   </div>
+
+  <!-- Auth Modal (Sign In / Register) -->
+  <div class="modal-overlay" id="authModal" style="display: none;">
+    <div class="modal-card auth-modal-card">
+      <button class="modal-close-btn" id="closeAuthModalBtn">&times;</button>
+      
+      <div class="auth-header">
+        <div class="brand-logo" style="justify-content: center; margin-bottom: 8px;">
+          <span class="logo-mark">R</span>
+          <span class="logo-text">room<span class="logo-highlight">ee</span></span>
+        </div>
+        <h3 id="authModalTitle">Welcome to Roomee</h3>
+        <p id="authModalSubtitle">Sign in or register to book stays, manage visits & reservations.</p>
+      </div>
+
+      <!-- Auth Tab Switcher -->
+      <div class="auth-tab-switch">
+        <button class="auth-tab-btn active" id="authTabLoginBtn">Sign In</button>
+        <button class="auth-tab-btn" id="authTabRegisterBtn">Create Account</button>
+      </div>
+
+      <!-- Quick 1-Click Demo Login Bar -->
+      <div class="demo-login-box">
+        <span class="demo-box-label">⚡ 1-Click Demo Logins for Evaluation:</span>
+        <div class="demo-btn-row">
+          <button class="btn-demo-pill" id="quickLoginStudentBtn">🎓 Login as Student (Rahul)</button>
+          <button class="btn-demo-pill" id="quickLoginOwnerBtn">🏢 Login as Owner (Vikram)</button>
+        </div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="auth-form">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="loginEmail" placeholder="student@roomee.com" value="student@roomee.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" value="password123" required>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="loginSubmitBtn">
+          Sign In
+        </button>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="registerForm" class="auth-form" style="display: none;">
+        <div class="form-group">
+          <label>I am a:</label>
+          <div class="role-selector-row">
+            <label class="role-radio-label">
+              <input type="radio" name="registerRole" value="student" checked>
+              <span>🎓 Student / Resident</span>
+            </label>
+            <label class="role-radio-label">
+              <input type="radio" name="registerRole" value="owner">
+              <span>🏢 PG Owner / Host</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="registerName" placeholder="e.g. Priya Patel" required>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="registerEmail" placeholder="priya@example.com" required>
+        </div>
+        <div class="form-group">
+          <label>Password *</label>
+          <input type="password" id="registerPassword" placeholder="Minimum 6 characters" minlength="6" required>
+        </div>
+        <div class="form-group">
+          <label>Mobile Number</label>
+          <input type="tel" id="registerPhone" placeholder="10-digit mobile number">
+        </div>
+        <div class="form-group" id="collegeNameGroup">
+          <label>College / University Name</label>
+          <input type="text" id="registerCollege" placeholder="e.g. Nirma University / IIT Bombay">
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="registerSubmitBtn">
+          Create Account & Sign In
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Student "My Bookings" Dashboard Modal -->
+  <div class="modal-overlay" id="myBookingsModal" style="display: none;">
+    <div class="modal-card dashboard-modal-card">
+      <button class="modal-close-btn" id="closeMyBookingsBtn">&times;</button>
+      
+      <div class="dashboard-modal-header">
+        <div>
+          <h2>🎓 My Bookings & Visits</h2>
+          <p>Track your bed reservations, physical visit confirmations, and token payment receipts.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" id="refreshMyBookingsBtn">🔄 Refresh</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="dashboard-tabs">
+        <button class="dash-tab-btn active" data-filter="all">All Bookings (<span id="countMyAll">0</span>)</button>
+        <button class="dash-tab-btn" data-filter="room_booking">Bed Reservations (<span id="countMyRooms">0</span>)</button>
+        <button class="dash-tab-btn" data-filter="visit">Physical Visits (<span id="countMyVisits">0</span>)</button>
+      </div>
+
+      <!-- Bookings List -->
+      <div class="dashboard-list" id="myBookingsList">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- PG Owner Operations Dashboard Modal -->
+  <div class="modal-overlay" id="ownerDashboardModal" style="display: none;">
+    <div class="modal-card dashboard-modal-card">
+      <button class="modal-close-btn" id="closeOwnerDashboardBtn">&times;</button>
+      
+      <div class="dashboard-modal-header">
+        <div>
+          <h2>🏢 PG Owner Operations Dashboard</h2>
+          <p>Review incoming student room bookings and physical visit requests across your properties.</p>
+        </div>
+        <button class="btn btn-outline btn-sm" id="refreshOwnerBookingsBtn">🔄 Refresh</button>
+      </div>
+
+      <!-- Owner Stat Counters -->
+      <div class="owner-metrics-strip">
+        <div class="metric-box">
+          <span class="metric-num" id="ownerTotalCount">0</span>
+          <span class="metric-label">Total Requests</span>
+        </div>
+        <div class="metric-box warning">
+          <span class="metric-num" id="ownerPendingCount">0</span>
+          <span class="metric-label">Pending Approvals</span>
+        </div>
+        <div class="metric-box success">
+          <span class="metric-num" id="ownerConfirmedCount">0</span>
+          <span class="metric-label">Confirmed Stays</span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="dashboard-tabs">
+        <button class="dash-tab-btn active" data-owner-filter="all">All Requests</button>
+        <button class="dash-tab-btn" data-owner-filter="pending">Pending Approval ⚡</button>
+        <button class="dash-tab-btn" data-owner-filter="confirmed">Confirmed</button>
+        <button class="dash-tab-btn" data-owner-filter="visit">Scheduled Visits</button>
+      </div>
+
+      <!-- Requests List -->
+      <div class="dashboard-list" id="ownerRequestsList">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Razorpay / Stripe Payment Checkout Modal -->
+  <div class="modal-overlay" id="paymentModal" style="display: none;">
+    <div class="modal-card payment-modal-card">
+      <button class="modal-close-btn" id="closePaymentModalBtn">&times;</button>
+      
+      <div class="payment-header">
+        <div class="gateway-badges">
+          <span class="badge-rzp">⚡ Razorpay Secure</span>
+          <span class="badge-stripe">🔒 Stripe Verified</span>
+        </div>
+        <h3>Secure Token Advance Payment</h3>
+        <p>Your ₹2,000 token is 100% adjustable against your 1st month rent upon moving in.</p>
+      </div>
+
+      <div class="payment-summary-card">
+        <div class="payment-summary-row">
+          <span>Booking Reference:</span>
+          <strong id="payRefId">#ROOMEE-0000</strong>
+        </div>
+        <div class="payment-summary-row">
+          <span>Property:</span>
+          <strong id="payPropertyName">Roomee Stay</strong>
+        </div>
+        <div class="payment-summary-row">
+          <span>Room Category:</span>
+          <strong id="payRoomType">Double Sharing</strong>
+        </div>
+        <div class="payment-total-divider"></div>
+        <div class="payment-summary-row total-row">
+          <span>Total Token Payable:</span>
+          <strong class="pay-amount-highlight">₹2,000</strong>
+        </div>
+      </div>
+
+      <!-- Payment Method Selector -->
+      <div class="payment-methods">
+        <label class="payment-method-item active">
+          <input type="radio" name="payMethod" value="upi" checked>
+          <span>📱 Instant UPI (Google Pay, PhonePe, Paytm, QR)</span>
+        </label>
+        <label class="payment-method-item">
+          <input type="radio" name="payMethod" value="card">
+          <span>💳 Credit / Debit Card (Visa, Mastercard, RuPay)</span>
+        </label>
+        <label class="payment-method-item">
+          <input type="radio" name="payMethod" value="netbanking">
+          <span>🏦 Net Banking (HDFC, ICICI, SBI, Axis)</span>
+        </label>
+      </div>
+
+      <button class="btn btn-primary btn-block btn-pay-now" id="confirmPayBtn">
+        Pay ₹2,000 & Confirm Bed Now
+      </button>
+
+      <div class="payment-footer-note">
+        🔒 256-bit Bank Grade Encryption • Zero Processing Fees
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
 
   <!-- Footer -->
   <footer class="footer">
