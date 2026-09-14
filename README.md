@@ -1,221 +1,186 @@
-<<<<<<< HEAD
-# 🏠 Roomee — AI-Powered PG & Student Housing Platform
+# 🏠 Roomee — Live Google Maps PG Discovery & AI Accommodation Platform
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Backend-Flask-green.svg)](https://flask.palletsprojects.com/)
+[![Google Maps](https://img.shields.io/badge/Maps-Google%20Places%20(New)-4285F4.svg)](https://developers.google.com/maps)
 [![PyTorch](https://img.shields.io/badge/Deep%20Learning-PyTorch-EE4C2C.svg)](https://pytorch.org/)
 [![Scikit-Learn](https://img.shields.io/badge/Machine%20Learning-Scikit--Learn-F7931E.svg)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-MIT-purple.svg)](#license)
 
-**Roomee** is a full-stack, AI-first student and professional accommodation recommendation platform. It combines **Machine Learning regression**, **Natural Language Semantic Vector Search**, and a **PyTorch Two-Tower Deep Neural Matching Network** to help students and working professionals find verified Paying Guest (PG) stays tailored to their preferences, budget, and location.
+**Roomee** is a production-grade, full-stack student and professional accommodation discovery engine. It pairs **live real-world Google Places API (New)** discovery and an interactive **split-screen Google Maps UI** with an **AI/ML housing recommendation pipeline**, role-based authentication, and visit/booking management across 7 premier Indian metropolitan hubs: **Ahmedabad, Gandhinagar, Mumbai, Pune, Bangalore, Hyderabad, and Delhi**.
 
 ---
 
-## ✨ Key Features
+## 🌟 Key Highlights & Modules
 
-### 1. 🔍 AI Semantic Vector Search (NLP Embeddings)
-- Search naturally using everyday language (e.g., *"Quiet single AC room in Pune under 15k with veg food"* or *"Spacious double sharing in Koramangala Bangalore near IT companies"*).
-- Converts descriptions and queries into dense vector embeddings using a trained neural text encoder.
-- Cosine similarity matching and post-filtering by city, budget, sharing type, and food inclusion.
+### 1. 🗺️ Real Google Maps PG Discovery (Split-Screen Overhaul)
+- **Live Google Places API (New) Integration**: Retrieves authentic, real-world PG accommodation listings via `https://places.googleapis.com/v1/places:searchText` using 20 km radius circle biasing.
+- **7 Target Cities Supported**:
+  - **Ahmedabad**: `(23.0225, 72.5714)`
+  - **Gandhinagar**: `(23.2156, 72.6369)`
+  - **Mumbai**: `(19.0760, 72.8777)`
+  - **Pune**: `(18.5204, 73.8567)`
+  - **Bangalore**: `(12.9716, 77.5946)`
+  - **Hyderabad**: `(17.3850, 78.4867)`
+  - **Delhi**: `(28.6139, 77.2090)`
+- **Full-Stack Split-Screen Layout**:
+  - **Sticky City Selector**: Horizontal pill buttons for all 7 cities with smooth active indicator transitions and dynamic place counts.
+  - **Left Feed Panel (44%)**: Vertical scroll feed displaying PG cards with numbered badges, verified indicators, ratings, review counts, pricing, complete addresses, and direct *"Open in Google Maps"* links.
+  - **Local Real-Time Filter**: Instant substring matching by neighborhood, street name, or PG title with live count updates.
+  - **Right Map Panel (56%)**: Full-height interactive map featuring custom numbered SVG pin markers. Hovering any card triggers pin bounce animations; clicking a pin opens a styled `InfoWindow` and automatically scrolls the corresponding card into view.
+  - **Adaptive Dual-Engine Mapping**: Connects to the **Google Maps JavaScript API** when `GOOGLE_MAPS_API_KEY` is configured, and seamlessly falls back to a clean **OpenStreetMap vector engine** with zero watermarks if unconfigured.
+  - **Mobile Responsive Viewport (`< 768px`)**: Automatically transitions into a floating bottom pill toggle (`[ 📋 List View ]  |  [ 🗺️ Map View ]`).
 
-### 2. 🤖 PyTorch Two-Tower Neural Matcher (Personalized Recommendations)
-- Implements a **Two-Tower Neural Network** architecture in PyTorch:
-  - **User Tower**: Deep MLP mapping student preferences (city, budget tensor, sharing type, dietary choices, amenities) into a 32-dimensional normalized latent space.
-  - **Item Tower**: Deep MLP mapping accommodation attributes into the same 32-dimensional latent space.
-- Calculates dot-product cosine similarity against precomputed listing tensors to deliver real-time personalized recommendations.
+### 2. 🤖 AI & Machine Learning Pipeline
+- **PyTorch Two-Tower Deep Neural Matcher**: 32-dimensional normalized latent space mapping user preferences against accommodation tensors.
+- **Semantic Vector Search (NLP Embeddings)**: Converts natural language descriptions into dense vector embeddings for intent-driven search.
+- **Fair Market Rent Valuation Predictor**: GradientBoosting/XGBoost regressor trained on 30,000+ listings predicting fair benchmarks and flagging *Great Value* deals.
 
-### 3. 📊 ML Fair Market Rent Predictor
-- Preprocessing pipeline with binary feature transformers and One-Hot Encoders for cities, localities, and room types.
-- GradientBoosting / XGBoost regressor trained on **30,000+ PG listings**.
-- Every PG card displays a live **Fair-Price Valuation Badge**:
-  - 🟢 **Great Value**: Asking rent is significantly below market benchmark (e.g. ₹2,000+ savings).
-  - 🔵 **Fair Deal**: Market standard pricing (within ±10% norm).
-  - 🟠 **Overpriced / Slightly High**: Premium pricing above estimated benchmark.
-
-### 4. 💬 Conversational AI Housing Chatbot
-- Built-in floating AI assistant (`Ask Roomee AI`) for interactive Q&A, fair rent inquiries, and instant PG discovery directly in a chat window.
-
-### 5. 🎨 Modern Minimalist Frontend Design
-- Clean, crisp **Airbnb / Notion / Stripe** white aesthetic (`#f8fafc` background, `#ffffff` cards, slate `#0f172a` typography, refined indigo `#4f46e5` accents).
-- Interactive filter chips, segmented sharing controls, real-time budget range slider, and interactive accommodation detail modals.
+### 3. 🛡️ Production Database & Booking Lifecycle
+- **Persistent SQLite/PostgreSQL Database**: Models for `User`, `PGProperty`, `Room`, `Booking`, and `Payment` with ACID concurrency control.
+- **Role-Based Access Control (RBAC)**: JWT authentication securing student, property owner, and admin endpoints.
+- **Visit Scheduling & Booking Flow**: Instant visit slot confirmation and token booking payment workflows (Razorpay/Stripe compatible).
 
 ---
 
 ## 🏗️ System Architecture
 
 ```
-                                  ┌────────────────────────┐
-                                  │   User Search/Query    │
-                                  └───────────┬────────────┘
-                                              │
-                    ┌─────────────────────────┼─────────────────────────┐
-                    ▼                         ▼                         ▼
-          ┌───────────────────┐     ┌───────────────────┐     ┌───────────────────┐
-          │  Semantic Search  │     │   Neural Matcher  │     │   Rent Predictor  │
-          │  (Dense Vectors)  │     │ (PyTorch Two-Tower│     │ (GradientBoosting)│
-          └─────────┬─────────┘     └─────────┬─────────┘     └─────────┬─────────┘
-                    │                         │                         │
-                    └─────────────────────────┼─────────────────────────┘
-                                              │
-                                              ▼
-                                 ┌─────────────────────────┐
-                                 │ Ranked & Enriched PGs   │
-                                 │ (Fair Price + Match %)  │
-                                 └────────────┬────────────┘
-                                              │
-                                              ▼
-                                 ┌─────────────────────────┐
-                                 │   Roomee Minimalist UI  │
-                                 │  (Web & Chat Interface) │
-                                 └─────────────────────────┘
+                       ┌─────────────────────────────────────────┐
+                       │   Client UI (Split-Screen & Grid Views) │
+                       │    (discovery.html / index.html)        │
+                       └────────────────────┬────────────────────┘
+                                            │
+                ┌───────────────────────────┴───────────────────────────┐
+                ▼                                                       ▼
+  ┌───────────────────────────┐                           ┌───────────────────────────┐
+  │   Google Maps JS / Leaflet│                           │   Flask REST API Server   │
+  │   Interactive Map Canvas  │                           │   (backend/app.py)        │
+  └───────────────────────────┘                           └─────────────┬─────────────┘
+                                                                        │
+        ┌───────────────────────────────┬───────────────────────────────┼───────────────────────────────┐
+        ▼                               ▼                               ▼                               ▼
+┌───────────────┐               ┌───────────────┐               ┌───────────────┐               ┌───────────────┐
+│ Google Places │               │ SQLite / DB   │               │ AI/ML Models  │               │ 30k Listings  │
+│ API (New)     │               │ (roomee.db)   │               │ (Two-Tower &  │               │ Dataset       │
+│ (real_places) │               │ Models & Auth │               │ Regressor)    │               │ (CSV Engine)  │
+└───────────────┘               └───────────────┘               └───────────────┘               └───────────────┘
 ```
 
 ---
 
 ## 📁 Repository Structure
 
-```
+```text
 pg/
 ├── backend/
-│   ├── models/
-│   │   ├── __init__.py
-│   │   ├── rent_predictor.py     # Step 1: Fair Rent Regressor Pipeline
-│   │   ├── semantic_search.py    # Step 2: Semantic Vector Search Engine
-│   │   ├── neural_matcher.py     # Step 3: PyTorch Two-Tower Neural Network
-│   │   ├── model_rent.joblib     # Saved Fair Rent model pipeline
-│   │   ├── text_encoder.joblib   # Saved text embedding vectorizer
-│   │   ├── embeddings.npy        # Precomputed listing embeddings (30k rows)
-│   │   ├── neural_matcher.pt     # PyTorch model weights
-│   │   ├── item_embeddings.pt    # Precomputed 32-dim item latent tensors
-│   │   └── search_metadata.json  # Listings metadata cache
-│   ├── app.py                    # Flask API server & static asset handler
-│   ├── train_models.py           # Training & persistence pipeline script
-│   └── requirements.txt          # Python dependencies
+│   ├── app.py                  # Production Flask API server & route handlers
+│   ├── real_places.py          # Google Places API (New) client & verified city fallbacks
+│   ├── models_db.py            # SQLAlchemy database models (User, Booking, Room, etc.)
+│   ├── auth.py                 # JWT authentication & password verification
+│   ├── notifications.py        # Event notification hooks & dispatcher
+│   ├── chat_parser.py          # Conversational assistant parser
+│   ├── train_models.py         # AI model training script
+│   └── requirements.txt        # Backend dependencies
 ├── frontend/
-│   ├── index.html                # Modern semantic HTML5 markup
-│   ├── style.css                 # Airbnb/Notion minimalist design system
-│   └── app.js                    # Client application & API controller
-├── pg_listings.csv               # Dataset containing 30,000 PG accommodations
-└── README.md                     # Project documentation
+│   ├── discovery.html          # Real Google Maps Split-Screen Discovery UI
+│   ├── index.html              # Modern marketplace landing & grid view
+│   ├── pgfinder.html           # Intelligent student housing ranking dashboard
+│   ├── app.js                  # Frontend client application logic
+│   └── style.css               # Design system & responsive styles
+├── discovery.html              # Root discovery entrypoint
+├── index.html                  # Root marketplace landing entrypoint
+├── app.py                      # Root server entrypoint delegating to backend/app.py
+├── pg_listings.csv             # 30,000+ PG listings dataset
+├── .env                        # Environment configuration (Google Maps API key, etc.)
+└── README.md                   # Platform documentation
 ```
-
----
-
-## 📊 Dataset Schema (`pg_listings.csv`)
-
-The dataset contains 30,000 records across 11 major Indian metropolitan cities (*Pune, Bangalore, Mumbai, Hyderabad, Delhi, Ahmedabad, Chennai, Gurgaon, Noida, Jaipur, Kolkata*):
-
-| Column | Type | Description |
-|---|---|---|
-| `pg_id` | String | Unique listing identifier (e.g. `PG000001`) |
-| `name` | String | PG Accommodation name |
-| `city` | String | Metro city location |
-| `locality` | String | Neighborhood / area |
-| `rent_monthly` | Integer | Monthly rent in INR (₹) |
-| `sharing_type` | String | `Single`, `Double`, `Triple`, `Dorm` |
-| `ac` | String / Binary | Air Conditioning (`Yes` / `No`) |
-| `wifi` | String / Binary | High-Speed Wi-Fi (`Yes` / `No`) |
-| `food_included`| String / Binary | Daily meals included (`Yes` / `No`) |
-| `food_type` | String | `Veg`, `Non-Veg`, `Both`, `None` |
-| `description` | String | Full text description for semantic embedding |
 
 ---
 
 ## 🚀 Getting Started
 
 ### 1. Prerequisites
-- Python 3.10, 3.11, 3.12, 3.13, or 3.14
-- Git (optional)
+- Python 3.10+ (tested through Python 3.14)
+- Web Browser (Chrome, Edge, Firefox, Safari)
 
-### 2. Clone / Open Repository
-```bash
-cd d:/ACADMIC/CODING/PROJECT/pg
+### 2. Configuration (`.env`)
+Create or edit `.env` in the root workspace directory:
+```env
+# Optional: Enter your Google Maps JavaScript & Places API (New) key:
+GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+
+PORT=5000
+DATABASE_URL=sqlite:///instance/roomee.db
 ```
+> **Note**: If `GOOGLE_MAPS_API_KEY` is left blank, Roomee seamlessly operates out-of-the-box using curated authentic real-world PG listings across all 7 cities with clean vector map tiles.
 
 ### 3. Install Dependencies
 ```bash
 pip install -r backend/requirements.txt
 ```
 
-### 4. (Optional) Re-Train AI Models
-To retrain the Fair Rent Regressor, rebuild the NLP vector index, and train the PyTorch Two-Tower Matcher from scratch:
+### 4. Run the Server
 ```bash
-python backend/train_models.py
-```
-
-### 5. Launch the Web Application
-```bash
-python backend/app.py
+python app.py
 ```
 
 Open your browser and navigate to:
-```
-http://127.0.0.1:5000
-```
+- **Real Google Maps Split-Screen Discovery**: [http://127.0.0.1:5000/](http://127.0.0.1:5000/) (or `/discovery`)
+- **Classic Marketplace Grid View**: [http://127.0.0.1:5000/classic](http://127.0.0.1:5000/classic)
+- **Student Housing Discovery**: [http://127.0.0.1:5000/pgfinder.html](http://127.0.0.1:5000/pgfinder.html)
 
 ---
 
-## 🔌 API Documentation
+## 🔌 REST API Reference
 
-| Endpoint | Method | Description | Sample Payload |
+### Real Google Places & Maps Discovery
+| Endpoint | Method | Parameters | Description |
 |---|---|---|---|
-| `/api/health` | `GET` | Health check & model status | — |
-| `/api/meta` | `GET` | Available cities, localities, sharing types | — |
-| `/api/listings` | `GET` | Filtered & paginated accommodations | Query params: `city`, `sharing`, `max_rent`, `ac`, `wifi`, `food` |
-| `/api/semantic-search` | `POST` | Natural language vector search | `{"query": "Single AC room in Pune under 15k", "top_k": 20}` |
-| `/api/recommend-personalized` | `POST` | PyTorch Two-Tower student recommendations | `{"city": "Pune", "budget": 14000, "sharing_type": "Single", "food_type": "Veg", "ac": 1, "wifi": 1, "food_included": 1}` |
-| `/api/predict-rent` | `POST` | ML Fair market price benchmark | `{"city": "Pune", "locality": "Baner", "sharing_type": "Double", "ac": 1, "wifi": 1, "food_included": 1}` |
-| `/api/chat` | `POST` | Conversational housing assistant | `{"message": "Show me girls PGs in Mumbai with food"}` |
+| `/api/real-pgs` | `GET` | `city` (e.g. `ahmedabad`, `bangalore`) | Returns live Google Places (New) PG listings with GPS coordinates, reviews, ratings, and Google Maps links. |
+| `/api/config` | `GET` | — | Returns public SDK configuration and supported city coordinates. |
 
----
-
-## 📈 Model Performance & Feature Importances
-
-Top 10 features influencing monthly rent pricing:
-
+#### Sample Response (`GET /api/real-pgs?city=ahmedabad`):
+```json
+{
+  "success": true,
+  "city": "ahmedabad",
+  "center": { "lat": 23.0225, "lng": 72.5714 },
+  "count": 8,
+  "data": [
+    {
+      "id": "ChIJ_zO4-QWEXjkR4UoO7E3YlC4",
+      "name": "Stanza Living Stanford House (Navrangpura)",
+      "address": "Opp. St. Xavier's College, Navrangpura, Ahmedabad, Gujarat 380009",
+      "lat": 23.0373,
+      "lng": 72.5567,
+      "rating": 4.6,
+      "reviews": 182,
+      "mapsUrl": "https://maps.google.com/?q=Stanza+Living+Stanford+House+Navrangpura+Ahmedabad",
+      "price": "₹9,500/mo",
+      "gender": "Unisex"
+    }
+  ]
+}
 ```
- 1. Room Sharing (Single Room)          : 46.05%
- 2. Air Conditioning (AC)               : 14.97%
- 3. Room Sharing (Double Sharing)       :  9.34%
- 4. City (Mumbai Tier-1 Premium)        :  5.04%
- 5. Food / Meal Plan Included           :  4.78%
- 6. City (Bangalore Tech Hub)           :  3.45%
- 7. City (Gurgaon Cyber City)           :  2.64%
- 8. City (Ahmedabad)                    :  2.49%
- 9. City (Kolkata)                      :  2.24%
-10. Room Sharing (Dormitory)            :  2.13%
-```
+
+### Marketplace & Booking Endpoints
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/cities` | `GET` | Returns list of major cities with starting rent and listing counts. |
+| `/api/localities` | `GET` | Returns localities for a specific city (`?city=Bangalore`). |
+| `/api/pgs` | `GET` | Search and filter listings by price, gender, sharing type, amenities. |
+| `/api/pg/<pg_id>` | `GET` | Fetches detailed property specifications and available room inventory. |
+| `/api/auth/register` | `POST` | User registration (Student / Owner / Admin). |
+| `/api/auth/login` | `POST` | User login returning JWT bearer token. |
+| `/api/auth/me` | `GET` | Fetches current user profile from token. |
+| `/api/book-visit` | `POST` | Confirms free on-site property visits. |
+| `/api/bookings` | `POST` | Reserves bed / room with concurrency check. |
+| `/api/payments/create-order`| `POST` | Generates secure checkout order token (Razorpay/Stripe). |
+| `/api/payments/verify` | `POST` | Confirms payment transaction and activates booking. |
 
 ---
 
 ## 🛡️ License
 
 Distributed under the MIT License. See `LICENSE` for more information.
-=======
-# 🏠 PGFinder — AI-Powered Smart PG Recommendation System
-
-PGFinder is a premium web application designed to help students in Gujarat find the perfect Paying Guest (PG) accommodation near their colleges in **Ahmedabad** and **Anand**. Using an intelligent mathematical scoring system and data-driven insights, it dynamically ranks accommodation options based on affordability, proximity, and essential amenities.
-
----
-
-## ✨ Features
-
-- **Premium Dark UI**: Implements a sleek, responsive Glassmorphism interface with custom animated background ambient orbs and smooth CSS transitions.
-- **College-to-City Smart Inference**: Students simply select their college, and the backend automatically deduces whether they need accommodations in Ahmedabad or Anand.
-- **Multi-Criteria Ranking Matrix**: Accommodations are not just filtered; they are evaluated using a custom weighted formulation:
-  $$\text{PG Score} = (0.30 \times \text{Amenities}) + (0.30 \times \text{Proximity}) + (0.40 \times \text{Affordability})$$
-- **Dynamic Rent Bounds**: Real-time slide adjustments with custom gradient filling and dynamic category ticks (Budget, Mid-range, Premium).
-- **Visual AI Rank Badges**: Top results feature custom visual indicator badges (🥇 Gold, 🥈 Silver, 🥉 Bronze) alongside real-time metrics and breakdown scores.
-
----
-
-## 📂 Project Structure
-
-```text
-├── app.py                         # Flask Web Server (Backend Filtering & Core Logic)
-├── app.js                         # Frontend controller logic, API calls & DOM Renderer
-├── index.html                     # Responsive entry point web layout
-├── style.css                      # Premium Dark Glassmorphism Stylesheet
-├── pg_dataset_final_v2_named.csv  # Cleaned dataset consisting of PG listings
-└── pg.ipynb                       # Jupyter Notebook mapping exploratory data research
->>>>>>> f0d853c8d74f2fa0043b4eaea91ac13134531ff8
