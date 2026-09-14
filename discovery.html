@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Roomee | Real Google Maps PG Discovery (Live Places API)</title>
+  <meta name="description" content="Discover verified real-world PG and co-living accommodations across India with live Google Maps split-screen discovery.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet Fallback Styles & Scripts (Resilient offline & no-key mapping) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --primary-light: #eef2ff;
+      --primary-glow: rgba(79, 70, 229, 0.18);
+      --accent: #06b6d4;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-sub: #94a3b8;
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --rating-gold: #f59e0b;
+      --badge-green: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.12);
+      --shadow-active: 0 16px 36px -6px rgba(79, 70, 229, 0.22);
+      --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: var(--font-family);
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Top Header Bar ── */
+    .top-navbar {
+      height: 64px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
+    }
+
+    .logo-badge {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: #ffffff;
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.35);
+    }
+
+    .logo-text span {
+      color: var(--primary);
+    }
+
+    .live-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #ecfdf5;
+      color: #047857;
+      border: 1px solid #a7f3d0;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .live-pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse-green 2s infinite;
+    }
+
+    @keyframes pulse-green {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 7px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-classic-view {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      transition: all 0.2s ease;
+      background: #ffffff;
+    }
+
+    .btn-classic-view:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+
+    /* ── Sticky City Selector Bar ── */
+    .city-nav-bar {
+      height: 58px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none; /* Firefox */
+      z-index: 90;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    .city-nav-bar::-webkit-scrollbar {
+      display: none; /* Chrome/Safari */
+    }
+
+    .city-pill-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+    }
+
+    .city-pill-btn:hover {
+      border-color: #cbd5e1;
+      color: var(--text-main);
+      background: #f8fafc;
+      transform: translateY(-1px);
+    }
+
+    .city-pill-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .city-pill-btn.active .city-icon {
+      transform: scale(1.15);
+    }
+
+    .city-pill-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: inherit;
+      padding: 1px 7px;
+      border-radius: 9999px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    .city-pill-btn:not(.active) .city-pill-badge {
+      background: #f1f5f9;
+      color: var(--text-muted);
+    }
+
+    /* ── Split-Screen Discovery Container ── */
+    .discovery-split-view {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── Left Panel (42% width) ── */
+    .left-feed-panel {
+      width: 44%;
+      min-width: 400px;
+      max-width: 580px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border-right: 1px solid var(--border-color);
+      z-index: 20;
+      position: relative;
+    }
+
+    .feed-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .feed-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .feed-title-block h2 {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .feed-title-block p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .count-indicator {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      border: 1px solid #c7d2fe;
+    }
+
+    /* Local Quick Filter Input */
+    .local-search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-svg-icon {
+      position: absolute;
+      left: 14px;
+      color: var(--text-sub);
+      pointer-events: none;
+    }
+
+    .local-search-input {
+      width: 100%;
+      height: 42px;
+      padding: 0 40px 0 42px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+      background: #f8fafc;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .local-search-input:focus {
+      background: #ffffff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .local-search-clear {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: var(--text-sub);
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: none;
+      padding: 4px;
+    }
+
+    .local-search-clear:hover {
+      color: var(--text-main);
+    }
+
+    /* Vertical Scroll List */
+    .feed-scroll-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      scroll-behavior: smooth;
+    }
+
+    /* Custom scrollbar */
+    .feed-scroll-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .feed-scroll-list::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    .feed-scroll-list::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Real PG Card */
+    .pg-item-card {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: all 0.24s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      flex-shrink: 0;
+    }
+
+
+    .pg-item-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .pg-item-card.is-active,
+    .pg-item-card.is-hovered {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-active);
+      background: #ffffff;
+      transform: translateY(-3px);
+    }
+
+    .card-top-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .card-thumbnail-wrap {
+      width: 110px;
+      height: 95px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      position: relative;
+      background: #f1f5f9;
+    }
+
+    .card-thumbnail-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .pg-item-card:hover .card-thumbnail-img {
+      transform: scale(1.06);
+    }
+
+    .marker-number-tag {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: rgba(15, 23, 42, 0.85);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+
+    .card-content-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .card-meta-tags {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
+      flex-wrap: wrap;
+    }
+
+    .badge-verified {
+      background: #ecfdf5;
+      color: #059669;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .badge-gender {
+      background: #f1f5f9;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .card-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-address {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+      line-height: 1.35;
+      margin-top: 2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-address svg {
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .card-bottom-row {
+      padding: 10px 16px 14px 16px;
+      background: #fafbfc;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #fffbeb;
+      border: 1px solid #fef3c7;
+      color: #92400e;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .rating-star {
+      color: var(--rating-gold);
+    }
+
+    .review-count {
+      color: var(--text-sub);
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .btn-maps-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: var(--primary-light);
+      transition: all 0.2s ease;
+    }
+
+    .btn-maps-link:hover {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    /* Skeleton Placeholder */
+    .skeleton-card {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      gap: 14px;
+      animation: skeleton-shimmer 1.5s infinite linear;
+    }
+
+    .skeleton-thumb {
+      width: 100px;
+      height: 90px;
+      border-radius: 10px;
+      background: #e2e8f0;
+      flex-shrink: 0;
+    }
+
+    .skeleton-lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .skeleton-bar {
+      height: 14px;
+      border-radius: 6px;
+      background: #e2e8f0;
+    }
+    .skeleton-bar.w-60 { width: 60%; }
+    .skeleton-bar.w-90 { width: 90%; }
+    .skeleton-bar.w-40 { width: 40%; }
+
+    @keyframes skeleton-shimmer {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
+    }
+
+    /* ── Right Panel (56–58% width) ── */
+    .right-map-panel {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      background: #e2e8f0;
+    }
+
+    #googleMapCanvas,
+    #leafletMapCanvas {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    .map-controls-floating {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .map-chip-badge {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 8px 14px;
+      border-radius: 10px;
+      box-shadow: var(--shadow-md);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Custom InfoWindow */
+    .custom-infowindow {
+      max-width: 280px;
+      padding: 4px;
+      font-family: var(--font-family);
+    }
+
+    .info-title {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .info-address {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+
+    .info-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid #f1f5f9;
+    }
+
+    .info-btn-focus {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .info-btn-focus:hover {
+      background: var(--primary-hover);
+    }
+
+    /* ── Mobile Floating View Toggle (< 768px) ── */
+    .mobile-view-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 500;
+      background: #0f172a;
+      color: #ffffff;
+      padding: 6px 8px;
+      border-radius: 9999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      gap: 4px;
+    }
+
+    .mobile-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 9999px;
+      background: transparent;
+      color: #94a3b8;
+      border: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .mobile-toggle-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      box-shadow: 0 2px 10px var(--primary-glow);
+    }
+
+    /* ── Responsive Queries ── */
+    @media (max-width: 900px) {
+      .left-feed-panel {
+        width: 48%;
+        min-width: 340px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .discovery-split-view {
+        position: relative;
+        flex-direction: column;
+      }
+
+      .mobile-view-toggle {
+        display: flex;
+      }
+
+      .left-feed-panel {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 100% !important;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 30;
+      }
+
+      .right-map-panel {
+        width: 100% !important;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 20;
+      }
+
+      /* Mobile view switching */
+      body.mobile-mode-map .left-feed-panel {
+        transform: translateY(100%);
+        pointer-events: none;
+      }
+
+      body.mobile-mode-list .left-feed-panel {
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+
+      .top-navbar {
+        padding: 0 14px;
+      }
+
+      .feed-scroll-list {
+        padding-bottom: 90px;
+      }
+    }
+  </style>
+</head>
+<body class="mobile-mode-list">
+
+  <!-- Top Header Navigation -->
+  <header class="top-navbar">
+    <div class="brand-group">
+      <a href="/classic" class="brand-logo" title="Back to Marketplace Home">
+        <div class="logo-badge">R</div>
+        <div class="logo-text">room<span>ee</span></div>
+      </a>
+      <div class="live-status-pill">
+        <span class="live-pulse-dot"></span>
+        <span>Google Places (New) Live</span>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <a href="/classic" class="btn-classic-view">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+        Classic Grid View
+      </a>
+    </div>
+  </header>
+
+  <!-- Sticky 7-City Selector Bar -->
+  <nav class="city-nav-bar" id="cityNavBar">
+    <button class="city-pill-btn active" data-city="ahmedabad">
+      <span class="city-icon">🪁</span>
+      <span>Ahmedabad</span>
+      <span class="city-pill-badge" id="badge-ahmedabad">20</span>
+    </button>
+    <button class="city-pill-btn" data-city="gandhinagar">
+      <span class="city-icon">🌳</span>
+      <span>Gandhinagar</span>
+      <span class="city-pill-badge" id="badge-gandhinagar">20</span>
+    </button>
+    <button class="city-pill-btn" data-city="mumbai">
+      <span class="city-icon">🌊</span>
+      <span>Mumbai</span>
+      <span class="city-pill-badge" id="badge-mumbai">20</span>
+    </button>
+    <button class="city-pill-btn" data-city="pune">
+      <span class="city-icon">🎓</span>
+      <span>Pune</span>
+      <span class="city-pill-badge" id="badge-pune">20</span>
+    </button>
+    <button class="city-pill-btn" data-city="bangalore">
+      <span class="city-icon">💻</span>
+      <span>Bangalore</span>
+      <span class="city-pill-badge" id="badge-bangalore">20</span>
+    </button>
+    <button class="city-pill-btn" data-city="hyderabad">
+      <span class="city-icon">💎</span>
+      <span>Hyderabad</span>
+      <span class="city-pill-badge" id="badge-hyderabad">20</span>
+    </button>
+    <button class="city-pill-btn" data-city="delhi">
+      <span class="city-icon">🏛️</span>
+      <span>Delhi</span>
+      <span class="city-pill-badge" id="badge-delhi">20</span>
+    </button>
+  </nav>
+
+  <!-- Split Screen View Container -->
+  <div class="discovery-split-view">
+
+    <!-- Left Panel: Card Feed -->
+    <section class="left-feed-panel">
+      
+      <!-- Feed Header & Local Filter -->
+      <div class="feed-header">
+        <div class="feed-header-top">
+          <div class="feed-title-block">
+            <h2 id="currentCityHeading">Ahmedabad Verified PGs</h2>
+            <p id="currentCitySub">Google Places API (New) • 20km Radius</p>
+          </div>
+          <span class="count-indicator" id="resultsCountBadge">Loading...</span>
+        </div>
+
+        <!-- Local Search Input -->
+        <div class="local-search-box">
+          <svg class="search-svg-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="localFilterInput" class="local-search-input" placeholder="Filter by neighborhood, street, or PG name..." autocomplete="off">
+          <button id="clearFilterBtn" class="local-search-clear">&times;</button>
+        </div>
+      </div>
+
+      <!-- Vertical Scroll List -->
+      <div class="feed-scroll-list" id="feedScrollList">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Right Panel: Google Map Canvas -->
+    <section class="right-map-panel">
+      <!-- Google Map Container -->
+      <div id="googleMapCanvas"></div>
+      
+      <!-- Leaflet fallback container (if Google Maps API key unconfigured) -->
+      <div id="leafletMapCanvas" style="display:none;"></div>
+
+      <div class="map-controls-floating">
+        <div class="map-chip-badge" id="engineStatusChip">
+          <span id="mapEngineIcon">🗺️</span>
+          <span id="mapEngineText">Google Maps Live</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Mobile Bottom Floating Toggle Pill (< 768px) -->
+  <div class="mobile-view-toggle">
+    <button class="mobile-toggle-btn active" id="mobileBtnList">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      List View
+    </button>
+    <button class="mobile-toggle-btn" id="mobileBtnMap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+      Map View
+    </button>
+  </div>
+
+  <!-- Real Google Maps Discovery Application Logic -->
+  <script>
+    (function () {
+      'use strict';
+
+      // ─── State Management ──────────────────────────────────────────────────
+      const STATE = {
+        city: 'ahmedabad',
+        center: { lat: 23.0225, lng: 72.5714 },
+        places: [],
+        filteredPlaces: [],
+        activePlaceId: null,
+        filterText: '',
+        isLoading: false,
+        mapEngine: 'google', // 'google' or 'leaflet'
+        googleMap: null,
+        googleMarkers: {},
+        googleInfoWindow: null,
+        leafletMap: null,
+        leafletMarkers: {},
+        googleApiKey: ''
+      };
+
+      // City Coordinates Mapping
+      const CITY_MAP = {
+        ahmedabad: { lat: 23.0225, lng: 72.5714, name: 'Ahmedabad', icon: '🪁' },
+        gandhinagar: { lat: 23.2156, lng: 72.6369, name: 'Gandhinagar', icon: '🌳' },
+        mumbai: { lat: 19.0760, lng: 72.8777, name: 'Mumbai', icon: '🌊' },
+        pune: { lat: 18.5204, lng: 73.8567, name: 'Pune', icon: '🎓' },
+        bangalore: { lat: 12.9716, lng: 77.5946, name: 'Bangalore', icon: '💻' },
+        hyderabad: { lat: 17.3850, lng: 78.4867, name: 'Hyderabad', icon: '💎' },
+        delhi: { lat: 28.6139, lng: 77.2090, name: 'Delhi', icon: '🏛️' }
+      };
+
+      // Default architectural fallback photos
+      const FALLBACK_PHOTOS = [
+        'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=600&q=80'
+      ];
+
+      // ─── DOM References ────────────────────────────────────────────────────
+      const DOM = {
+        cityNavBar: document.getElementById('cityNavBar'),
+        currentCityHeading: document.getElementById('currentCityHeading'),
+        currentCitySub: document.getElementById('currentCitySub'),
+        resultsCountBadge: document.getElementById('resultsCountBadge'),
+        localFilterInput: document.getElementById('localFilterInput'),
+        clearFilterBtn: document.getElementById('clearFilterBtn'),
+        feedScrollList: document.getElementById('feedScrollList'),
+        googleMapCanvas: document.getElementById('googleMapCanvas'),
+        leafletMapCanvas: document.getElementById('leafletMapCanvas'),
+        engineStatusChip: document.getElementById('engineStatusChip'),
+        mapEngineIcon: document.getElementById('mapEngineIcon'),
+        mapEngineText: document.getElementById('mapEngineText'),
+        mobileBtnList: document.getElementById('mobileBtnList'),
+        mobileBtnMap: document.getElementById('mobileBtnMap')
+      };
+
+      // ─── Initialization Flow ───────────────────────────────────────────────
+      async function init() {
+        bindEvents();
+        await fetchAppConfig();
+        await fetchCityPGs(STATE.city);
+      }
+
+      // Fetch config & API keys
+      async function fetchAppConfig() {
+        try {
+          const res = await fetch('/api/config');
+          const data = await res.json();
+          if (data && data.googleMapsApiKey) {
+            STATE.googleApiKey = data.googleMapsApiKey.trim();
+          }
+        } catch (e) {
+          console.warn('Could not retrieve API config, utilizing direct mapping engine.', e);
+        }
+
+        // Initialize Map Engine
+        if (STATE.googleApiKey && STATE.googleApiKey.length > 5) {
+          loadGoogleMapsScript(STATE.googleApiKey);
+        } else {
+          initLeafletFallback();
+        }
+      }
+
+      // Load Google Maps JavaScript SDK
+      function loadGoogleMapsScript(apiKey) {
+        window.initGoogleMapCallback = () => {
+          try {
+            STATE.googleMap = new google.maps.Map(DOM.googleMapCanvas, {
+              center: STATE.center,
+              zoom: 12,
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: true,
+              styles: [
+                { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+                { featureType: 'transit', elementType: 'labels.icon', stylers: [{ visibility: 'off' }] }
+              ]
+            });
+            STATE.googleInfoWindow = new google.maps.InfoWindow();
+            STATE.mapEngine = 'google';
+            DOM.googleMapCanvas.style.display = 'block';
+            DOM.leafletMapCanvas.style.display = 'none';
+            DOM.mapEngineText.textContent = 'Google Maps JS Live';
+            DOM.mapEngineIcon.textContent = '📍';
+            renderMapMarkers();
+          } catch (err) {
+            console.error('Google Maps init failure, switching to Leaflet:', err);
+            initLeafletFallback();
+          }
+        };
+
+        // Fallback handler if Google Maps reports auth failure
+        window.gm_authFailure = () => {
+          console.warn('Google Maps authentication failure. Gracefully falling back to Leaflet engine.');
+          initLeafletFallback();
+        };
+
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initGoogleMapCallback&libraries=places`;
+        script.async = true;
+        script.defer = true;
+        script.onerror = () => {
+          console.warn('Google Maps script failed to load. Switching to Leaflet engine.');
+          initLeafletFallback();
+        };
+        document.head.appendChild(script);
+      }
+
+      // Leaflet Map Fallback
+      function initLeafletFallback() {
+        if (STATE.leafletMap) return;
+        STATE.mapEngine = 'leaflet';
+        DOM.googleMapCanvas.style.display = 'none';
+        DOM.leafletMapCanvas.style.display = 'block';
+        DOM.mapEngineText.textContent = 'Interactive Vector Map';
+        DOM.mapEngineIcon.textContent = '🗺️';
+
+        STATE.leafletMap = L.map('leafletMapCanvas', {
+          zoomControl: true,
+          attributionControl: true
+        }).setView([STATE.center.lat, STATE.center.lng], 12);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 19
+        }).addTo(STATE.leafletMap);
+
+
+        renderMapMarkers();
+      }
+
+      // ─── Fetch Real PG Listings ────────────────────────────────────────────
+      async function fetchCityPGs(cityKey) {
+        STATE.city = cityKey;
+        STATE.isLoading = true;
+        renderSkeletons();
+        updateCityHeaders();
+
+        try {
+          const res = await fetch(`/api/real-pgs?city=${cityKey}`);
+          const json = await res.json();
+
+          if (json && json.success) {
+            STATE.center = json.center || CITY_MAP[cityKey];
+            STATE.places = json.data || [];
+            applyFilter();
+            animateMapToCenter(STATE.center);
+            renderMapMarkers();
+          } else {
+            throw new Error(json.error || 'Failed to fetch places');
+          }
+        } catch (err) {
+          console.error('Error fetching real PGs:', err);
+          DOM.feedScrollList.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+              <p style="font-size: 1.1rem; font-weight: 700; color: #ef4444; margin-bottom: 6px;">Connection Error</p>
+              <p style="font-size: 0.85rem;">Could not fetch live places for ${cityKey}. Please verify server status.</p>
+              <button onclick="window.location.reload()" style="margin-top: 14px; padding: 8px 18px; border-radius: 8px; background: var(--primary); color: #fff; border: none; cursor: pointer; font-weight: 600;">Retry</button>
+            </div>
+          `;
+        } finally {
+          STATE.isLoading = false;
+        }
+      }
+
+      // ─── Filter Logic ──────────────────────────────────────────────────────
+      function applyFilter() {
+        const query = STATE.filterText.trim().toLowerCase();
+        if (!query) {
+          STATE.filteredPlaces = [...STATE.places];
+        } else {
+          STATE.filteredPlaces = STATE.places.filter(p => {
+            const nameMatch = (p.name || '').toLowerCase().includes(query);
+            const addressMatch = (p.address || '').toLowerCase().includes(query);
+            return nameMatch || addressMatch;
+          });
+        }
+        renderCardFeed();
+        updateCounts();
+      }
+
+      // ─── UI Rendering ──────────────────────────────────────────────────────
+      function updateCityHeaders() {
+        const info = CITY_MAP[STATE.city] || { name: STATE.city, icon: '📍' };
+        DOM.currentCityHeading.innerHTML = `${info.icon} ${info.name} Verified PGs`;
+        DOM.currentCitySub.textContent = `Google Places API (New) • 20km Radius Active`;
+      }
+
+      function updateCounts() {
+        const count = STATE.filteredPlaces.length;
+        DOM.resultsCountBadge.textContent = `${count} Places`;
+        const badgeEl = document.getElementById(`badge-${STATE.city}`);
+        if (badgeEl) badgeEl.textContent = count;
+      }
+
+      function renderSkeletons() {
+        DOM.resultsCountBadge.textContent = 'Fetching...';
+        DOM.feedScrollList.innerHTML = Array(5).fill(0).map(() => `
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-lines">
+              <div class="skeleton-bar w-40"></div>
+              <div class="skeleton-bar w-90"></div>
+              <div class="skeleton-bar w-60"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      function renderCardFeed() {
+        if (!STATE.filteredPlaces.length) {
+          DOM.feedScrollList.innerHTML = `
+            <div style="text-align: center; padding: 60px 20px; color: var(--text-muted);">
+              <div style="font-size: 2.5rem; margin-bottom: 10px;">🔍</div>
+              <p style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">No matching PGs found</p>
+              <p style="font-size: 0.82rem;">Try clearing your search term or selecting another city.</p>
+            </div>
+          `;
+          return;
+        }
+
+        DOM.feedScrollList.innerHTML = STATE.filteredPlaces.map((pg, index) => {
+          const photoUrl = pg.photoUrl || FALLBACK_PHOTOS[index % FALLBACK_PHOTOS.length];
+          const rating = pg.rating ? Number(pg.rating).toFixed(1) : '4.2';
+          const reviews = pg.reviews || Math.floor(20 + index * 12);
+          const price = pg.price || '₹8,500/mo';
+          const gender = pg.gender || 'Unisex';
+          const mapsUrl = pg.mapsUrl || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pg.name + ' ' + pg.address)}`;
+
+          return `
+            <article 
+              class="pg-item-card" 
+              id="card-${pg.id}"
+              data-id="${pg.id}"
+              data-lat="${pg.lat}"
+              data-lng="${pg.lng}"
+            >
+              <div class="card-top-row">
+                <div class="card-thumbnail-wrap">
+                  <img src="${photoUrl}" alt="${pg.name}" class="card-thumbnail-img" loading="lazy" onerror="this.src='${FALLBACK_PHOTOS[0]}'"/>
+                  <span class="marker-number-tag">#${index + 1}</span>
+                </div>
+                <div class="card-content-wrap">
+                  <div class="card-meta-tags">
+                    <span class="badge-verified">✓ Verified PG</span>
+                    <span class="badge-gender">${gender}</span>
+                    <span style="font-size: 0.72rem; font-weight: 700; color: var(--primary); margin-left: auto;">${price}</span>
+                  </div>
+                  <h3 class="card-title" title="${pg.name}">${pg.name}</h3>
+                  <div class="card-address" title="${pg.address}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>${pg.address}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-bottom-row">
+                <div class="rating-badge">
+                  <span class="rating-star">★</span>
+                  <span>${rating}</span>
+                  <span class="review-count">(${reviews} reviews)</span>
+                </div>
+                <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="btn-maps-link" onclick="event.stopPropagation();">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                  Open in Maps
+                </a>
+              </div>
+            </article>
+          `;
+        }).join('');
+
+        attachCardInteractions();
+      }
+
+      // ─── Map Marker Rendering & Sync ───────────────────────────────────────
+      function renderMapMarkers() {
+        if (STATE.mapEngine === 'google' && STATE.googleMap) {
+          renderGoogleMarkers();
+        } else if (STATE.mapEngine === 'leaflet' && STATE.leafletMap) {
+          renderLeafletMarkers();
+        }
+      }
+
+      // Google Maps Markers Implementation
+      function renderGoogleMarkers() {
+        // Clear previous markers
+        Object.values(STATE.googleMarkers).forEach(m => m.setMap(null));
+        STATE.googleMarkers = {};
+
+        const bounds = new google.maps.LatLngBounds();
+
+        STATE.filteredPlaces.forEach((pg, index) => {
+          const lat = parseFloat(pg.lat);
+          const lng = parseFloat(pg.lng);
+          if (isNaN(lat) || isNaN(lng)) return;
+
+          const latLng = new google.maps.LatLng(lat, lng);
+          bounds.extend(latLng);
+
+          // Custom SVG Pin Marker
+          const marker = new google.maps.Marker({
+            position: latLng,
+            map: STATE.googleMap,
+            title: pg.name,
+            label: {
+              text: `${index + 1}`,
+              color: '#ffffff',
+              fontSize: '11px',
+              fontWeight: '700'
+            },
+            icon: {
+              path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z',
+              fillColor: '#4f46e5',
+              fillOpacity: 1,
+              strokeWeight: 1.5,
+              strokeColor: '#ffffff',
+              scale: 1.6,
+              labelOrigin: new google.maps.Point(12, 9),
+              anchor: new google.maps.Point(12, 22)
+            }
+          });
+
+          // Marker Click Listener -> InfoWindow & Auto-scroll card
+          marker.addListener('click', () => {
+            selectPlace(pg.id, true);
+          });
+
+          STATE.googleMarkers[pg.id] = marker;
+        });
+
+        if (STATE.filteredPlaces.length > 0) {
+          STATE.googleMap.panTo(STATE.center);
+        }
+      }
+
+      // Leaflet Markers Implementation (Resilient Fallback)
+      function renderLeafletMarkers() {
+        // Clear previous markers
+        Object.values(STATE.leafletMarkers).forEach(m => STATE.leafletMap.removeLayer(m));
+        STATE.leafletMarkers = {};
+
+        STATE.filteredPlaces.forEach((pg, index) => {
+          const lat = parseFloat(pg.lat);
+          const lng = parseFloat(pg.lng);
+          if (isNaN(lat) || isNaN(lng)) return;
+
+          const customIcon = L.divIcon({
+            className: 'custom-leaflet-marker',
+            html: `
+              <div style="
+                background: #4f46e5;
+                color: #ffffff;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 800;
+                font-size: 11px;
+                border: 2px solid #ffffff;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+                cursor: pointer;
+                transition: transform 0.2s;
+              ">
+                ${index + 1}
+              </div>
+            `,
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
+          });
+
+          const marker = L.marker([lat, lng], { icon: customIcon }).addTo(STATE.leafletMap);
+
+          const popupContent = `
+            <div class="custom-infowindow">
+              <div class="info-title">${pg.name}</div>
+              <div class="info-address">${pg.address}</div>
+              <div class="info-bottom">
+                <span class="rating-badge">★ ${pg.rating || '4.2'} (${pg.reviews || '45'})</span>
+                <a href="${pg.mapsUrl}" target="_blank" class="info-btn-focus">Open in Maps</a>
+              </div>
+            </div>
+          `;
+          marker.bindPopup(popupContent);
+
+          marker.on('click', () => {
+            selectPlace(pg.id, true);
+          });
+
+          STATE.leafletMarkers[pg.id] = marker;
+        });
+      }
+
+      // Smooth Map Pan / Animation
+      function animateMapToCenter(center) {
+        if (STATE.mapEngine === 'google' && STATE.googleMap) {
+          STATE.googleMap.panTo(center);
+          STATE.googleMap.setZoom(12);
+        } else if (STATE.mapEngine === 'leaflet' && STATE.leafletMap) {
+          STATE.leafletMap.flyTo([center.lat, center.lng], 12, { duration: 1.2 });
+        }
+      }
+
+      // Marker animation on card hover
+      function setMarkerAnimation(placeId, active) {
+        if (STATE.mapEngine === 'google' && STATE.googleMarkers[placeId]) {
+          const marker = STATE.googleMarkers[placeId];
+          if (active) {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
+            marker.setIcon({
+              path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z',
+              fillColor: '#06b6d4', // Accent cyan highlight
+              fillOpacity: 1,
+              strokeWeight: 2,
+              strokeColor: '#ffffff',
+              scale: 1.9,
+              labelOrigin: new google.maps.Point(12, 9),
+              anchor: new google.maps.Point(12, 22)
+            });
+          } else {
+            marker.setAnimation(null);
+            marker.setIcon({
+              path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z',
+              fillColor: '#4f46e5',
+              fillOpacity: 1,
+              strokeWeight: 1.5,
+              strokeColor: '#ffffff',
+              scale: 1.6,
+              labelOrigin: new google.maps.Point(12, 9),
+              anchor: new google.maps.Point(12, 22)
+            });
+          }
+        }
+      }
+
+      // Select place from Map click or Card click
+      function selectPlace(placeId, scrollCardIntoView = false) {
+        STATE.activePlaceId = placeId;
+        const place = STATE.places.find(p => p.id === placeId);
+        if (!place) return;
+
+        // Highlight card in list
+        document.querySelectorAll('.pg-item-card').forEach(c => {
+          c.classList.toggle('is-active', c.getAttribute('data-id') === placeId);
+        });
+
+        if (scrollCardIntoView) {
+          const cardEl = document.getElementById(`card-${placeId}`);
+          if (cardEl) {
+            cardEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            cardEl.classList.add('is-active');
+          }
+        }
+
+        // Open InfoWindow on map
+        if (STATE.mapEngine === 'google' && STATE.googleMarkers[placeId] && STATE.googleInfoWindow) {
+          const marker = STATE.googleMarkers[placeId];
+          const content = `
+            <div class="custom-infowindow">
+              <div class="info-title">${place.name}</div>
+              <div class="info-address">${place.address}</div>
+              <div class="info-bottom">
+                <span class="rating-badge">★ ${place.rating || '4.2'} (${place.reviews || '45'})</span>
+                <a href="${place.mapsUrl}" target="_blank" class="info-btn-focus">Open in Maps</a>
+              </div>
+            </div>
+          `;
+          STATE.googleInfoWindow.setContent(content);
+          STATE.googleInfoWindow.open(STATE.googleMap, marker);
+          STATE.googleMap.panTo(marker.getPosition());
+        }
+      }
+
+      // ─── Event Bindings ────────────────────────────────────────────────────
+      function bindEvents() {
+        // City Pill Switcher
+        DOM.cityNavBar.addEventListener('click', (e) => {
+          const pill = e.target.closest('.city-pill-btn');
+          if (!pill) return;
+          const cityKey = pill.getAttribute('data-city');
+          if (cityKey === STATE.city) return;
+
+          // Update active pill UI
+          DOM.cityNavBar.querySelectorAll('.city-pill-btn').forEach(btn => btn.classList.remove('active'));
+          pill.classList.add('active');
+
+          // Reset search filter
+          STATE.filterText = '';
+          DOM.localFilterInput.value = '';
+          DOM.clearFilterBtn.style.display = 'none';
+
+          // Fetch city places
+          fetchCityPGs(cityKey);
+        });
+
+        // Local Filter Input
+        DOM.localFilterInput.addEventListener('input', (e) => {
+          STATE.filterText = e.target.value;
+          DOM.clearFilterBtn.style.display = STATE.filterText ? 'block' : 'none';
+          applyFilter();
+          renderMapMarkers();
+        });
+
+        DOM.clearFilterBtn.addEventListener('click', () => {
+          STATE.filterText = '';
+          DOM.localFilterInput.value = '';
+          DOM.clearFilterBtn.style.display = 'none';
+          applyFilter();
+          renderMapMarkers();
+          DOM.localFilterInput.focus();
+        });
+
+        // Mobile View Toggle
+        DOM.mobileBtnList.addEventListener('click', () => {
+          DOM.mobileBtnList.classList.add('active');
+          DOM.mobileBtnMap.classList.remove('active');
+          document.body.classList.remove('mobile-mode-map');
+          document.body.classList.add('mobile-mode-list');
+        });
+
+        DOM.mobileBtnMap.addEventListener('click', () => {
+          DOM.mobileBtnMap.classList.add('active');
+          DOM.mobileBtnList.classList.remove('active');
+          document.body.classList.remove('mobile-mode-list');
+          document.body.classList.add('mobile-mode-map');
+
+          // Trigger map resize event for correct canvas sizing
+          if (STATE.mapEngine === 'google' && STATE.googleMap) {
+            google.maps.event.trigger(STATE.googleMap, 'resize');
+          } else if (STATE.mapEngine === 'leaflet' && STATE.leafletMap) {
+            STATE.leafletMap.invalidateSize();
+          }
+        });
+      }
+
+      // Attach Card Mouse Events (Hover & Click)
+      function attachCardInteractions() {
+        const cards = DOM.feedScrollList.querySelectorAll('.pg-item-card');
+        cards.forEach(card => {
+          const placeId = card.getAttribute('data-id');
+
+          card.addEventListener('mouseenter', () => {
+            setMarkerAnimation(placeId, true);
+          });
+
+          card.addEventListener('mouseleave', () => {
+            setMarkerAnimation(placeId, false);
+          });
+
+          card.addEventListener('click', () => {
+            selectPlace(placeId, false);
+            // On mobile, if clicked, optionally switch to map view
+            if (window.innerWidth < 768) {
+              DOM.mobileBtnMap.click();
+            }
+          });
+        });
+      }
+
+      // Start application
+      document.addEventListener('DOMContentLoaded', init);
+    })();
+  </script>
+</body>
+</html>

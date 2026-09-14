@@ -14,10 +14,12 @@ import hashlib
 import random
 from datetime import datetime, timedelta
 import pandas as pd
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+load_dotenv(os.path.join(BASE_DIR, '.env'))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
@@ -35,15 +37,22 @@ from backend.auth import (
 from backend.notifications import (
     send_booking_notification, send_status_update_notification, send_payment_notification
 )
+from backend.real_places import get_real_pgs_for_city, CITY_COORDINATES
+
 
 app = Flask(__name__, static_folder=None)
 CORS(app)
 
 # Database Configuration
-DB_PATH = os.path.join(INSTANCE_DIR, 'roomee.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', f"sqlite:///{DB_PATH}")
+DB_PATH = os.path.abspath(os.path.join(INSTANCE_DIR, 'roomee.db')).replace('\\', '/')
+db_env = os.getenv('DATABASE_URL', '').strip()
+if not db_env or 'instance/roomee.db' in db_env:
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{DB_PATH}"
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_env
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
+
 
 # Load CSV Dataset
 CSV_PATH = os.path.join(BASE_DIR, 'pg_listings.csv')
@@ -850,6 +859,31 @@ def legacy_book_visit():
 
 # ─── Discovery & Property APIs ───────────────────────────────────────────────
 
+@app.route('/api/config', methods=['GET'])
+def get_app_config():
+    """
+    Returns public configuration parameters including Google Maps API key
+    for client-side JavaScript SDK initialization.
+    """
+    api_key = os.getenv("GOOGLE_MAPS_API_KEY", "").strip()
+    return jsonify({
+        "success": True,
+        "googleMapsApiKey": api_key,
+        "supportedCities": list(CITY_COORDINATES.keys()),
+        "cityCoordinates": CITY_COORDINATES
+    })
+
+@app.route('/api/real-pgs', methods=['GET'])
+def get_real_pgs():
+    """
+    Retrieves live, real-world PG accommodation listings retrieved directly
+    from Google Places API (New) across targeted cities:
+    Ahmedabad, Gandhinagar, Mumbai, Pune, Bangalore, Hyderabad, Delhi.
+    """
+    city = request.args.get('city', 'ahmedabad')
+    result = get_real_pgs_for_city(city)
+    return jsonify(result)
+
 @app.route('/api/cities', methods=['GET'])
 def get_cities():
     """Returns top cities with total listings and top localities."""
@@ -1006,6 +1040,27 @@ def serve_static(filename):
 @app.route('/')
 def serve_root():
     """Serves the main application page."""
+    if os.path.exists(os.path.join(FRONTEND_DIR, 'discovery.html')):
+        return send_from_directory(FRONTEND_DIR, 'discovery.html')
+    elif os.path.exists(os.path.join(FRONTEND_DIR, 'index.html')):
+        return send_from_directory(FRONTEND_DIR, 'index.html')
+    elif os.path.exists(os.path.join(BASE_DIR, 'index.html')):
+        return send_from_directory(BASE_DIR, 'index.html')
+    return "<h1>Roomee Co-living Discovery Platform Ready</h1>"
+
+@app.route('/discovery')
+@app.route('/map')
+def serve_discovery():
+    """Serves the Real Google Maps Split-Screen Discovery UI."""
+    if os.path.exists(os.path.join(FRONTEND_DIR, 'discovery.html')):
+        return send_from_directory(FRONTEND_DIR, 'discovery.html')
+    elif os.path.exists(os.path.join(BASE_DIR, 'discovery.html')):
+        return send_from_directory(BASE_DIR, 'discovery.html')
+    return send_from_directory(FRONTEND_DIR, 'index.html')
+
+@app.route('/classic')
+def serve_classic():
+    """Serves the classic marketplace home view."""
     if os.path.exists(os.path.join(FRONTEND_DIR, 'index.html')):
         return send_from_directory(FRONTEND_DIR, 'index.html')
     elif os.path.exists(os.path.join(BASE_DIR, 'index.html')):
