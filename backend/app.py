@@ -886,45 +886,58 @@ def get_real_pgs():
 
 @app.route('/api/cities', methods=['GET'])
 def get_cities():
-    """Returns top cities with total listings and top localities."""
-    city_counts = df_pgs['city'].value_counts().to_dict()
-    popular_cities = []
-    
+    """Returns cities with active listing counts and starting rent aggregated directly from DB."""
     city_icons = {
         "Bangalore": "🏙️", "Mumbai": "🌊", "Delhi": "🏛️", "Pune": "🎓",
         "Hyderabad": "💎", "Gurgaon": "🏢", "Chennai": "🏖️", "Noida": "🌆",
-        "Ahmedabad": "🪁", "Kolkata": "🚋", "Jaipur": "🏰", "Kochi": "🌴", "Indore": "🍲"
+        "Ahmedabad": "🪁", "Kolkata": "🚋", "Jaipur": "🏰", "Kochi": "🌴", "Indore": "🍲",
+        "Gandhinagar": "🏛️"
     }
+    results = db.session.query(
+        PGProperty.city,
+        db.func.count(PGProperty.id),
+        db.func.min(PGProperty.rent_monthly)
+    ).group_by(PGProperty.city).all()
 
-    for city, count in city_counts.items():
-        city_df = df_pgs[df_pgs['city'] == city]
-        top_localities = city_df['locality'].value_counts().head(8).index.tolist()
-        min_rent = int(city_df['rent_monthly'].min())
+    popular_cities = []
+    for city_name, count, min_rent in results:
+        if not city_name:
+            continue
+        top_localities = [
+            loc[0] for loc in db.session.query(PGProperty.locality)
+            .filter(PGProperty.city == city_name)
+            .group_by(PGProperty.locality)
+            .order_by(db.func.count(PGProperty.id).desc())
+            .limit(8).all() if loc[0]
+        ]
         popular_cities.append({
-            "name": city,
+            "name": city_name,
             "count": int(count),
-            "icon": city_icons.get(city, "📍"),
-            "starting_price": min_rent,
+            "icon": city_icons.get(city_name, "📍"),
+            "starting_price": int(min_rent or 7000),
             "popular_localities": top_localities
         })
 
+    popular_cities.sort(key=lambda x: x["count"], reverse=True)
     return jsonify({"success": True, "cities": popular_cities})
 
 @app.route('/api/localities', methods=['GET'])
 def get_localities():
-    """Returns localities for a specific city."""
+    """Returns localities for a specific city directly from DB."""
     city = request.args.get('city', '').strip()
-    if city:
-        filtered = df_pgs[df_pgs['city'].str.lower() == city.lower()]
-    else:
-        filtered = df_pgs
-    localities = filtered['locality'].dropna().unique().tolist()
-    localities.sort()
+    query = db.session.query(PGProperty.locality).filter(PGProperty.locality != None)
+    if city and city.lower() != 'all':
+        query = query.filter(PGProperty.city.ilike(city))
+    localities = [r[0] for r in query.distinct().order_by(PGProperty.locality.asc()).all() if r[0]]
     return jsonify({"success": True, "localities": localities})
 
+@app.route('/api/stays', methods=['GET'])
 @app.route('/api/pgs', methods=['GET'])
-def get_pgs():
-    """Search, filter, sort, and paginate PG listings."""
+def get_stays():
+    """
+    Search, filter, sort, and paginate real PG properties directly from persistent DB.
+    Binds City, Locality, Gender, Sharing, Min/Max Budget, and Amenities.
+    """
     city = request.args.get('city', '').strip()
     locality = request.args.get('locality', '').strip()
     gender = request.args.get('gender', '').strip().lower()
@@ -939,58 +952,55 @@ def get_pgs():
     page = max(1, request.args.get('page', 1, type=int))
     limit = max(1, min(60, request.args.get('limit', 12, type=int)))
 
-    data = df_pgs.copy()
+    query = PGProperty.query
 
-    if city and city != 'all':
-        data = data[data['city'].str.lower() == city.lower()]
-    if locality and locality != 'all':
-        data = data[data['locality'].str.lower() == locality.lower()]
-    if sharing and sharing != 'all':
-        data = data[data['sharing_type'].astype(str).str.lower() == sharing]
-    if min_price is not None:
-        data = data[data['rent_monthly'] >= min_price]
-    if max_price is not None:
-        data = data[data['rent_monthly'] <= max_price]
-    if ac in ['true', 'yes', '1']:
-        data = data[data['ac'].astype(str).str.lower().isin(['yes', '1', 'true'])]
-    if wifi in ['true', 'yes', '1']:
-        data = data[data['wifi'].astype(str).str.lower().isin(['yes', '1', 'true'])]
-    if food in ['true', 'yes', '1']:
-        data = data[data['food_included'].astype(str).str.lower().isin(['yes', '1', 'true'])]
-
-    if search:
-        mask = (
-            data['name'].astype(str).str.lower().str.contains(search, na=False) |
-            data['locality'].astype(str).str.lower().str.contains(search, na=False) |
-            data['city'].astype(str).str.lower().str.contains(search, na=False) |
-            data['description'].astype(str).str.lower().str.contains(search, na=False)
-        )
-        data = data[mask]
-
-    enriched_items = [enrich_pg_record(row) for _, row in data.iterrows()]
-
+    if city and city.lower() != 'all':
+        query = query.filter(PGProperty.city.ilike(city))
+    if locality and locality.lower() != 'all':
+        query = query.filter(PGProperty.locality.ilike(locality))
     if gender and gender not in ['all', 'any']:
         if gender in ['men', 'boys', 'male']:
-            enriched_items = [p for p in enriched_items if p['gender'].lower() in ['men', 'unisex']]
+            query = query.filter(db.or_(PGProperty.gender.ilike('men'), PGProperty.gender.ilike('unisex')))
         elif gender in ['women', 'girls', 'female']:
-            enriched_items = [p for p in enriched_items if p['gender'].lower() in ['women', 'unisex']]
+            query = query.filter(db.or_(PGProperty.gender.ilike('women'), PGProperty.gender.ilike('unisex')))
         elif gender == 'unisex':
-            enriched_items = [p for p in enriched_items if p['gender'].lower() == 'unisex']
+            query = query.filter(PGProperty.gender.ilike('unisex'))
+    if sharing and sharing != 'all':
+        query = query.filter(PGProperty.sharing_type.ilike(f"%{sharing}%"))
+    if min_price is not None:
+        query = query.filter(PGProperty.rent_monthly >= min_price)
+    if max_price is not None:
+        query = query.filter(PGProperty.rent_monthly <= max_price)
+    if ac in ['true', 'yes', '1']:
+        query = query.filter(PGProperty.ac == True)
+    if wifi in ['true', 'yes', '1']:
+        query = query.filter(PGProperty.wifi == True)
+    if food in ['true', 'yes', '1']:
+        query = query.filter(PGProperty.food_included == True)
+
+    if search:
+        search_pat = f"%{search}%"
+        query = query.filter(db.or_(
+            PGProperty.name.ilike(search_pat),
+            PGProperty.locality.ilike(search_pat),
+            PGProperty.city.ilike(search_pat),
+            PGProperty.description.ilike(search_pat),
+            PGProperty.address.ilike(search_pat)
+        ))
 
     if sort_by == 'price_asc':
-        enriched_items.sort(key=lambda x: x['rent_monthly'])
+        query = query.order_by(PGProperty.rent_monthly.asc())
     elif sort_by == 'price_desc':
-        enriched_items.sort(key=lambda x: x['rent_monthly'], reverse=True)
+        query = query.order_by(PGProperty.rent_monthly.desc())
     elif sort_by == 'rating_desc':
-        enriched_items.sort(key=lambda x: (x['rating'], x['reviews_count']), reverse=True)
-    elif sort_by == 'popular':
-        enriched_items.sort(key=lambda x: x['reviews_count'], reverse=True)
+        query = query.order_by(PGProperty.rating.desc(), PGProperty.reviews_count.desc())
+    else:  # 'popular'
+        query = query.order_by(PGProperty.reviews_count.desc(), PGProperty.rating.desc())
 
-    total_count = len(enriched_items)
+    total_count = query.count()
     total_pages = max(1, (total_count + limit - 1) // limit)
-    start_idx = (page - 1) * limit
-    end_idx = start_idx + limit
-    paginated_items = enriched_items[start_idx:end_idx]
+    items = query.offset((page - 1) * limit).limit(limit).all()
+    stays = [item.to_dict() for item in items]
 
     return jsonify({
         "success": True,
@@ -998,31 +1008,91 @@ def get_pgs():
         "page": page,
         "limit": limit,
         "total_pages": total_pages,
-        "pgs": paginated_items
+        "stays": stays,
+        "pgs": stays
     })
 
-@app.route('/api/pg/<pg_id>', methods=['GET'])
-def get_pg_detail(pg_id):
-    """
-    Returns full details for a specific PG, merged with live database room bed inventory.
-    """
-    match = df_pgs[df_pgs['pg_id'].astype(str) == str(pg_id)]
-    row = match.iloc[0] if not match.empty else None
+@app.route('/api/stays', methods=['POST'])
+def create_stay():
+    """Allows users/hosts to list and register a verified PG property dynamically into SQLite."""
+    payload = request.get_json(force=True, silent=True) or {}
+    name = payload.get('name', '').strip()
+    if not name:
+        return jsonify({"success": False, "error": "Property name is required"}), 400
 
-    # Ensure property and room records are in DB
-    prop = get_or_create_property_db(pg_id, row=row)
-    if not prop and row is None:
-        return jsonify({"success": False, "error": f"PG with ID {pg_id} not found"}), 404
+    city = payload.get('city', 'Bangalore').strip()
+    locality = payload.get('locality', 'Koramangala').strip()
+    rent_monthly = int(payload.get('rent_monthly', 10000))
+    gender = payload.get('gender', 'Unisex').strip()
+    sharing_type = payload.get('sharing_type', 'Double').strip()
+    ac = bool(payload.get('ac', False))
+    wifi = bool(payload.get('wifi', True))
+    food_included = bool(payload.get('food_included', False))
+    food_type = payload.get('food_type', 'Veg')
+    photos = payload.get('photos', [])
+    amenities = payload.get('amenities', [])
+    rules = payload.get('rules', {})
+    address = payload.get('address', f"{locality}, {city}")
+    description = payload.get('description', '')
 
-    enriched = enrich_pg_record(row) if row is not None else prop.to_dict()
+    new_id = f"PG{secrets.token_hex(4).upper()}"
+    prop = PGProperty(
+        id=new_id,
+        name=name,
+        city=city,
+        locality=locality,
+        address=address,
+        gender=gender,
+        rent_monthly=rent_monthly,
+        sharing_type=sharing_type,
+        ac=ac,
+        wifi=wifi,
+        food_included=food_included,
+        food_type=food_type,
+        photos=json.dumps(photos) if photos else None,
+        amenities=json.dumps(amenities) if amenities else None,
+        rules=json.dumps(rules) if rules else None,
+        rating=5.0,
+        reviews_count=1,
+        description=description
+    )
+    db.session.add(prop)
+    db.session.flush()
 
-    # Attach live rooms from DB with real IDs and available bed counts
-    if prop:
-        enriched['rooms'] = [r.to_dict() for r in prop.rooms]
-    else:
-        enriched['rooms'] = []
+    # Create Room inventory
+    rooms_input = payload.get('rooms', [])
+    if not rooms_input:
+        rooms_input = [
+            {"room_type": "Single", "total_beds": 1, "rent_per_month": int(rent_monthly * 1.45 // 100 * 100)},
+            {"room_type": "Double", "total_beds": 2, "rent_per_month": rent_monthly},
+            {"room_type": "Triple", "total_beds": 3, "rent_per_month": int(rent_monthly * 0.78 // 100 * 100)},
+            {"room_type": "Dorm", "total_beds": 4, "rent_per_month": int(rent_monthly * 0.55 // 100 * 100)}
+        ]
+    for r in rooms_input:
+        room = Room(
+            pg_id=new_id,
+            room_type=r.get("room_type", "Double"),
+            total_beds=int(r.get("total_beds", 2)),
+            available_beds=int(r.get("available_beds", r.get("total_beds", 2))),
+            rent_per_month=int(r.get("rent_per_month", rent_monthly))
+        )
+        db.session.add(room)
 
-    return jsonify({"success": True, "pg": enriched})
+    db.session.commit()
+    return jsonify({"success": True, "message": "Property listed successfully!", "stay": prop.to_dict()}), 201
+
+@app.route('/api/stays/<stay_id>', methods=['GET'])
+@app.route('/api/pg/<stay_id>', methods=['GET'])
+def get_stay_detail(stay_id):
+    """Returns full details for a specific PG from database with live room inventory."""
+    prop = PGProperty.query.get(stay_id)
+    if not prop:
+        return jsonify({"success": False, "error": f"Property with ID '{stay_id}' not found"}), 404
+
+    data = prop.to_dict()
+    data['rooms'] = [r.to_dict() for r in prop.rooms]
+    data['food_menu'] = WEEKLY_FOOD_MENU
+    return jsonify({"success": True, "stay": data, "pg": data})
 
 # ─── Static Web Serving ──────────────────────────────────────────────────────
 
@@ -1039,10 +1109,8 @@ def serve_static(filename):
 
 @app.route('/')
 def serve_root():
-    """Serves the main application page."""
-    if os.path.exists(os.path.join(FRONTEND_DIR, 'discovery.html')):
-        return send_from_directory(FRONTEND_DIR, 'discovery.html')
-    elif os.path.exists(os.path.join(FRONTEND_DIR, 'index.html')):
+    """Serves the primary landing page."""
+    if os.path.exists(os.path.join(FRONTEND_DIR, 'index.html')):
         return send_from_directory(FRONTEND_DIR, 'index.html')
     elif os.path.exists(os.path.join(BASE_DIR, 'index.html')):
         return send_from_directory(BASE_DIR, 'index.html')
@@ -1061,11 +1129,7 @@ def serve_discovery():
 @app.route('/classic')
 def serve_classic():
     """Serves the classic marketplace home view."""
-    if os.path.exists(os.path.join(FRONTEND_DIR, 'index.html')):
-        return send_from_directory(FRONTEND_DIR, 'index.html')
-    elif os.path.exists(os.path.join(BASE_DIR, 'index.html')):
-        return send_from_directory(BASE_DIR, 'index.html')
-    return "<h1>Roomee Co-living Discovery Platform Ready</h1>"
+    return send_from_directory(FRONTEND_DIR, 'index.html')
 
 @app.route('/<path:filename>')
 def serve_frontend_files(filename):

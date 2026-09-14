@@ -74,22 +74,18 @@
 ```text
 pg/
 ├── backend/
-│   ├── app.py                  # Production Flask API server & route handlers
+│   ├── app.py                  # Production Flask API server & unified backend entrypoint
 │   ├── real_places.py          # Google Places API (New) client & verified city fallbacks
-│   ├── models_db.py            # SQLAlchemy database models (User, Booking, Room, etc.)
+│   ├── models_db.py            # SQLAlchemy database models (User, PGProperty, Room, Booking)
 │   ├── auth.py                 # JWT authentication & password verification
 │   ├── notifications.py        # Event notification hooks & dispatcher
-│   ├── chat_parser.py          # Conversational assistant parser
-│   ├── train_models.py         # AI model training script
 │   └── requirements.txt        # Backend dependencies
 ├── frontend/
+│   ├── index.html              # Modern marketplace landing & dynamic property feed
 │   ├── discovery.html          # Real Google Maps Split-Screen Discovery UI
-│   ├── index.html              # Modern marketplace landing & grid view
 │   ├── pgfinder.html           # Intelligent student housing ranking dashboard
-│   ├── app.js                  # Frontend client application logic
+│   ├── app.js                  # Dynamic client application logic & /api/stays integration
 │   └── style.css               # Design system & responsive styles
-├── discovery.html              # Root discovery entrypoint
-├── index.html                  # Root marketplace landing entrypoint
 ├── app.py                      # Root server entrypoint delegating to backend/app.py
 ├── pg_listings.csv             # 30,000+ PG listings dataset
 ├── .env                        # Environment configuration (Google Maps API key, etc.)
@@ -126,8 +122,8 @@ python app.py
 ```
 
 Open your browser and navigate to:
-- **Real Google Maps Split-Screen Discovery**: [http://127.0.0.1:5000/](http://127.0.0.1:5000/) (or `/discovery`)
-- **Classic Marketplace Grid View**: [http://127.0.0.1:5000/classic](http://127.0.0.1:5000/classic)
+- **Marketplace Landing & Verified PG Feed**: [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+- **Real Google Maps Split-Screen Discovery**: [http://127.0.0.1:5000/discovery](http://127.0.0.1:5000/discovery)
 - **Student Housing Discovery**: [http://127.0.0.1:5000/pgfinder.html](http://127.0.0.1:5000/pgfinder.html)
 
 ---
@@ -140,38 +136,16 @@ Open your browser and navigate to:
 | `/api/real-pgs` | `GET` | `city` (e.g. `ahmedabad`, `bangalore`) | Returns live Google Places (New) PG listings with GPS coordinates, reviews, ratings, and Google Maps links. |
 | `/api/config` | `GET` | — | Returns public SDK configuration and supported city coordinates. |
 
-#### Sample Response (`GET /api/real-pgs?city=ahmedabad`):
-```json
-{
-  "success": true,
-  "city": "ahmedabad",
-  "center": { "lat": 23.0225, "lng": 72.5714 },
-  "count": 8,
-  "data": [
-    {
-      "id": "ChIJ_zO4-QWEXjkR4UoO7E3YlC4",
-      "name": "Stanza Living Stanford House (Navrangpura)",
-      "address": "Opp. St. Xavier's College, Navrangpura, Ahmedabad, Gujarat 380009",
-      "lat": 23.0373,
-      "lng": 72.5567,
-      "rating": 4.6,
-      "reviews": 182,
-      "mapsUrl": "https://maps.google.com/?q=Stanza+Living+Stanford+House+Navrangpura+Ahmedabad",
-      "price": "₹9,500/mo",
-      "gender": "Unisex"
-    }
-  ]
-}
-```
-
-### Marketplace & Booking Endpoints
+### Dynamic Verified PG Stays & Bookings
 | Endpoint | Method | Description |
 |---|---|---|
-| `/api/cities` | `GET` | Returns list of major cities with starting rent and listing counts. |
-| `/api/localities` | `GET` | Returns localities for a specific city (`?city=Bangalore`). |
-| `/api/pgs` | `GET` | Search and filter listings by price, gender, sharing type, amenities. |
-| `/api/pg/<pg_id>` | `GET` | Fetches detailed property specifications and available room inventory. |
-| `/api/auth/register` | `POST` | User registration (Student / Owner / Admin). |
+| `/api/stays` (alias `/api/pgs`) | `GET` | Search and filter real properties directly from SQLite DB by `city`, `locality`, `gender`, `sharing`, `min_price`, `max_price`, `ac`, `wifi`, `food`, `search`. |
+| `/api/stays` | `POST` | Register and list a verified PG property dynamically with room inventory. |
+| `/api/stays/<stay_id>` | `GET` | Fetches full property details and live room bed inventory. |
+| `/api/cities` | `GET` | Returns list of cities with live DB listing counts and starting rent. |
+| `/api/localities` | `GET` | Returns distinct localities for a city directly from DB (`?city=Bangalore`). |
+| `/api/bookings` | `POST` | Reserve bed with concurrency lock or schedule a free physical visit. |
+| `/api/auth/register` | `POST` | User registration (Student / Owner). |
 | `/api/auth/login` | `POST` | User login returning JWT bearer token. |
 | `/api/auth/me` | `GET` | Fetches current user profile from token. |
 | `/api/book-visit` | `POST` | Confirms free on-site property visits. |

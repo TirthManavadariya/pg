@@ -431,33 +431,37 @@ async function fetchPgs() {
   if (state.search) params.append('search', state.search);
 
   try {
-    const res = await fetch(`/api/pgs?${params.toString()}`);
+    const res = await fetch(`/api/stays?${params.toString()}`);
     const data = await res.json();
 
     if (data.success) {
-      state.pgs = data.pgs;
-      state.totalResults = data.total;
-      state.totalPages = data.total_pages;
-      renderPgGrid(data.pgs);
+      const items = data.stays || data.pgs || [];
+      state.pgs = items;
+      state.totalResults = data.total !== undefined ? data.total : items.length;
+      state.totalPages = data.total_pages || 1;
+      renderPgGrid(items);
       renderPagination();
       updateMetaCounters();
+    } else {
+      renderPgGrid([]);
     }
   } catch (err) {
-    console.error('Error fetching PGs:', err);
-    DOM.pgGridContainer.innerHTML = `<div class="error-msg">Failed to load property listings. Please try again.</div>`;
+    console.error('Error fetching stays:', err);
+    renderPgGrid([]);
   }
 }
 
 async function fetchPgDetails(pgId, openTab = 'room_booking') {
   try {
-    const res = await fetch(`/api/pg/${pgId}`);
+    const res = await fetch(`/api/stays/${pgId}`);
     const data = await res.json();
-    if (data.success && data.pg) {
-      state.activePgDetails = data.pg;
-      openModal(data.pg, openTab);
+    const stay = data.stay || data.pg;
+    if (data.success && stay) {
+      state.activePgDetails = stay;
+      openModal(stay, openTab);
     }
   } catch (err) {
-    console.error('Error fetching PG details:', err);
+    console.error('Error fetching stay details:', err);
   }
 }
 window.fetchPgDetails = fetchPgDetails;
